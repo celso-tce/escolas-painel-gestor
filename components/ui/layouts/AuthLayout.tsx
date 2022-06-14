@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../buttons/Button';
 
 type AuthLayoutProps = {};
 
@@ -38,13 +39,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
         />
       </div>
       <div className="text-center mt-6">
-        <button
-          className="bg-slate-800 text-white active:bg-slate-600 text-sm font-bold
-            uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1
-            mb-1 w-full ease-linear transition-all duration-150"
-        >
-          Entrar
-        </button>
+        <Button className="w-full uppercase">Entrar</Button>
       </div>
     </form>
   );

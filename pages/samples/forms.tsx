@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Button from '../../components/ui/buttons/Button';
 import CardSettings from '../../components/ui/cards/CardSettings';
 import MainLayout from '../../components/ui/layouts/MainLayout';
 
@@ -136,13 +137,7 @@ const Forms: NextPage = () => {
           <hr className="mt-6 border-b-1 border-slate-300" />
 
           <div className="mt-6">
-            <button
-              className="bg-slate-800 text-white active:bg-slate-600 text-sm font-bold
-                uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none
-                mr-1 mb-1 ease-linear transition-all duration-150"
-            >
-              Enviar
-            </button>
+            <Button className="uppercase">Enviar</Button>
           </div>
         </form>
       </div>
