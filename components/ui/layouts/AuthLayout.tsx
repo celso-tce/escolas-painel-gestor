@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from '../buttons/Button';
+import Form from '../forms/Form';
+import FormItem from '../forms/FormItem';
 import Input from '../inputs/Input';
 import Label from '../inputs/Label';
 
@@ -7,19 +9,19 @@ type AuthLayoutProps = {};
 
 const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
   const form = (
-    <form>
-      <div className="relative w-full mb-3">
+    <Form>
+      <FormItem>
         <Label label="E-mail" htmlFor="i-email" />
         <Input htmlId="i-email" placeholder="E-mail" />
-      </div>
-      <div className="relative w-full mb-3">
+      </FormItem>
+      <FormItem>
         <Label label="Senha" htmlFor="i-password" />
         <Input type="password" htmlId="i-password" placeholder="Senha" />
-      </div>
+      </FormItem>
       <div className="text-center mt-6">
         <Button className="w-full uppercase">Entrar</Button>
       </div>
-    </form>
+    </Form>
   );
 
   const panel = (
