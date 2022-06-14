@@ -19,6 +19,11 @@ type NavbarGroup = {
   }>;
 };
 
+// const bgColor = 'bg-tce-blue-5';
+const bgColor = 'bg-white';
+// const dark = true;
+const dark = false;
+
 const Sidebar: React.FC<SidebarProps> = (props) => {
   const { projectTitle, navbarGroups } = props;
   const [collapseShow, setCollapseShow] = React.useState('hidden');
@@ -32,7 +37,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           <Link href="/">
             <a
               href="#"
-              className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+              className={'md:block text-left md:pb-2 mr-0 inline-block whitespace-nowrap text-sm'
+                + ' uppercase font-bold p-4 px-0'
+                + (dark ? ' text-white' : ' text-slate-600')}
             >
               {projectTitle}
             </a>
@@ -58,17 +65,27 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   </>);
 
   return (
-    <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-lg bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+    <nav
+      className={'md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto'
+        + ' md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl flex flex-wrap items-center'
+        + ' justify-between relative md:w-64 z-10 py-4 px-6 ' + bgColor}
+      >
       <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
         <button
-          className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
+          className={'cursor-pointer opacity-50 md:hidden px-3 py-1 text-xl leading-none'
+            + ' bg-transparent rounded border border-solid border-transparent'
+            + (dark ? ' text-white' : ' text-black')}
           type="button"
-          onClick={() => setCollapseShow('bg-white m-2 py-3 px-6')}
+          onClick={() => setCollapseShow('m-2 py-3 px-6 ' + bgColor)}
         >
           <FontAwesomeIcon icon={faBars} />
         </button>
         <Link href="/">
-          <a className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
+          <a
+            className={'md:block text-left md:pb-2 mr-0 inline-block whitespace-nowrap text-sm'
+              + 'uppercase font-bold p-4 px-0'
+              + (dark ? ' text-white' : ' text-slate-600')}
+          >
             {projectTitle}
           </a>
         </Link>
@@ -97,10 +114,13 @@ const _NavigationGroup: React.FC<{
 
   return (<>
     {/* Divider */}
-    <hr className="my-4 md:min-w-full" />
+    <hr className={'my-4 md:min-w-full' + (dark ? ' opacity-0' : '')} />
 
     {/* Heading */}
-    <h6 className="md:min-w-full text-slate-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+    <h6
+      className={'md:min-w-full text-xs uppercase font-bold block pt-1 pb-4 no-underline'
+        + (dark ? ' text-slate-200' : ' text-slate-500')}
+    >
       {navbarGroup.label}
     </h6>
 
@@ -113,19 +133,21 @@ const _NavigationGroup: React.FC<{
           <li key={index} className="items-center">
             <Link href={item.url}>
               <a
-                className={
-                  "text-xs uppercase py-3 font-bold block " +
-                  (isCurrent
-                    ? "text-sky-500 hover:text-sky-600"
-                    : "text-slate-700 hover:text-slate-500")
+                className={'text-xs uppercase py-3 font-bold block'
+                  + (isCurrent
+                    ? (dark
+                        ? ' text-tce-yellow-4 hover:text-tce-yellow-3'
+                        : ' text-sky-500 hover:text-sky-600')
+                    : (dark
+                        ? ' text-slate-200 hover:text-white'
+                        : ' text-slate-700 hover:text-slate-500'))
                 }
               >
                 {item.icon && (
-                  <FontAwesomeIcon icon={item.icon} className={
-                    "mr-2 text-sm " +
-                    (isCurrent
-                      ? "opacity-75"
-                      : "text-slate-300")
+                  <FontAwesomeIcon icon={item.icon} className={'mr-2 text-sm'
+                    + (isCurrent
+                      ? ' opacity-75-'
+                      : ' text-slate-300')
                   } />
                 )}
                 {" "}
