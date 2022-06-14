@@ -1,9 +1,9 @@
 import { faFileAlt, faMicrochip } from '@fortawesome/free-solid-svg-icons';
 import type { NextPage } from 'next';
-import CardSettings from '../components/ui/cards/CardSettings';
-import MainLayout from '../components/ui/layouts/MainLayout';
-import ModelStat from '../components/ui/stats/ModelStat';
-import SimpleTable from '../components/ui/tables/SimpleTable';
+import CardSettings from '../../components/ui/cards/CardSettings';
+import MainLayout from '../../components/ui/layouts/MainLayout';
+import ModelStat from '../../components/ui/stats/ModelStat';
+import SimpleTable from '../../components/ui/tables/SimpleTable';
 
 const Index: NextPage = () => {
   const leftPanel = (

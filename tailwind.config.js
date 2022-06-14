@@ -27,9 +27,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      screens: {
-        '3xl': '1800px',
-      },
       colors: {
         'tce-blue': {
           '4': '#2b68ab',
