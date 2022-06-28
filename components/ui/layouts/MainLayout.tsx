@@ -43,7 +43,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
       <title>Storage Admin {props.currentPage && (' | ' + props.currentPage)}</title>
     </Head>
 
-    <div className="relative md:ml-64 bg-slate-100 min-h-screen">
+    <div className="relative md:ml-64 bg-slate-200 min-h-screen">
       <AdminNavbar />
       <AdminHeader />
       <div className="px-4 md:px-10 mx-auto w-full -m-24">
