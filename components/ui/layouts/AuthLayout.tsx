@@ -12,11 +12,11 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
     <Form>
       <FormItem>
         <Label label="E-mail" htmlFor="i-email" />
-        <Input htmlId="i-email" placeholder="E-mail" />
+        <Input htmlId="i-email" placeholder="E-mail" onChange={() => {}} />
       </FormItem>
       <FormItem>
         <Label label="Senha" htmlFor="i-password" />
-        <Input type="password" htmlId="i-password" placeholder="Senha" />
+        <Input type="password" htmlId="i-password" placeholder="Senha" onChange={() => {}} />
       </FormItem>
       <div className="text-center mt-6">
         <Button className="w-full uppercase">Entrar</Button>

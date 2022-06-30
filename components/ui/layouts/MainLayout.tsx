@@ -1,4 +1,4 @@
-import { faFolder, faHome, faMicrochip, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUsers, faSchool, faListAlt } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
 import React from 'react';
 import FooterAdmin from '../footers/FooterAdmin';
@@ -21,18 +21,13 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
         ],
       },
       {
-        label: 'Modelos',
-        items: [
-          { url: '/owners', label: 'Sistemas', icon: faMicrochip },
-          { url: '/files', label: 'Arquivos', icon: faFolder },
-        ],
-      },
-      {
         label: 'Administrativo',
         items: [
-          { url: '/admins', label: 'Admins', icon: faUsers },
+          { url: '/escolas', label: 'Escolas', icon: faSchool },
+          { url: '/categorias', label: 'Categorias', icon: faListAlt },
+          { url: '/users', label: 'Usuários', icon: faUsers },
         ],
-      }
+      },
     ]} />
 
     <Head>

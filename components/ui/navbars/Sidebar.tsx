@@ -161,4 +161,6 @@ const _NavigationGroup: React.FC<{
   </>);
 });
 
+_NavigationGroup.displayName = '_NavigationGroup';
+
 export default React.memo(Sidebar);
