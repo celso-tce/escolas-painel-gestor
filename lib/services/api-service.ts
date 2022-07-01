@@ -1,6 +1,30 @@
-import { Escola } from "escolas-shared";
+import { Categoria, Escola } from "escolas-shared";
 import { AsyncHttpResult } from "../types";
 import { API_BASE_PATH, Utils } from "../utils";
+
+export interface ApiService {
+  getEscolas(): AsyncHttpResult<Escola[]>;
+  createEscola(data: CreateEscolaDto): AsyncHttpResult<void>;
+  updateEscola(id: number, data: Partial<CreateEscolaDto>): AsyncHttpResult<Escola>;
+  deleteEscola(id: number): AsyncHttpResult<void>;
+
+  getCategorias(): AsyncHttpResult<Categoria[]>;
+  createCategoria(data: CreateCategoriaDto): AsyncHttpResult<void>;
+  updateCategoria(id: number, data: Partial<CreateCategoriaDto>): AsyncHttpResult<Categoria>;
+  deleteCategoria(id: number): AsyncHttpResult<void>;
+}
+
+export const defaultApiService: ApiService = {
+  getEscolas: () => Utils.fetchHelper('GET', API_BASE_PATH + '/escolas'),
+  createEscola: (data) => Utils.fetchHelper('POST', API_BASE_PATH + '/escolas', data),
+  updateEscola: (id, data) => Utils.fetchHelper('PATCH', API_BASE_PATH + `/escolas/${id}`, data),
+  deleteEscola: (id) => Utils.fetchHelper('DELETE', API_BASE_PATH + `/escolas/${id}`),
+
+  getCategorias: () => Utils.fetchHelper('GET', API_BASE_PATH + '/categorias'),
+  createCategoria: (data) => Utils.fetchHelper('POST', API_BASE_PATH + '/categorias', data),
+  updateCategoria: (id, data) => Utils.fetchHelper('PATCH', API_BASE_PATH + `/categorias/${id}`, data),
+  deleteCategoria: (id) => Utils.fetchHelper('DELETE', API_BASE_PATH + `/categorias/${id}`),
+};
 
 export type CreateEscolaDto = {
   nome: string;
@@ -17,31 +41,7 @@ export type CreateEscolaDto = {
   bairro?: string;
 };
 
-export interface ApiService {
-  getEscolas(): AsyncHttpResult<Escola[]>;
-  createEscola(data: CreateEscolaDto): AsyncHttpResult<void>;
-  updateEscola(id: number, data: Partial<CreateEscolaDto>): AsyncHttpResult<Escola>;
-  deleteEscola(id: number): AsyncHttpResult<void>;
-}
-
-export const defaultApiService: ApiService = {
-  getEscolas() {
-    const url = API_BASE_PATH + '/escolas';
-    return Utils.fetchHelper('GET', url);
-  },
-
-  createEscola(data) {
-    const url = API_BASE_PATH + '/escolas';
-    return Utils.fetchHelper('POST', url, data);
-  },
-
-  updateEscola(id, data) {
-    const url = API_BASE_PATH + `/escolas/${id}`;
-    return Utils.fetchHelper('PATCH', url, data);
-  },
-
-  deleteEscola(id) {
-    const url = API_BASE_PATH + `/escolas/${id}`;
-    return Utils.fetchHelper('DELETE', url);
-  },
+export type CreateCategoriaDto = {
+  titulo: string;
+  descricao: string;
 };

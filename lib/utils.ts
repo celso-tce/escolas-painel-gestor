@@ -22,7 +22,7 @@ async function fetchHelper<T>(method: Method, url: string, data?: any): Promise<
         },
       });
 
-      const result = await minDelayPromise(resultPromise, 1000);
+      const result = await minDelayPromise(resultPromise, 250);
 
       if (result.status === 200 || result.status === 201 || result.status === 204) {
           return {
