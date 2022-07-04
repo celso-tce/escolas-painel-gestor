@@ -1,4 +1,3 @@
-import { Categoria } from "escolas-shared";
 import React from 'react';
 import Button from "../ui/buttons/Button";
 import Form from "../ui/forms/Form";
@@ -10,26 +9,31 @@ import ReactSelect from "react-select";
 import { CampoObrigatorioMap, SelectUtils } from "../../lib/ui-utils";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { CreateCategoriaDto } from "../../lib/services/api-service";
+import { BasicModel } from "../../lib/types";
 
-export type CategoriaFormData = CreateCategoriaDto;
-
-const camposObrigatorios: CampoObrigatorioMap<CategoriaFormData> = {
-  titulo: { label: 'Título' },
-  descricao: { label: 'Descrição' },
-};
-
-type CategoriaFormProps = {
-  editCategoria: Categoria | null;
+export type BasicResourceFormProps<TModel extends BasicModel, FormData extends {}> = {
+  editResource: TModel | null;
   onCancelar: () => void;
-  onSubmit: (formData: CategoriaFormData) => void;
+  onSubmit: (formData: FormData) => void;
 };
 
-const CategoriaForm: React.FC<CategoriaFormProps> = ({
-  editCategoria,
+export type ExtraResourceFormProps<TModel extends BasicModel, FormData extends {}> = {
+  camposObrigatorios: CampoObrigatorioMap<FormData>;
+  formContent: React.ReactNode;
+  generateFormData: (parsedValues: Record<string, string>) => FormData;
+};
+
+export type ResourceFormProps<TModel extends BasicModel, FormData extends {}> =
+  BasicResourceFormProps<TModel, FormData> & ExtraResourceFormProps<TModel, FormData>;
+
+function ResourceForm<TModel extends BasicModel, FormData extends {}>({
+  editResource,
   onCancelar,
   onSubmit,
-}) => {
+  camposObrigatorios,
+  formContent,
+  generateFormData,
+}: ResourceFormProps<TModel, FormData>): React.ReactElement {
   const MySwal = withReactContent(Swal);
 
   const onSubmitForm = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +53,7 @@ const CategoriaForm: React.FC<CategoriaFormProps> = ({
       const fieldValue = parsedValues[campoKey];
       return !fieldValue || fieldValue === '';
     }).map(([_, campoInfo]) => {
-      return campoInfo.label;
+      return (campoInfo as { label: string }).label;
     });
 
     if (missingList.length > 0) {
@@ -62,32 +66,32 @@ const CategoriaForm: React.FC<CategoriaFormProps> = ({
       return;
     }
 
-    onSubmit({
-      titulo: parsedValues['titulo'],
-      descricao: parsedValues['descricao'],
-    });
+    /*onSubmit({
+      nome: parsedValues['nome'],
+      tipo: parsedValues['tipo'],
+      status: +parsedValues['status'],
+      modalidades: parsedValues['modalidades'] ?? '',
+      diretorNome: parsedValues['diretorNome'],
+      diretorEmail: parsedValues['diretorEmail'],
+      qeduUrl: parsedValues['qeduUrl'],
+      postalCode: parsedValues['cep'],
+      endereco: parsedValues['endereco'],
+      complemento: parsedValues['complemento'],
+      cidade: parsedValues['cidade'],
+      bairro: parsedValues['bairro'],
+    });*/
+    onSubmit(generateFormData(parsedValues));
   }, [MySwal, onSubmit]);
 
   return (
     <Form onSubmit={onSubmitForm}>
       <div className="bg-slate-100 px-4 py-3">
-        <FormSection header="Informações">
-          <FormItem className="lg:w-8/12 px-4">
-            <Label label="Título" htmlFor="i-titulo" />
-            <Input htmlId="i-titulo" name="titulo" defaultValue={editCategoria?.titulo} />
-          </FormItem>
-
-          <FormItem className="lg:w-12/12 px-4">
-            <Label label="Descrição (TODO textarea)" htmlFor="i-tipo" />
-            <Input htmlId="i-descricao" name="descricao"
-              defaultValue={editCategoria?.descricao} />
-          </FormItem>
-        </FormSection>
+        {formContent}
       </div>
 
       <div className="py-3 px-4 flex justify-between border-t border-slate-300">
         <Button className="uppercase" color="success">
-          {editCategoria ? 'Salvar' : 'Cadastrar'}
+          {editResource ? 'Salvar' : 'Cadastrar'}
         </Button>
 
         <Button className="uppercase" color="danger" onClick={onCancelar}>
@@ -98,4 +102,4 @@ const CategoriaForm: React.FC<CategoriaFormProps> = ({
   );
 };
 
-export default React.memo(CategoriaForm);
+export default ResourceForm;

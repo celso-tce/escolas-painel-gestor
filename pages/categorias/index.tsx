@@ -1,190 +1,123 @@
 import type { NextPage } from 'next';
 import React from 'react';
 import { Categoria } from 'escolas-shared';
-import CardSettings from '../../components/ui/cards/CardSettings';
-import MainLayout from '../../components/ui/layouts/MainLayout';
 import { ApiServiceContext } from '../_app';
-import Spinkit from '../../components/ui/Spinkit';
-import Modal from "../../components/ui/modal/Modal";
-import Button from "../../components/ui/buttons/Button";
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import CategoriaForm, { CategoriaFormData } from "../../components/categorias/CategoriaForm";
-import CategoriasTable from "../../components/categorias/CategoriasTable";
+import ResourcesPage from "../../components/resources/ResourcePage";
+import ResourceTable, { BasicResourceTableProps } from "../../components/resources/ResourceTable";
+import ResourceDetails from "../../components/resources/ResourceDetails";
+import ResourceForm, { BasicResourceFormProps } from "../../components/resources/ResourceForm";
+import { CreateCategoriaDto } from "../../lib/services/api-service";
+import FormItem from "../../components/ui/forms/FormItem";
+import FormSection from "../../components/ui/forms/FormSection";
+import Input from "../../components/ui/inputs/Input";
+import Label from "../../components/ui/inputs/Label";
 
 const CategoriasPage: NextPage = () => {
-  //:: State ---------------------------------------------------------------------------------------
-
-  const [categorias, setCategorias] = React.useState<Categoria[] | null>(null);
-
-  // tipo: Categoria = editar Categoria; null = cadastrar nova categoria; undefined = modal fechado
-  const [showModalCategoriaForm, setShowModalCategoriaForm] =
-    React.useState<Categoria | null | undefined>();
-
-  const [showModalCategoriaDetails, setShowModalCategoriaDetails] = React.useState<Categoria | undefined>();
-
-  const MySwal = withReactContent(Swal);
-
-  //:: Effects -------------------------------------------------------------------------------------
+  const [filters, setFilters] = React.useState<{
+    nome: string;
+  }>({
+    nome: '',
+  });
 
   const apiService = React.useContext(ApiServiceContext);
 
-  React.useEffect(() => {
-    let mounted = true;
+  const buildTabela = React.useCallback((props: BasicResourceTableProps<Categoria>) => (
+    <ResourceTable
+      {...props}
+      headerCols={[
+        { label: 'Título' },
+        { label: 'Descrição' },
+      ]}
+      generateCols={(res) => [
+        { content: res.titulo },
+        { content: res.descricao },
+      ]}
+      applyFilter={(resources) => {
+        const filterNomeLower = filters.nome.trim().toLowerCase();
+        const hasFilterNomeLower = filterNomeLower ? true : false;
 
-    apiService.getCategorias().then((result) => {
-      if (!mounted)
-        return;
+        if (!hasFilterNomeLower)
+          return resources;
 
-      if (result.type === 'error')
-        return; // TODO handle error
+        return resources.filter((categoria) => {
+          let pass = true;
 
-      setCategorias(result.payload);
-    });
+          if (hasFilterNomeLower)
+            pass &&= categoria.titulo.toLocaleLowerCase().includes(filterNomeLower)
+              || categoria.descricao.toLocaleLowerCase().includes(filterNomeLower);
 
-    return () => { mounted = false };
-  }, [apiService]);
-
-  const onSubmitCategoriaForm = React.useCallback((formData: CategoriaFormData) => {
-    setShowModalCategoriaForm(undefined); // <- fecha o modal
-    setCategorias(null); // <- faz com que a tabela de categorias fique em "carregamento"
-
-    const promise = showModalCategoriaForm
-      ? apiService.updateCategoria(showModalCategoriaForm.id, formData)
-      : apiService.createCategoria(formData);
-
-    promise.then((result) => {
-      if (result.type === 'error')
-        throw result;
-
-      apiService.getCategorias().then((result) => {
-        if (result.type === 'error')
-          throw result;
-
-        setCategorias(result.payload);
-
-        MySwal.fire(
-          'Sucesso',
-          `Categoria ${showModalCategoriaForm ? 'editada' : 'cadastrada'} com sucesso.`,
-          'success',
-        );
-      });
-    }).catch((err) => {
-      // TODO handle error
-      console.error(err);
-      setCategorias(categorias); // volta para o estado que estava antes de nulificar mais cedo
-    });
-  }, [showModalCategoriaForm, categorias, apiService, MySwal]);
-
-  const onDeleteCategoria = React.useCallback((categoria: Categoria) => {
-    MySwal.fire({
-      title: 'Deletar Categoria',
-      text: 'Tem certeza que deseja excluir este registro permanentemente? ' + categoria.titulo,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, deletar!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setCategorias(null);
-
-        apiService.deleteCategoria(categoria.id).then((result) => {
-          if (result.type === 'error')
-            throw result;
-
-          apiService.getCategorias().then((result) => {
-            if (result.type === 'error')
-              throw result;
-
-            setCategorias(result.payload);
-
-            Swal.fire(
-              'Sucesso!',
-              'Registro de Categoria excluido com sucesso.',
-              'success',
-            );
-          });
-        }).catch((err) => {
-          // TODO handle error
-          console.error(err);
-          setCategorias(categorias);
+          return pass;
         });
-      }
-    });
-  }, [MySwal]);
+      }}
+      filtersContent={(
+        <FormItem className="lg:w-4/12 px-4">
+          <Label label="Pesquisar" htmlFor="filter-busca" />
+          <Input
+            htmlId="filter-busca"
+            placeholder="Pesquisar..."
+            value={filters.nome}
+            onChange={(nome) => setFilters({ ...filters, nome })}
+            debounceTimeMs={250}
+          />
+        </FormItem>
+      )}
+    />
+  ), [filters]);
 
-  //:: Result --------------------------------------------------------------------------------------
+  const buildDetails = React.useCallback((res: Categoria) => (
+    <ResourceDetails
+      data={[
+        { label: 'Título', value: res.titulo },
+        { label: 'Descrição', value: res.descricao },
+      ]}
+    />
+  ), []);
 
-  const content = React.useMemo(() => {
-    if (categorias === null) {
-      return (
-        <div className="flex flex-col items-center my-2 text-slate-700">
-          <Spinkit type="wave" color="var(--color-blue-400)" dots={5} />
-          Carregando...
-        </div>
-      );
-    }
+  const buildForm = React.useCallback(
+    (props: BasicResourceFormProps<Categoria, CreateCategoriaDto>) =>
+  (
+    <ResourceForm
+      {...props}
+      camposObrigatorios={{
+        titulo: { label: 'Título' },
+        descricao: { label: 'Descrição' },
+      }}
+      generateFormData={(parsedValues) => ({
+        titulo: parsedValues['titulo'],
+        descricao: parsedValues['descricao'],
+      })}
+      formContent={(<>
+        <FormSection header="Informações">
+          <FormItem className="lg:w-8/12 px-4">
+            <Label label="Título" htmlFor="i-titulo" />
+            <Input htmlId="i-titulo" name="titulo" defaultValue={props.editResource?.titulo} />
+          </FormItem>
 
-    return (
-      <CategoriasTable
-        categorias={categorias}
-        onClickShowCategoria={setShowModalCategoriaDetails}
-        onClickEditarCategoria={setShowModalCategoriaForm}
-        onClickDeletarCategoria={onDeleteCategoria}
-      />
-    );
-  }, [categorias, setShowModalCategoriaForm]);
-
-  const modalCadastrar = React.useMemo(() => {
-    return showModalCategoriaForm !== undefined && (
-      <Modal
-        titulo={showModalCategoriaForm === null ? 'Cadastrar Categoria' : 'Editar Categoria'}
-        visible={showModalCategoriaForm !== undefined}
-        onClose={() => setShowModalCategoriaForm(undefined)}
-        disableBackgroundFechar
-        hideBotaoFechar={true}
-      >
-        <CategoriaForm
-          editCategoria={showModalCategoriaForm}
-          onCancelar={() => setShowModalCategoriaForm(undefined)}
-          onSubmit={onSubmitCategoriaForm}
-        />
-      </Modal>
-    );
-  }, [showModalCategoriaForm, onSubmitCategoriaForm]);
-
-  const modalDetails = React.useMemo(() => {
-    return showModalCategoriaDetails !== undefined && (
-      <Modal
-        titulo="Detalhes da Escola"
-        visible={true}
-        onClose={() => setShowModalCategoriaDetails(undefined)}
-        hideBotaoFechar={true}
-      >
-        {/* <EscolaDetails escola={showModalCategoriaDetails} /> */}
-      </Modal>
-    );
-  }, [showModalCategoriaDetails]);
+          <FormItem className="lg:w-12/12 px-4">
+            <Label label="Descrição (TODO textarea)" htmlFor="i-tipo" />
+            <Input htmlId="i-descricao" name="descricao"
+              defaultValue={props.editResource?.descricao} />
+          </FormItem>
+        </FormSection>
+      </>)}
+    />
+  ), []);
 
   return (
-    <MainLayout currentPage="Index">
-      <div className="relative">
-        <CardSettings header="Categorias">
-          {content}
-        </CardSettings>
-
-        <div className="mt-4">
-          <Button color="success" onClick={() => setShowModalCategoriaForm(null)}>
-            Cadastrar Categoria
-          </Button>
-        </div>
-      </div>
-
-      {modalCadastrar}
-      {modalDetails}
-    </MainLayout>
+    <ResourcesPage<Categoria, CreateCategoriaDto>
+      labelSingular="Categoria"
+      labelPlural="Categorias"
+      getResourceTitle={(res) => res.titulo}
+      serviceProvider={{
+        getResources: apiService.getCategorias,
+        createResource: apiService.createCategoria,
+        updateResource: apiService.updateCategoria,
+        deleteResource: apiService.deleteCategoria,
+      }}
+      buildTabela={buildTabela}
+      buildDetails={buildDetails}
+      buildForm={buildForm}
+    />
   );
 }
 

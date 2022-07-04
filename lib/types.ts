@@ -22,3 +22,5 @@ export const escolaTipos: EscolaTipo[] = [
   'ESTADUAL',
   'FEDERAL',
 ];
+
+export type BasicModel = { id: number };

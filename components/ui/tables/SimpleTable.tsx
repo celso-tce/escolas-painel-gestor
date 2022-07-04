@@ -1,23 +1,27 @@
 import React from 'react';
 
-export type SimpleTableRows = Array<{
+export type SimpleTableHeaderData = {
   classes?: string;
-  cols: Array<{
-    classes?: string;
-    content: React.ReactNode;
-  }>;
-}>;
+  label: string;
+};
+
+export type SimpleTableCol = {
+  classes?: string;
+  content: React.ReactNode;
+};
+
+export type SimpleTableRow = {
+  classes?: string;
+  cols: SimpleTableCol[];
+};
 
 type SimpleTableProps = {
   headerClasses?: string;
   tableClasses?: string;
   rowClasses?: string;
   colClasses?: string;
-  header?: Array<{
-    classes?: string;
-    label: string;
-  }>;
-  rows: SimpleTableRows;
+  header?: Array<SimpleTableHeaderData>;
+  rows: SimpleTableRow[];
 };
 
 const SimpleTable: React.FC<SimpleTableProps> = (props) => {
