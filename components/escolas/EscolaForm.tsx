@@ -1,88 +1,43 @@
 import { Escola } from "escolas-shared";
 import React from 'react';
-import Button from "../ui/buttons/Button";
-import Form from "../ui/forms/Form";
 import FormItem from "../ui/forms/FormItem";
 import FormSection from "../ui/forms/FormSection";
 import Input from "../ui/inputs/Input";
 import Label from "../ui/inputs/Label";
 import ReactSelect from "react-select";
-import { CampoObrigatorioMap, SelectUtils } from "../../lib/ui-utils";
+import { SelectUtils } from "../../lib/ui-utils";
 import EscolaEnderecoForm from "./EscolaEnderecoForm";
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 import { CreateEscolaDto } from "../../lib/services/api-service";
+import ResourceForm, { BasicResourceFormProps } from "../resources/ResourceForm";
 
-export type EscolaFormData = CreateEscolaDto;
+type EscolaFormProps = BasicResourceFormProps<Escola, CreateEscolaDto>;
 
-const camposObrigatorios: CampoObrigatorioMap<EscolaFormData> = {
-  nome: { label: 'Nome' },
-  tipo: { label: 'Tipo' },
-  status: { label: 'Status' },
-};
-
-type EscolaFormProps = {
-  editEscola: Escola | null;
-  onCancelar: () => void;
-  onSubmit: (formData: EscolaFormData) => void;
-};
-
-const EscolaForm: React.FC<EscolaFormProps> = ({
-  editEscola,
-  onCancelar,
-  onSubmit,
-}) => {
-  const MySwal = withReactContent(Swal);
-
-  const onSubmitForm = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const fieldValues = Object.fromEntries(formData.entries());
-    const parsedValues: Record<string, string> = {};
-
-    for (const [fieldKey, fieldValue] of Object.entries(fieldValues)) {
-      const value = fieldValue.toString().trim();
-
-      if (value)
-        parsedValues[fieldKey] = value;
-    }
-
-    const missingList = Object.entries(camposObrigatorios).filter(([campoKey]) => {
-      const fieldValue = parsedValues[campoKey];
-      return !fieldValue || fieldValue === '';
-    }).map(([_, campoInfo]) => {
-      return campoInfo.label;
-    });
-
-    if (missingList.length > 0) {
-      MySwal.fire({
-        icon: 'error',
-        title: 'Por favor, preencha todos os campos obrigatórios:',
-        text: missingList.join(', '),
-      });
-
-      return;
-    }
-
-    onSubmit({
-      nome: parsedValues['nome'],
-      tipo: parsedValues['tipo'],
-      status: +parsedValues['status'],
-      modalidades: parsedValues['modalidades'] ?? '',
-      diretorNome: parsedValues['diretorNome'],
-      diretorEmail: parsedValues['diretorEmail'],
-      qeduUrl: parsedValues['qeduUrl'],
-      postalCode: parsedValues['cep'],
-      endereco: parsedValues['endereco'],
-      complemento: parsedValues['complemento'],
-      cidade: parsedValues['cidade'],
-      bairro: parsedValues['bairro'],
-    });
-  }, [MySwal, onSubmit]);
+const EscolaForm: React.FC<EscolaFormProps> = (props) => {
+  const editEscola = props.editResource;
 
   return (
-    <Form onSubmit={onSubmitForm}>
-      <div className="bg-slate-100 px-4 py-3">
+    <ResourceForm
+      {...props}
+      camposObrigatorios={{
+        nome: { label: 'Nome' },
+        tipo: { label: 'Tipo' },
+        status: { label: 'Status' },
+      }}
+      generateFormData={(parsedValues) => ({
+        nome: parsedValues['nome'],
+        tipo: parsedValues['tipo'],
+        status: +parsedValues['status'],
+        modalidades: parsedValues['modalidades'] ?? '',
+        diretorNome: parsedValues['diretorNome'],
+        diretorEmail: parsedValues['diretorEmail'],
+        qeduUrl: parsedValues['qeduUrl'],
+        postalCode: parsedValues['cep'],
+        endereco: parsedValues['endereco'],
+        complemento: parsedValues['complemento'],
+        cidade: parsedValues['cidade'],
+        bairro: parsedValues['bairro'],
+      })}
+      formContent={(<>
         <FormSection header="Informações Básicas">
           <FormItem className="lg:w-8/12 px-4">
             <Label label="Nome" htmlFor="i-nome" />
@@ -145,18 +100,8 @@ const EscolaForm: React.FC<EscolaFormProps> = ({
         </FormSection>
 
         <EscolaEnderecoForm editEscola={editEscola} />
-      </div>
-
-      <div className="py-3 px-4 flex justify-between border-t border-slate-300">
-        <Button className="uppercase" color="success">
-          {editEscola ? 'Salvar' : 'Cadastrar'}
-        </Button>
-
-        <Button className="uppercase" color="danger" onClick={onCancelar}>
-          Cancelar
-        </Button>
-      </div>
-    </Form>
+      </>)}
+    />
   );
 };
 

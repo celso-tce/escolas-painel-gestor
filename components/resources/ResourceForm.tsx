@@ -1,12 +1,7 @@
 import React from 'react';
 import Button from "../ui/buttons/Button";
 import Form from "../ui/forms/Form";
-import FormItem from "../ui/forms/FormItem";
-import FormSection from "../ui/forms/FormSection";
-import Input from "../ui/inputs/Input";
-import Label from "../ui/inputs/Label";
-import ReactSelect from "react-select";
-import { CampoObrigatorioMap, SelectUtils } from "../../lib/ui-utils";
+import { CampoObrigatorioMap } from "../../lib/ui-utils";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { BasicModel } from "../../lib/types";
@@ -66,20 +61,6 @@ function ResourceForm<TModel extends BasicModel, FormData extends {}>({
       return;
     }
 
-    /*onSubmit({
-      nome: parsedValues['nome'],
-      tipo: parsedValues['tipo'],
-      status: +parsedValues['status'],
-      modalidades: parsedValues['modalidades'] ?? '',
-      diretorNome: parsedValues['diretorNome'],
-      diretorEmail: parsedValues['diretorEmail'],
-      qeduUrl: parsedValues['qeduUrl'],
-      postalCode: parsedValues['cep'],
-      endereco: parsedValues['endereco'],
-      complemento: parsedValues['complemento'],
-      cidade: parsedValues['cidade'],
-      bairro: parsedValues['bairro'],
-    });*/
     onSubmit(generateFormData(parsedValues));
   }, [MySwal, onSubmit]);
 

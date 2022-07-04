@@ -5,7 +5,7 @@ import SimpleTable from "../ui/tables/SimpleTable";
 export type ResourceDetailsProps<TModel extends BasicModel> = {
   data: Array<{
     label: string;
-    value: string;
+    value: React.ReactNode;
   }>;
 };
 
