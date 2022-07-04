@@ -48,11 +48,11 @@ const EscolaForm: React.FC<EscolaFormProps> = (props) => {
             <Label label="Tipo" htmlFor="i-tipo" />
             <ReactSelect
               id="i-tipo"
-              options={SelectUtils.tipoOptions}
+              options={SelectUtils.escolaTipoOptions}
               name="tipo"
               defaultValue={
                 editEscola
-                  ? SelectUtils.tipoOptions.find(opt => opt.value === editEscola.tipo)
+                  ? SelectUtils.escolaTipoOptions.find(opt => opt.value === editEscola.tipo)
                   : undefined
               }
             />
@@ -68,11 +68,11 @@ const EscolaForm: React.FC<EscolaFormProps> = (props) => {
             <Label label="Status" htmlFor="i-status" />
             <ReactSelect
               id="i-status"
-              options={SelectUtils.statusOptions}
+              options={SelectUtils.escolaStatusOptions}
               name="status"
               defaultValue={
                 editEscola
-                  ? SelectUtils.statusOptions.find(opt => opt.value === editEscola.status)
+                  ? SelectUtils.escolaStatusOptions.find(opt => opt.value === editEscola.status)
                   : undefined
               }
             />

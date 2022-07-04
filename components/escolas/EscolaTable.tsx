@@ -1,7 +1,7 @@
 import { Escola } from "escolas-shared";
 import React from 'react';
 import ReactSelect, { SingleValue } from "react-select";
-import { SelectUtils, StatusOptionType, TipoOptionType } from "../../lib/ui-utils";
+import { SelectUtils, EscolaStatusOptionType, EscolaTipoOptionType } from "../../lib/ui-utils";
 import { Utils } from "../../lib/utils";
 import ResourceTable, { BasicResourceTableProps } from "../resources/ResourceTable";
 import FormItem from "../ui/forms/FormItem";
@@ -13,22 +13,22 @@ type EscolaTableProps = BasicResourceTableProps<Escola>;
 
 const statusOptions = [
   { value: undefined, label: '(Todas)' },
-  ...SelectUtils.statusOptions,
+  ...SelectUtils.escolaStatusOptions,
 ];
 
 const tipoOptions = [
   { value: undefined, label: 'Todos' },
-  ...SelectUtils.tipoOptions,
+  ...SelectUtils.escolaTipoOptions,
 ];
 
 const EscolaTable: React.FC<EscolaTableProps> = (props) => {
   const [filterNome, setFilterNome] = React.useState('');
 
   const [filterStatusOption, setFilterStatusOption] =
-    React.useState<SingleValue<StatusOptionType>>(statusOptions[1]); // default = "Ativa"
+    React.useState<SingleValue<EscolaStatusOptionType>>(statusOptions[1]); // default = "Ativa"
 
   const [filterTipoOption, setFilterTipoOption] =
-    React.useState<SingleValue<TipoOptionType>>(tipoOptions[0]);
+    React.useState<SingleValue<EscolaTipoOptionType>>(tipoOptions[0]);
 
   return (
     <ResourceTable

@@ -1,34 +1,35 @@
 import React from 'react';
 import Button from "../ui/buttons/Button";
 import Form from "../ui/forms/Form";
-import { CampoObrigatorioMap } from "../../lib/ui-utils";
+import { CampoObrigatorioMap, CampoObrigatorioValidator } from "../../lib/ui-utils";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { BasicModel } from "../../lib/types";
 
-export type BasicResourceFormProps<TModel extends BasicModel, FormData extends {}> = {
+export type BasicResourceFormProps<TModel extends BasicModel, TFormData extends {}> = {
   editResource: TModel | null;
   onCancelar: () => void;
-  onSubmit: (formData: FormData) => void;
+  onSubmit: (formData: TFormData) => void;
 };
 
-export type ExtraResourceFormProps<TModel extends BasicModel, FormData extends {}> = {
-  camposObrigatorios: CampoObrigatorioMap<FormData>;
+export type ExtraResourceFormProps<TModel extends BasicModel, TFormData extends {}> = {
+  camposObrigatorios: CampoObrigatorioMap<TFormData>;
   formContent: React.ReactNode;
-  generateFormData: (parsedValues: Record<string, string>) => FormData;
+  /// retorno de string = erro (onde a string é a mensagem para mostrar)
+  generateFormData: (parsedValues: Record<string, string>) => TFormData | string;
 };
 
-export type ResourceFormProps<TModel extends BasicModel, FormData extends {}> =
-  BasicResourceFormProps<TModel, FormData> & ExtraResourceFormProps<TModel, FormData>;
+export type ResourceFormProps<TModel extends BasicModel, TFormData extends {}> =
+  BasicResourceFormProps<TModel, TFormData> & ExtraResourceFormProps<TModel, TFormData>;
 
-function ResourceForm<TModel extends BasicModel, FormData extends {}>({
+function ResourceForm<TModel extends BasicModel, TFormData extends {}>({
   editResource,
   onCancelar,
   onSubmit,
   camposObrigatorios,
   formContent,
   generateFormData,
-}: ResourceFormProps<TModel, FormData>): React.ReactElement {
+}: ResourceFormProps<TModel, TFormData>): React.ReactElement {
   const MySwal = withReactContent(Swal);
 
   const onSubmitForm = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
@@ -44,11 +45,16 @@ function ResourceForm<TModel extends BasicModel, FormData extends {}>({
         parsedValues[fieldKey] = value;
     }
 
-    const missingList = Object.entries(camposObrigatorios).filter(([campoKey]) => {
+    const filtros: Array<[string, CampoObrigatorioValidator]> = Object.entries(camposObrigatorios);
+
+    const missingList = filtros.filter(([campoKey, campoInfo]) => {
+      if (campoInfo === undefined)
+        return false;
+
       const fieldValue = parsedValues[campoKey];
       return !fieldValue || fieldValue === '';
     }).map(([_, campoInfo]) => {
-      return (campoInfo as { label: string }).label;
+      return campoInfo.label;
     });
 
     if (missingList.length > 0) {
@@ -61,7 +67,19 @@ function ResourceForm<TModel extends BasicModel, FormData extends {}>({
       return;
     }
 
-    onSubmit(generateFormData(parsedValues));
+    const result = generateFormData(parsedValues);
+
+    if (typeof result === 'string') {
+      MySwal.fire({
+        icon: 'error',
+        title: 'Falha na validação:',
+        text: result,
+      });
+
+      return;
+    }
+
+    onSubmit(result);
   }, [MySwal, onSubmit]);
 
   return (

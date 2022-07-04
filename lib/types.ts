@@ -1,4 +1,4 @@
-import { EscolaTipo } from "escolas-shared";
+import { EscolaTipo, UserRole } from "escolas-shared";
 
 export type HttpResult<T> = {
   code: number;
@@ -17,10 +17,17 @@ export type HttpResult<T> = {
 
 export type AsyncHttpResult<T> = Promise<HttpResult<T>>;
 
+export type BasicModel = { id: number };
+
 export const escolaTipos: EscolaTipo[] = [
   'MUNICIPAL',
   'ESTADUAL',
   'FEDERAL',
 ];
 
-export type BasicModel = { id: number };
+export const userRoles: UserRole[] = [
+  'ADMIN',
+  'OUVIDORIA',
+  'INSPETORIA',
+  'GESTOR',
+];

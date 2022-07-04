@@ -16,9 +16,9 @@ type ResourcesPageProps<TModel extends BasicModel, TFormData extends {}> = {
     createResource: (data: TFormData) => AsyncHttpResult<void>;
     updateResource: (id: number, data: TFormData) => AsyncHttpResult<TModel>;
     deleteResource: (id: number) => AsyncHttpResult<void>;
-  },
-  labelSingular: string,
-  labelPlural: string,
+  };
+  labelSingular: string;
+  labelPlural: string;
   getResourceTitle: (resource: TModel) => string;
   buildTabela: (props: BasicResourceTableProps<TModel>) => React.ReactNode;
   buildDetails: (resource: TModel) => React.ReactNode;
@@ -57,7 +57,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData extends {}>({
         return;
 
       if (result.type === 'error')
-        return; // TODO handle error
+        return; // TODO erro ao listar resources
 
       setResources(result.payload);
     });
@@ -90,7 +90,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData extends {}>({
         );
       });
     }).catch((err) => {
-      // TODO handle error
+      // TODO Swal erro ao cadastrar/editar resources
       console.error(err);
       setResources(resources); // volta para o estado que estava antes de nulificar acima
     });
@@ -128,7 +128,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData extends {}>({
             );
           });
         }).catch((err) => {
-          // TODO handle error
+          // TODO Swal erro ao deletar resource
           console.error(err);
           setResources(resources); // volta para o estado que estava antes de nulificar acima
         });
@@ -166,6 +166,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData extends {}>({
         onClose={() => setShowModalResourceForm(undefined)}
         disableBackgroundFechar
         hideBotaoFechar={true}
+        noOverflowHidden
       >
         {buildForm({
           editResource: showModalResourceForm,
@@ -183,6 +184,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData extends {}>({
         visible={true}
         onClose={() => setShowModalResourceDetails(undefined)}
         hideBotaoFechar={true}
+        noOverflowHidden
       >
         {buildDetails(showModalResourceDetails)}
       </Modal>

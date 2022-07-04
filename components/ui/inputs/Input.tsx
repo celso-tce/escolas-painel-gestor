@@ -2,7 +2,7 @@ import React from 'react';
 import Lodash from 'lodash';
 
 type BaseInputProps = {
-  type?: 'text' | 'password';
+  type?: 'text' | 'password' | 'email';
   name?: string; // apenas realmente útil caso não seja um ManagedInput
   defaultValue?: string; // deve ser usado APENAS caso não seja um ManagedInput
   htmlId?: string;

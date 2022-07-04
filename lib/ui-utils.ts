@@ -1,5 +1,5 @@
-import { EscolaTipo } from "escolas-shared";
-import { escolaTipos } from "./types";
+import { EscolaTipo, UserRole } from "escolas-shared";
+import { escolaTipos, userRoles } from "./types";
 import { Utils } from "./utils";
 
 function assignToInputRef(ref: React.RefObject<HTMLInputElement>, value: string) {
@@ -7,42 +7,56 @@ function assignToInputRef(ref: React.RefObject<HTMLInputElement>, value: string)
     ref.current.value = value;
 }
 
-export type StatusOptionType = {
+export type EscolaStatusOptionType = {
   value: 1 | 0 | undefined;
   label: string;
 };
 
-const statusOptions: StatusOptionType[] = [
+const escolaStatusOptions: EscolaStatusOptionType[] = [
   { value: 1, label: 'Ativa' },
   { value: 0, label: 'Inativa' },
 ];
 
-export type TipoOptionType = {
+export type EscolaTipoOptionType = {
   value: EscolaTipo | undefined;
   label: string;
 };
 
-const tipoOptions: TipoOptionType[] = [
+const escolaTipoOptions: EscolaTipoOptionType[] = [
   ...escolaTipos.map((escolaTipo) => (
     { value: escolaTipo, label: Utils.escolaTipoLabel(escolaTipo) }
   )),
 ];
 
+export type CampoObrigatorioValidator = {
+  label: string;
+  /// caso retorne string = erro de validação (onde a string explica o erro)
+  /// caso retorn null = não há erro de validação
+  validate?: (value: string) => string | null;
+};
+
 export type CampoObrigatorioMap<ParentType = any> = Partial<Record<
   keyof ParentType,
-  {
-    label: string;
-    /// caso retorne string = erro de validação (onde a string explica o erro)
-    /// caso retorn null = não há erro de validação
-    validate?: (value: string) => string | null;
-  }
+  CampoObrigatorioValidator
 >>;
+
+export type UserRoleOptionType = {
+  value: UserRole | undefined;
+  label: string;
+};
+
+const userRoleOptions: UserRoleOptionType[] = [
+  ...userRoles.map((userRole) => (
+    { value: userRole, label: Utils.userRoleLabel(userRole) }
+  )),
+];
 
 export const ReactUtils = {
   assignToInputRef,
 };
 
 export const SelectUtils = {
-  statusOptions,
-  tipoOptions,
+  escolaStatusOptions,
+  escolaTipoOptions,
+  userRoleOptions,
 };

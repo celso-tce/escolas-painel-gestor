@@ -1,10 +1,5 @@
 import React from 'react';
 import SimpleTable, { SimpleTableCol, SimpleTableHeaderData, SimpleTableRow } from "../ui/tables/SimpleTable";
-import FormItem from "../ui/forms/FormItem";
-import Input from "../ui/inputs/Input";
-import Label from "../ui/inputs/Label";
-import ReactSelect, { SingleValue } from "react-select";
-import { SelectUtils, StatusOptionType, TipoOptionType } from "../../lib/ui-utils";
 import Button from "../ui/buttons/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPencil, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -26,16 +21,6 @@ export type ExtraResourceTableProps<TModel extends BasicModel> = {
 
 type ResourceTableProps<TModel extends BasicModel> =
   BasicResourceTableProps<TModel> & ExtraResourceTableProps<TModel>;
-
-const statusOptions = [
-  { value: undefined, label: '(Todas)' },
-  ...SelectUtils.statusOptions,
-];
-
-const tipoOptions = [
-  { value: undefined, label: 'Todos' },
-  ...SelectUtils.tipoOptions,
-];
 
 function ResourceTable<TModel extends BasicModel>({
   resources,

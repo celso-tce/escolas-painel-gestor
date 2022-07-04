@@ -1,5 +1,5 @@
 import axios, { Method } from "axios";
-import { EscolaTipo } from "escolas-shared";
+import { EscolaTipo, UserRole } from "escolas-shared";
 import { HttpResult } from "./types";
 
 export const API_BASE_PATH = process.env['NEXT_PUBLIC_API_URL'] ?? '';
@@ -67,9 +67,17 @@ function escolaTipoLabel(escolaTipo: EscolaTipo): string {
   return escolaTipo[0] + escolaTipo.substring(1).toLocaleLowerCase();
 }
 
+function userRoleLabel(userRole: UserRole): string {
+  if (userRole.length <= 1)
+    return userRole;
+
+  return userRole[0] + userRole.substring(1).toLocaleLowerCase();
+}
+
 export const Utils = {
   apiGet,
   fetchHelper,
   minDelayPromise,
   escolaTipoLabel,
+  userRoleLabel,
 };
