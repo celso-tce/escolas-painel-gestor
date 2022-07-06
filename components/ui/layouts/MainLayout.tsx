@@ -17,7 +17,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
       {
         label: 'Dashboard',
         items: [
-          { url: '/', label: 'Índice', icon: faHome },
+          { url: '/home', label: 'Índice', icon: faHome },
         ],
       },
       {
