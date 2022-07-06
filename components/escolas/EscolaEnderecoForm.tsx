@@ -43,7 +43,7 @@ const EscolaEnderecoForm: React.FC<EscolaEnderecoFormProps> = ({ editEscola }) =
       ReactUtils.assignToInputRef(cidadeInputRef, payload.localidade);
       ReactUtils.assignToInputRef(enderecoInputRef, payload.logradouro);
       ReactUtils.assignToInputRef(bairroInputRef, payload.bairro);
-      ReactUtils.assignToInputRef(complementoInputRef, payload.complemento);
+      // ReactUtils.assignToInputRef(complementoInputRef, payload.complemento);
     }).finally(() => {
       setCarregandoCep(false);
     });
