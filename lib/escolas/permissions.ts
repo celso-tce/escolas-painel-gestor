@@ -66,7 +66,7 @@ export const defaultPermissionInfoMap: PermissionDescriptionMap = {
     description: `Alterar o Status de uma Ocorrência para "Aguardando Gestor"`
   },
   LISTAR_OCORRENCIAS_AGUARDANDO_GESTOR : {
-    label: `Encaminhar Ocorrências com Status "Aguardando Gestor"`,
+    label: `Listar Ocorrências com Status "Aguardando Gestor"`,
   },
   RESPONDER_OCORRENCIA_AGUARDANDO_GESTOR : {
     label: `Responder Ocorrências com Status "Aguardando Gestor"`,

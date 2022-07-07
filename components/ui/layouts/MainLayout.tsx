@@ -35,7 +35,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
       />
-      <title>Storage Admin {props.currentPage && (' | ' + props.currentPage)}</title>
+      <title>TCE nas Escolas {props.currentPage && (' | ' + props.currentPage)}</title>
     </Head>
 
     <div className="relative md:ml-64 bg-slate-200 min-h-screen">
