@@ -1,41 +1,65 @@
 import React from 'react';
 
 export type SimpleTableHeaderData = {
-  classes?: string;
   label: string;
+  classes?: string;
 };
 
 export type SimpleTableCol = {
-  classes?: string;
   content: React.ReactNode;
+  classes?: string;
+  title?: string;
 };
 
 export type SimpleTableRow = {
-  classes?: string;
   cols: SimpleTableCol[];
+  classes?: string;
 };
 
 type SimpleTableProps = {
   headerClasses?: string;
+  overrideHeaderClasses?: string;
   tableClasses?: string;
+  overrideTableClasses?: string;
   rowClasses?: string;
+  overrideRowClasses?: string;
   colClasses?: string;
+  overrideColClasses?: string;
   header?: Array<SimpleTableHeaderData>;
   rows: SimpleTableRow[];
 };
 
-const SimpleTable: React.FC<SimpleTableProps> = (props) => {
-  const { header, rows, headerClasses, rowClasses, colClasses, tableClasses } = props;
-  const extraCss = tableClasses ?? '';
+const SimpleTable: React.FC<SimpleTableProps> = ({
+  header,
+  rows,
+  headerClasses,
+  overrideHeaderClasses,
+  rowClasses,
+  overrideRowClasses,
+  colClasses,
+  overrideColClasses,
+  tableClasses,
+  overrideTableClasses,
+}) => {
+  const tableCss = overrideTableClasses ?? 'items-center w-full bg-white border-collapse';
+  const colCss = overrideColClasses ?? 'px-6 py-3 align-middle whitespace-nowrap text-slate-700';
+  const rowCss = overrideRowClasses ?? '';
+  const headerCss = overrideHeaderClasses ?? 'px-6 py-3 align-middle border border-solid' +
+    ' uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-slate-50' +
+    ' text-slate-500 border-slate-100';
 
   return (
     <div className="max-w-full overflow-x-auto">
-      <table className={`items-center w-full bg-white border-collapse ${extraCss}`}>
+      <table className={`${tableCss} ${tableClasses ?? ''}`}>
         {header && (
           <thead>
             <tr>
               {header.map((item, index) => (
-                <th key={index} className={`px-6 py-3 align-middle border border-solid uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-slate-50 text-slate-500 border-slate-100 ${headerClasses ?? ''} ${item.classes ?? ''}`}>
+                <th
+                  key={index}
+                  className={`${headerCss} ${headerClasses ?? ''}
+                    ${item.classes ?? ''}`}
+                >
                   {item.label}
                 </th>
               ))}
@@ -44,9 +68,13 @@ const SimpleTable: React.FC<SimpleTableProps> = (props) => {
         )}
         <tbody>
           {rows.map((row, index) => (
-            <tr key={index} className={`${rowClasses ?? ''} ${row.classes ?? ''}`}>
+            <tr key={index} className={`${rowCss} ${rowClasses ?? ''} ${row.classes ?? ''}`}>
               {row.cols.map((col, index) => (
-                <td key={index} className={`border-t-0 px-6 py-3 align-middle border-l-0 border-r-0 whitespace-nowrap text-slate-700 ${colClasses ?? ''} ${col.classes ?? ''}`}>
+                <td
+                  key={index}
+                  className={`${colCss ?? ''} ${colClasses} ${col.classes ?? ''}`}
+                  title={col.title}
+                >
                   {col.content}
                 </td>
               ))}
