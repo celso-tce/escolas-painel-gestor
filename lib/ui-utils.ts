@@ -1,5 +1,5 @@
 import { EscolaTipo, UserRole } from "escolas-shared";
-import { escolaTipos, userRoles } from "./types";
+import { escolaTipos, userRoles } from "./escolas/enums";
 import { Utils } from "./utils";
 
 function assignToInputRef(ref: React.RefObject<HTMLInputElement>, value: string) {
