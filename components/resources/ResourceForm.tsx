@@ -6,23 +6,23 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { BasicModel } from "../../lib/types";
 
-export type BasicResourceFormProps<TModel extends BasicModel, TFormData extends {}> = {
+export type BasicResourceFormProps<TModel extends BasicModel, TFormData> = {
   editResource: TModel | null;
   onCancelar: () => void;
   onSubmit: (formData: TFormData) => void;
 };
 
-export type ExtraResourceFormProps<TModel extends BasicModel, TFormData extends {}> = {
+export type ExtraResourceFormProps<TModel extends BasicModel, TFormData> = {
   camposObrigatorios: CampoObrigatorioMap<TFormData>;
   formContent: React.ReactNode;
   /// retorno de string = erro (onde a string é a mensagem para mostrar)
   generateFormData: (parsedValues: Record<string, string>) => TFormData | string;
 };
 
-export type ResourceFormProps<TModel extends BasicModel, TFormData extends {}> =
+export type ResourceFormProps<TModel extends BasicModel, TFormData> =
   BasicResourceFormProps<TModel, TFormData> & ExtraResourceFormProps<TModel, TFormData>;
 
-function ResourceForm<TModel extends BasicModel, TFormData extends {}>({
+function ResourceForm<TModel extends BasicModel, TFormData>({
   editResource,
   onCancelar,
   onSubmit,

@@ -1,12 +1,13 @@
 import React from 'react';
 
-type ButtonProps = {
+export type ButtonProps = {
   children: React.ReactNode;
   color?: 'primary' | 'success' | 'info' | 'danger';
   onClick?: () => void;
   noPadding?: boolean;
   disabled?: boolean;
   className?: string;
+  title?: string;
 };
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -41,6 +42,7 @@ const Button: React.FC<ButtonProps> = (props) => {
         }
       }}
       disabled={props.disabled}
+      title={props.title}
     >
       {props.children}
     </button>

@@ -51,6 +51,14 @@ const userRoleOptions: UserRoleOptionType[] = [
   )),
 ];
 
+function limitText(text: string, length: number, ellipsis = '...'): string {
+  if (text.length <= length)
+    return text;
+
+  // TODO limit mais inteligente para não cortar alguma palavra pela metade etc
+  return text.substring(0, length) + ellipsis;
+}
+
 export const ReactUtils = {
   assignToInputRef,
 };
@@ -59,4 +67,8 @@ export const SelectUtils = {
   escolaStatusOptions,
   escolaTipoOptions,
   userRoleOptions,
+};
+
+export const UiUtils = {
+  limitText,
 };

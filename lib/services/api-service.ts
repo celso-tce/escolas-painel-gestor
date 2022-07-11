@@ -1,4 +1,4 @@
-import { Categoria, Escola, User } from "escolas-shared";
+import { Categoria, Escola, Ocorrencia, User } from "escolas-shared";
 import { AsyncHttpResult } from "../types";
 import { API_BASE_PATH, Utils } from "../utils";
 
@@ -17,6 +17,8 @@ export interface ApiService {
   createUser(data: CreateUserDto): AsyncHttpResult<void>;
   updateUser(id: number, data: Partial<CreateUserDto>): AsyncHttpResult<User>;
   deleteUser(id: number): AsyncHttpResult<void>;
+
+  getNovasOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
 }
 
 export const defaultApiService: ApiService = {
@@ -40,6 +42,8 @@ export const defaultApiService: ApiService = {
     return Utils.fetchHelper('PATCH', API_BASE_PATH + `/users/${id}`, realData);
   },
   deleteUser: (id) => Utils.fetchHelper('DELETE', API_BASE_PATH + `/users/${id}`),
+
+  getNovasOcorrencias: () => Utils.fetchHelper('GET', API_BASE_PATH + '/simulate/novas-ocorrencias'),
 };
 
 export type CreateEscolaDto = {

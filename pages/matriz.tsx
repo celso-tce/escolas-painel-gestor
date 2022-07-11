@@ -5,7 +5,6 @@ import { defaultPermissionMatrix } from "../lib/escolas/permissions";
 
 type MatrizPageProps = {};
 
-
 const MatrizPage: React.FC<MatrizPageProps> = (props) => {
   return (
     <MainLayout currentPage="Matriz de Permissões">

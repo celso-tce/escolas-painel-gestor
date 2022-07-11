@@ -8,9 +8,9 @@ import { BasicResourceTableProps } from "./ResourceTable";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { AsyncHttpResult, BasicModel } from "../../lib/types";
-import ResourceForm, { BasicResourceFormProps } from "./ResourceForm";
+import { BasicResourceFormProps } from "./ResourceForm";
 
-type ResourcesPageProps<TModel extends BasicModel, TFormData extends {}> = {
+type ResourcesPageProps<TModel extends BasicModel, TFormData> = {
   serviceProvider: {
     getResources: () => AsyncHttpResult<TModel[]>;
     createResource: (data: TFormData) => AsyncHttpResult<void>;
@@ -25,7 +25,7 @@ type ResourcesPageProps<TModel extends BasicModel, TFormData extends {}> = {
   buildForm: (props: BasicResourceFormProps<TModel, TFormData>) => React.ReactNode;
 };
 
-function ResourcesPage<TModel extends BasicModel, TFormData extends {}>({
+function ResourcesPage<TModel extends BasicModel, TFormData>({
   serviceProvider,
   labelSingular,
   labelPlural,

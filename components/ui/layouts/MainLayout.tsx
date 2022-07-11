@@ -1,4 +1,4 @@
-import { faHome, faUsers, faSchool, faListAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUsers, faSchool, faListAlt, faBell } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
 import React from 'react';
 import FooterAdmin from '../footers/FooterAdmin';
@@ -29,25 +29,51 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
         ],
       },
       {
-        label: 'Teste',
+        label: 'Atividades',
         items: [
           {
-            url: '/foo-ouvidoria',
-            label: 'Foo Ouvidoria',
+            url: '/ocorrencias/novas',
+            label: 'Novas Ocorrências',
+            icon: faBell,
             roles: ['OUVIDORIA'],
           },
           {
-            url: '/foo-inspetoria',
-            label: 'Foo Inspetoria',
+            url: '/ocorrencias/em-analise',
+            label: 'Ocorrências em Análise',
+            icon: faBell,
             roles: ['INSPETORIA'],
           },
           {
-            url: '/foo-gestor',
-            label: 'Foo Gestor',
+            url: '/ocorrencias/recebidas',
+            label: 'Ocorrências Recebidas',
+            icon: faBell,
             roles: ['GESTOR'],
+          },
+          {
+            url: '/ocorrencias/solicitacoes-prorrogacao',
+            label: 'Solicitações de Prorrogação',
+            icon: faBell,
+            roles: ['INSPETORIA'],
           },
         ],
       },
+      {
+        label: 'Registro',
+        items: [
+          {
+            url: '/ocorrencias/solucionadas',
+            label: 'Ocorrências Solucionadas',
+            icon: faBell,
+            roles: [],
+          },
+          {
+            url: '/ocorrencias/canceladas',
+            label: 'Ocorrências Canceladas',
+            icon: faBell,
+            roles: ['OUVIDORIA'],
+          },
+        ],
+      }
     ]} />
 
     <Head>

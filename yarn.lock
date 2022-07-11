@@ -482,6 +482,11 @@
   "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.182.tgz"
   "version" "4.14.182"
 
+"@types/luxon@^2.3.2":
+  "integrity" "sha512-WOehptuhKIXukSUUkRgGbj2c997Uv/iUgYgII8U7XLJqq9W2oF0kQ6frEznRQbdurioz+L/cdaIm4GutTQfgmA=="
+  "resolved" "https://registry.npmjs.org/@types/luxon/-/luxon-2.3.2.tgz"
+  "version" "2.3.2"
+
 "@types/node@17.0.42":
   "integrity" "sha512-Q5BPGyGKcvQgAMbsr7qEGN/kIPN6zZecYYABeTDBizOsau+2NMdSVTar9UQw21A2+JyA2KRNDYaYrPB0Rpk2oQ=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-17.0.42.tgz"
@@ -1226,7 +1231,7 @@
   "version" "4.0.0"
 
 "escolas-shared@github:TCE-AMAPA/escolas-shared":
-  "resolved" "git+ssh://git@github.com/TCE-AMAPA/escolas-shared.git#03a4ad64160cf474ebec9bbf81a309baa7cc1acc"
+  "resolved" "git+ssh://git@github.com/TCE-AMAPA/escolas-shared.git#8a2834d9fe8b7162dd44224e53d374fc31b13a67"
   "version" "9.3.0"
   dependencies:
     "@prisma/client" "^4.0.0"
@@ -1981,6 +1986,11 @@
   "version" "6.0.0"
   dependencies:
     "yallist" "^4.0.0"
+
+"luxon@^3.0.1":
+  "integrity" "sha512-hF3kv0e5gwHQZKz4wtm4c+inDtyc7elkanAsBq+fundaCdUBNJB1dHEGUZIM6SfSBUlbVFduPwEtNjFK8wLtcw=="
+  "resolved" "https://registry.npmjs.org/luxon/-/luxon-3.0.1.tgz"
+  "version" "3.0.1"
 
 "mdn-data@2.0.14":
   "integrity" "sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow=="

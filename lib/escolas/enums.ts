@@ -1,4 +1,4 @@
-import { EscolaTipo, UserRole } from "escolas-shared";
+import { EscolaTipo, StatusOcorrencia, UserRole } from "escolas-shared";
 
 export const escolaTipos: EscolaTipo[] = [
   'MUNICIPAL',
@@ -11,4 +11,15 @@ export const userRoles: UserRole[] = [
   'OUVIDORIA',
   'INSPETORIA',
   'GESTOR',
+];
+
+export const statusOcorrencia: string[] = [
+  "RECEBIDO",
+  "CANCELADO",
+  "EM ANALISE",
+  "AGUARDANDO GESTOR",
+  "SOLICITANDO PRORROGACAO",
+  "RESPONDIDO",
+  "SOLUCIONADO INSPECAO",
+  "SOLUCIONADO",
 ];

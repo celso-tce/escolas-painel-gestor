@@ -4,6 +4,9 @@ import type { AppProps } from 'next/app';
 import { defaultApiService } from '../lib/services/api-service';
 import { defaultCEPService } from "../lib/services/cep-service";
 import { debugUserService, UserService } from "../lib/services/user-service";
+import { Settings as LuxonSettings } from "luxon";
+
+LuxonSettings.defaultLocale = "pt-BR";
 
 export const ApiServiceContext = React.createContext(defaultApiService);
 export const CEPServiceContext = React.createContext(defaultCEPService);
