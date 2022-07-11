@@ -28,6 +28,26 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
           { url: '/users', label: 'Usuários', icon: faUsers },
         ],
       },
+      {
+        label: 'Teste',
+        items: [
+          {
+            url: '/foo-ouvidoria',
+            label: 'Foo Ouvidoria',
+            roles: ['OUVIDORIA'],
+          },
+          {
+            url: '/foo-inspetoria',
+            label: 'Foo Inspetoria',
+            roles: ['INSPETORIA'],
+          },
+          {
+            url: '/foo-gestor',
+            label: 'Foo Gestor',
+            roles: ['GESTOR'],
+          },
+        ],
+      },
     ]} />
 
     <Head>

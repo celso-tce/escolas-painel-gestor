@@ -4,6 +4,9 @@ import Link from 'next/link';
 import React from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { UserRole } from "escolas-shared";
+import { UserServiceContext } from "../../../pages/_app";
+import { User } from "../../../lib/services/user-service";
 
 type SidebarProps = {
   projectTitle: string;
@@ -16,6 +19,7 @@ type NavbarGroup = {
     icon?: IconProp;
     label: string;
     url: string;
+    roles?: UserRole[];
   }>;
 };
 
@@ -25,9 +29,36 @@ const bgColor = 'bg-white';
 const dark = false;
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-  const { projectTitle, navbarGroups } = props;
+  const { projectTitle, navbarGroups: _navbarGroups } = props;
+
   const [collapseShow, setCollapseShow] = React.useState('hidden');
+  const [user, setUser] = React.useState<User | null>();
+
   const router = useRouter();
+
+  const userService = React.useContext(UserServiceContext);
+
+  React.useEffect(() => {
+    setUser(userService.loadUser());
+  }, [userService]);
+
+  const navbarGroups = React.useMemo(() => {
+    if (!user)
+      return null;
+
+    return _navbarGroups.map((navbarGroup) => {
+      return {
+        ...navbarGroup,
+        items: navbarGroup.items.filter((item) => {
+          return user.role === 'ADMIN'
+            || item.roles === undefined
+            || item.roles.includes(user.role);
+        }),
+      };
+    }).filter((navbarGroup) => {
+      return navbarGroup.items.length > 0;
+    });
+  }, [user, userService]);
 
   const collapseHeader = (
     // <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-slate-200">
@@ -59,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   );
 
   const navigations = (<>
-    {navbarGroups.map((group, index) => {
+    {navbarGroups && navbarGroups.map((group, index) => {
       return <_NavigationGroup key={index} router={router} navbarGroup={group} />;
     })}
   </>);
