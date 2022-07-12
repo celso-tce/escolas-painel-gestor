@@ -5,6 +5,7 @@ import Button from "../../ui/buttons/Button";
 import OcorrenciasTable, { OcorrenciasTableProps } from "../ocorrencias-table";
 import OcorrenciaDetalhes from "../ocorrencia-detalhes";
 import { ConfirmSwalDialog } from "../../../lib/types";
+import Switch from "../../ui/Switch";
 
 type FormVincularOcorrenciaProps = {
   ocorrencia: Ocorrencia;
@@ -23,7 +24,8 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
   loadCategoriaTitulo,
   showConfirmSwalDialog,
 }) => {
-  const [ocorrenciaOpcoes, setOcorrenciaOpcoes] = React.useState<Ocorrencia[]>();
+  const [filterCategoria, setFilterCategoria] = React.useState<boolean>(false);
+  const [_ocorrenciaOpcoes, setOcorrenciaOpcoes] = React.useState<Ocorrencia[]>();
   const [selected, setSelected] = React.useState<Ocorrencia>();
 
   const apiService = React.useContext(ApiServiceContext);
@@ -40,6 +42,16 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
       });
   }, []);
 
+  const ocorrenciaOpcoes = React.useMemo(() => {
+    if (_ocorrenciaOpcoes === undefined)
+      return undefined;
+
+    if (!filterCategoria)
+      return _ocorrenciaOpcoes;
+
+    return _ocorrenciaOpcoes.filter((oco) => oco.categoriaId === ocorrencia.categoriaId);
+  }, [_ocorrenciaOpcoes, filterCategoria]);
+
   if (ocorrenciaOpcoes === undefined) {
     return (
       <div>Carregando opções...</div>
@@ -49,21 +61,37 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
   const content = selected
     ? <OcorrenciaDetalhes ocorrencia={ocorrencia} />
     : (
-      <div className="border border-slate-300">
-        <OcorrenciasTable
-          ocorrencias={ocorrenciaOpcoes}
-          showColumns={['descricao', 'categoria', 'status', 'criadoEm', 'operacoes']}
-          operacoes={[
-            {
-              name: 'Vincular',
-              text: true,
-              color: 'info',
-              onClick: setSelected,
-            }
-          ]}
-          loadEscolaNome={loadEscolaNome}
-          loadCategoriaTitulo={loadCategoriaTitulo}
-        />
+      <div>
+        <div className="mb-2 flex items-center">
+          <Switch
+            htmlId="i-filter-categoria"
+            checked={filterCategoria}
+            onToggle={() => setFilterCategoria(!filterCategoria)}
+          />
+          <label
+            className="text-slate-600 text-xs ml-1"
+            htmlFor="i-filter-categoria"
+          >
+            Mostrar apenas com a mesma categoria
+          </label>
+        </div>
+
+        <div className="border border-slate-300">
+          <OcorrenciasTable
+            ocorrencias={ocorrenciaOpcoes}
+            showColumns={['descricao', 'categoria', 'status', 'criadoEm', 'operacoes']}
+            operacoes={[
+              {
+                name: 'Vincular',
+                text: true,
+                color: 'info',
+                onClick: setSelected,
+              }
+            ]}
+            loadEscolaNome={loadEscolaNome}
+            loadCategoriaTitulo={loadCategoriaTitulo}
+          />
+        </div>
       </div>
     );
 

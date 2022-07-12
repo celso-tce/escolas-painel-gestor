@@ -2,7 +2,7 @@ import React from 'react';
 import type { NextPage } from 'next';
 import { ApiServiceContext } from "../_app";
 import MainLayout from "../../components/ui/layouts/MainLayout";
-import { Ocorrencia } from "escolas-shared";
+import { Categoria, Escola, Ocorrencia } from "escolas-shared";
 import Spinkit from "../../components/ui/Spinkit";
 import OcorrenciasTable from "../../components/ocorrencias/ocorrencias-table";
 import CardSettings from "../../components/ui/cards/CardSettings";
@@ -16,6 +16,9 @@ import FormNovaOcorrencia from "../../components/ocorrencias/forms/form-nova-oco
 
 const NovasPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
+  const [categoriasTitulos, setCategoriasTitulos] = React.useState<Categoria[]>();
+  const [escolasNomes, setEscolasNomes] = React.useState<Escola[]>();
+
   const [visualizarOcorrencia, setVisualizarOcorrencia] = React.useState<Ocorrencia>();
   const [prosseguirOcorrencia, setProsseguirOcorrencia] = React.useState<Ocorrencia>();
   const [editarTituloOcorrencia, setEditarTituloOcorrencia] = React.useState<Ocorrencia>();
@@ -35,9 +38,33 @@ const NovasPage: NextPage = () => {
     });
   }, [apiService]);
 
+  const loadCategoriasTitulos = React.useCallback(() => {
+    apiService.getCategoriasTitulos().then((result) => {
+      if (result.type === 'error') {
+        // TODO handle error
+        return;
+      }
+
+      setCategoriasTitulos(result.payload);
+    });
+  }, [apiService]);
+
+  const loadEscolasNomes = React.useCallback(() => {
+    apiService.getEscolasNomes().then((result) => {
+      if (result.type === 'error') {
+        // TODO handle error
+        return;
+      }
+
+      setEscolasNomes(result.payload);
+    });
+  }, [apiService]);
+
   React.useEffect(() => {
     loadOcorrencias();
-  }, [loadOcorrencias]);
+    loadCategoriasTitulos();
+    loadEscolasNomes();
+  }, [loadOcorrencias, loadCategoriasTitulos, loadEscolasNomes]);
 
   const onFinishForm = React.useCallback((err: any) => {
     if (err) {
@@ -57,15 +84,23 @@ const NovasPage: NextPage = () => {
   }, [loadOcorrencias]);
 
   const loadEscolaNome = React.useCallback(async (escolaId: number) => {
-    return 'Foo escola!';
-  }, []);
+    if (escolasNomes === undefined)
+      return 'Erro'; // Impossível de acontecer. Usado apeans para type-checking
+
+    return escolasNomes.find((esc) => esc.id === escolaId)?.nome
+      ?? '(ESCOLA NÃO ENCONTRADA)';
+  }, [escolasNomes]);
 
   const loadCategoriaTitulo = React.useCallback(async (categoriaId: number) => {
-    return 'Foo categoria!';
-  }, []);
+    if (categoriasTitulos === undefined)
+      return 'Erro'; // Impossível de acontecer. Usado apeans para type-checking
+
+    return categoriasTitulos.find((cat) => cat.id === categoriaId)?.titulo
+      ?? '(CATEGORIA NÃO ENCONTRADA)';
+  }, [categoriasTitulos]);
 
   const table = React.useMemo(() => {
-    if (ocorrencias === undefined) {
+    if (ocorrencias === undefined || categoriasTitulos === undefined || escolasNomes === undefined) {
       return (
         <div className="flex flex-col items-center my-2 text-slate-700">
           <Spinkit type="wave" color="var(--color-blue-400)" dots={5} />
@@ -96,7 +131,7 @@ const NovasPage: NextPage = () => {
         loadCategoriaTitulo={loadCategoriaTitulo}
       />
     );
-  }, [ocorrencias, loadEscolaNome]);
+  }, [ocorrencias, categoriasTitulos, escolasNomes, loadEscolaNome, loadCategoriaTitulo]);
 
   const content = (
     <div>

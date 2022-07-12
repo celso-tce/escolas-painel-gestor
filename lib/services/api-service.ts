@@ -4,11 +4,13 @@ import { API_BASE_PATH, Utils } from "../utils";
 
 export interface ApiService {
   getEscolas(): AsyncHttpResult<Escola[]>;
+  getEscolasNomes(): AsyncHttpResult<Escola[]>;
   createEscola(data: CreateEscolaDto): AsyncHttpResult<void>;
   updateEscola(id: number, data: Partial<CreateEscolaDto>): AsyncHttpResult<Escola>;
   deleteEscola(id: number): AsyncHttpResult<void>;
 
   getCategorias(): AsyncHttpResult<Categoria[]>;
+  getCategoriasTitulos(): AsyncHttpResult<Categoria[]>;
   createCategoria(data: CreateCategoriaDto): AsyncHttpResult<void>;
   updateCategoria(id: number, data: Partial<CreateCategoriaDto>): AsyncHttpResult<Categoria>;
   deleteCategoria(id: number): AsyncHttpResult<void>;
@@ -27,11 +29,13 @@ export interface ApiService {
 
 export const defaultApiService: ApiService = {
   getEscolas: () => Utils.fetchApi('GET', '/escolas'),
+  getEscolasNomes: () => Utils.fetchApi('GET', '/escolas?nomes'),
   createEscola: (data) => Utils.fetchApi('POST', '/escolas', data),
   updateEscola: (id, data) => Utils.fetchApi('PATCH', `/escolas/${id}`, data),
   deleteEscola: (id) => Utils.fetchApi('DELETE', `/escolas/${id}`),
 
   getCategorias: () => Utils.fetchApi('GET', '/categorias'),
+  getCategoriasTitulos: () => Utils.fetchApi('GET', '/categorias?titulos'),
   createCategoria: (data) => Utils.fetchApi('POST', '/categorias', data),
   updateCategoria: (id, data) => Utils.fetchApi('PATCH', `/categorias/${id}`, data),
   deleteCategoria: (id) => Utils.fetchApi('DELETE', `/categorias/${id}`),
