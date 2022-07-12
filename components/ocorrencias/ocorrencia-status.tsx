@@ -1,32 +1,37 @@
-import { StatusOcorrencia } from "escolas-shared/dist/common";
+import { displayStatusOcorrencia, StatusOcorrencia } from "escolas-shared/dist/common";
 import React from 'react';
 
 type OcorrenciaStatusProps = {
   status: string;
+  className?: string;
 };
 
 const statusClasses: Record<keyof typeof StatusOcorrencia, string> = {
-  Recebido: 'text-blue-500 font-bold',
-  Cancelado: 'text-slate-700',
-  EmAnalise: 'text-slate-700',
-  AguardandoGestor: 'text-slate-700',
-  SolicitandoProrrogacao: 'text-slate-700',
-  Respondido: 'text-slate-700',
-  SolucionadoInspecao: 'text-slate-700',
-  Solucionado: 'text-slate-700',
+  Recebido: 'text-blue-500',
+  Cancelado: 'text-red-600',
+  EmAnalise: 'text-cyan-600',
+  AguardandoGestor: 'text-amber-600',
+  SolicitandoProrrogacao: 'text-pink-700',
+  Respondido: 'text-sky-700',
+  SolucionadoInspecao: 'text-green-700 italic',
+  Solucionado: 'text-green-700',
 };
 
-const OcorrenciaStatus: React.FC<OcorrenciaStatusProps> = ({ status }) => {
+const OcorrenciaStatus: React.FC<OcorrenciaStatusProps> = ({ status, className }) => {
   const statusKey = Object.entries(StatusOcorrencia)
     .find(([key, value]) => value === status)?.[0];
 
   const css = statusKey
     ? statusClasses[statusKey as keyof typeof StatusOcorrencia]
-    : 'bg-gray-200';
+    : 'text-gray-600';
+
+  const extraCss = className ?? '';
 
   return (
-    <span className={`rounded ${css}`}>
-      {status}
+    <span className={`rounded ${css} ${extraCss}`}>
+      { statusKey
+        ? displayStatusOcorrencia[statusKey as keyof typeof StatusOcorrencia]
+        : status}
     </span>
   );
 };

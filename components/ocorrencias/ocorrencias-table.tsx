@@ -123,6 +123,8 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
           </div>
         );
 
+        const status = <OcorrenciaStatus status={ocorrencia.status} className="font-bold" />;
+
         const createdAt = columnCriadoEm && (
           <div>
             <DateText date={new Date(ocorrencia.createdAt)} />
@@ -153,7 +155,7 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
             columnDescricao && { content: descricao, classes: '' },
             columnEscola && { content: escola },
             columnCategoria && { content: categoria },
-            columnStatus && { content: <OcorrenciaStatus status={ocorrencia.status} /> },
+            columnStatus && { content: status },
             columnCriadoEm && { content: createdAt },
             columnOperacoes && { content: operacoesDiv },
           ].filter((c) => c !== false) as SimpleTableCol[],

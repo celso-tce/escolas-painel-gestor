@@ -4,11 +4,17 @@ type CardSettingsProps = {
   header?: string;
   children: React.ReactNode;
   headerEnd?: React.ReactNode;
+  className?: string;
 };
 
 const CardSettings: React.FC<CardSettingsProps> = (props) => {
+  const extraCss = props.className ?? '';
+
   return (<>
-    <div className="flex flex-col min-w-0 break-words w-full mb-6 shadow-md rounded-lg bg-slate-100 border-0">
+    <div
+      className={`flex flex-col min-w-0 break-words w-full mb-6 shadow-md rounded-lg
+        bg-slate-100 border-0 ${extraCss}`}
+    >
       {props.header && (
         <div className="rounded-t bg-white mb-0 px-4 py-4">
           <div className="text-center flex justify-between">

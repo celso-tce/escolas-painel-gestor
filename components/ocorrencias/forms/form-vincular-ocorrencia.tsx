@@ -6,6 +6,8 @@ import OcorrenciasTable, { OcorrenciasTableProps } from "../ocorrencias-table";
 import OcorrenciaDetalhes from "../ocorrencia-detalhes";
 import { ConfirmSwalDialog } from "../../../lib/types";
 import Switch from "../../ui/Switch";
+import Label from "../../ui/inputs/Label";
+import ReactSelect from "react-select";
 
 type FormVincularOcorrenciaProps = {
   ocorrencia: Ocorrencia;
@@ -61,7 +63,15 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
   const content = selected
     ? <OcorrenciaDetalhes ocorrencia={ocorrencia} />
     : (
-      <div>
+      <div className="mt-2">
+        {/* TODO */}
+        {/*<div className="mb-4 flex flex-col items-start">
+          <Label htmlFor="i-filter-status" label="Filtrar Status" />
+          <ReactSelect
+            //
+          />
+        </div>*/}
+
         <div className="mb-2 flex items-center">
           <Switch
             htmlId="i-filter-categoria"
@@ -74,6 +84,10 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
           >
             Mostrar apenas com a mesma categoria
           </label>
+        </div>
+
+        <div className="mb-1 text-slate-400 text-xs">
+          Selecione a ocorrência a qual deseja vincular e clique em "Vincular"
         </div>
 
         <div className="border border-slate-300">
