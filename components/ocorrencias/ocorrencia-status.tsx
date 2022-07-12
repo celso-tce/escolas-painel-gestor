@@ -6,14 +6,14 @@ type OcorrenciaStatusProps = {
 };
 
 const statusClasses: Record<keyof typeof StatusOcorrencia, string> = {
-  Recebido: 'text-white bg-blue-500',
-  Cancelado: 'text-white',
-  EmAnalise: 'text-white',
-  AguardandoGestor: 'text-white',
-  SolicitandoProrrogacao: 'text-white',
-  Respondido: 'text-white',
-  SolucionadoInspecao: 'text-white',
-  Solucionado: 'text-white',
+  Recebido: 'text-blue-500 font-bold',
+  Cancelado: 'text-slate-600',
+  EmAnalise: 'text-slate-600',
+  AguardandoGestor: 'text-slate-600',
+  SolicitandoProrrogacao: 'text-slate-600',
+  Respondido: 'text-slate-600',
+  SolucionadoInspecao: 'text-slate-600',
+  Solucionado: 'text-slate-600',
 };
 
 const OcorrenciaStatus: React.FC<OcorrenciaStatusProps> = ({ status }) => {
@@ -25,7 +25,7 @@ const OcorrenciaStatus: React.FC<OcorrenciaStatusProps> = ({ status }) => {
     : 'bg-gray-200';
 
   return (
-    <span className={`px-2 py-1 rounded ${css}`}>
+    <span className={`rounded ${css}`}>
       {status}
     </span>
   );

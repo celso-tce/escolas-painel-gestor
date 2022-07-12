@@ -42,9 +42,9 @@ const SimpleTable: React.FC<SimpleTableProps> = ({
   overrideTableClasses,
 }) => {
   const tableCss = overrideTableClasses ?? 'items-center w-full bg-white border-collapse';
-  const colCss = overrideColClasses ?? 'px-6 py-3 align-middle whitespace-nowrap text-slate-700';
+  const colCss = overrideColClasses ?? 'px-4 py-2 align-middle whitespace-nowrap text-slate-700';
   const rowCss = overrideRowClasses ?? '';
-  const headerCss = overrideHeaderClasses ?? 'px-6 py-3 align-middle border border-solid' +
+  const headerCss = overrideHeaderClasses ?? 'px-4 py-2 align-middle border border-solid' +
     ' uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-slate-50' +
     ' text-slate-500 border-slate-100';
 

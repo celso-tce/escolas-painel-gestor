@@ -16,3 +16,10 @@ export type HttpResult<T> = {
 export type AsyncHttpResult<T> = Promise<HttpResult<T>>;
 
 export type BasicModel = { id: number };
+
+export type ConfirmSwalDialog = {
+  title?: string;
+  text?: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+};

@@ -9,7 +9,7 @@ const OcorrenciaDetalhes: React.FC<OcorrenciaDetalhesProps> = ({
   ocorrencia,
 }) => {
   return (
-    <div>
+    <div className="break-words">
       {JSON.stringify(ocorrencia)}
     </div>
   );

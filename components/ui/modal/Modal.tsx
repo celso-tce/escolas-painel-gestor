@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProps> = (props) => {
         <div
           className={`inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg mb-6
             text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl
-            text-slate-700 sm:w-full ${props.noOverflowHidden ? '' : 'overflow-hidden'}`}
+            text-slate-700 w-full ${props.noOverflowHidden ? '' : 'overflow-hidden'}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"

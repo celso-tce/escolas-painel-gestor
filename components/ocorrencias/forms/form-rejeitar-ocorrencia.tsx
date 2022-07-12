@@ -7,13 +7,13 @@ import FormSection from "../../ui/forms/FormSection";
 import Input from "../../ui/inputs/Input";
 import Label from "../../ui/inputs/Label";
 
-type FormEditarTituloProps = {
+type FormRejeitarOcorrenciaProps = {
   ocorrencia: Ocorrencia;
   onFinish: (error?: any) => void;
   onClose: () => void;
 };
 
-const FormEditarTitulo: React.FC<FormEditarTituloProps> = ({
+const FormRejeitarOcorrencia: React.FC<FormRejeitarOcorrenciaProps> = ({
   ocorrencia,
   onFinish,
   onClose,
@@ -27,11 +27,11 @@ const FormEditarTitulo: React.FC<FormEditarTituloProps> = ({
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const fieldValues = Object.fromEntries(formData.entries());
-        const { titulo } = fieldValues;
+        const { motivo } = fieldValues;
 
-        apiService.editarTituloOcorrencia({
+        apiService.rejeitarOcorrencia({
           ocorrenciaId: ocorrencia.id,
-          titulo: titulo.toString(),
+          motivo: motivo.toString(),
         }).then(() => {
           onFinish();
         }).catch((err) => {
@@ -40,23 +40,16 @@ const FormEditarTitulo: React.FC<FormEditarTituloProps> = ({
       }}
     >
       <FormSection className="w-full lg:w-8/12 pr-4 mb-4">
-        <Label label="Novo Título" htmlFor="i-novo-titulo" />
-        <Input
-          htmlId="i-novo-titulo"
-          name="titulo"
-          defaultValue={ocorrencia.titulo ?? ''}
-          required
-        />
+        <Label htmlFor="i-motivo" label="Motivo" />
+        <Input htmlId="i-motivo" name="motivo" required />
       </FormSection>
 
-      <Button
-        className="lg:w-4/12 mb-4"
-        color="success"
-      >
-        Salvar
-      </Button>
+      <div className="flex lg:w-4/12 mb-4">
+        <Button className="grow mr-1" color="danger">Rejeitar</Button>
+        <Button className="grow" onClick={onClose}>Cancelar</Button>
+      </div>
     </Form>
   );
 };
 
-export default React.memo(FormEditarTitulo);
+export default React.memo(FormRejeitarOcorrencia);

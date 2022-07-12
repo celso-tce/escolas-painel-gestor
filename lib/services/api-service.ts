@@ -20,6 +20,9 @@ export interface ApiService {
 
   getNovasOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
   editarTituloOcorrencia(args: { ocorrenciaId: number, titulo: string }): AsyncHttpResult<void>;
+  rejeitarOcorrencia(args: { ocorrenciaId: number, motivo: string }): AsyncHttpResult<void>;
+  aprovarOcorrencia(args: { ocorrenciaId: number }): AsyncHttpResult<void>;
+  listarOcorrenciasVinculaveis(id: number): AsyncHttpResult<Ocorrencia[]>;
 }
 
 export const defaultApiService: ApiService = {
@@ -46,6 +49,9 @@ export const defaultApiService: ApiService = {
 
   getNovasOcorrencias: () => Utils.fetchApi('GET', '/simulate/novas-ocorrencias'),
   editarTituloOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/editar-titulo-ocorrencia', args),
+  rejeitarOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/rejeitar-ocorrencia', args),
+  aprovarOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/aprovar-ocorrencia', args),
+  listarOcorrenciasVinculaveis: (id) => Utils.fetchApi('GET', `/simulate/listar-ocorrencias-vinculaveis/${id}`),
 };
 
 export type CreateEscolaDto = {
