@@ -93,7 +93,7 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
         <div className="border border-slate-300">
           <OcorrenciasTable
             ocorrencias={ocorrenciaOpcoes}
-            showColumns={['descricao', 'categoria', 'status', 'criadoEm', 'operacoes']}
+            showColumns={['id', 'descricao', 'categoria', 'status', 'criadoEm', 'operacoes']}
             operacoes={[
               {
                 name: 'Vincular',

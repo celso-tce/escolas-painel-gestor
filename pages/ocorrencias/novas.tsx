@@ -6,13 +6,14 @@ import { Categoria, Escola, Ocorrencia } from "escolas-shared";
 import Spinkit from "../../components/ui/Spinkit";
 import OcorrenciasTable from "../../components/ocorrencias/ocorrencias-table";
 import CardSettings from "../../components/ui/cards/CardSettings";
-import { faEye, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faPlay, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../components/ui/modal/Modal";
 import OcorrenciaDetalhes from "../../components/ocorrencias/ocorrencia-detalhes";
 import FormEditarTitulo from "../../components/ocorrencias/forms/form-editar-titulo";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import FormNovaOcorrencia from "../../components/ocorrencias/forms/form-nova-ocorrencia";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NovasPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
@@ -141,6 +142,22 @@ const NovasPage: NextPage = () => {
     </div>
   );
 
+  const refreshDiv = (
+    <a
+      className={ocorrencias === undefined ? 'text-slate-200' : 'text-slate-600'}
+      href=""
+      onClick={(e) => {
+        e.preventDefault();
+        if (ocorrencias !== undefined) {
+          setOcorrencias(undefined);
+          loadOcorrencias();
+        }
+      }}
+    >
+      <FontAwesomeIcon icon={faRefresh} fixedWidth />
+    </a>
+  );
+
   const modalVisualizar = React.useMemo(() => {
     if (!visualizarOcorrencia)
       return null;
@@ -227,7 +244,7 @@ const NovasPage: NextPage = () => {
   return (
     <MainLayout currentPage="Novas Ocorrências">
       <div className="relative">
-        <CardSettings header="Novas Ocorrências">
+        <CardSettings header="Novas Ocorrências" headerEnd={refreshDiv}>
           {content}
         </CardSettings>
       </div>
