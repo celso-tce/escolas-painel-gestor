@@ -1,5 +1,6 @@
 import { Ocorrencia } from "escolas-shared";
 import React from 'react';
+import { ConfirmSwalDialog } from "../../../lib/types";
 import { ApiServiceContext } from "../../../pages/_app";
 import Button from "../../ui/buttons/Button";
 import Form from "../../ui/forms/Form";
@@ -11,12 +12,14 @@ type FormRejeitarOcorrenciaProps = {
   ocorrencia: Ocorrencia;
   onFinish: (error?: any) => void;
   onClose: () => void;
+  showConfirmSwalDialog: (args: ConfirmSwalDialog) => void;
 };
 
 const FormRejeitarOcorrencia: React.FC<FormRejeitarOcorrenciaProps> = ({
   ocorrencia,
   onFinish,
   onClose,
+  showConfirmSwalDialog,
 }) => {
   const apiService = React.useContext(ApiServiceContext);
 
@@ -29,13 +32,20 @@ const FormRejeitarOcorrencia: React.FC<FormRejeitarOcorrenciaProps> = ({
         const fieldValues = Object.fromEntries(formData.entries());
         const { motivo } = fieldValues;
 
-        apiService.rejeitarOcorrencia({
-          ocorrenciaId: ocorrencia.id,
-          motivo: motivo.toString(),
-        }).then(() => {
-          onFinish();
-        }).catch((err) => {
-          onFinish(err);
+        showConfirmSwalDialog({
+          title: 'Essa é uma operação permanente.',
+          text: 'Tem certeza que deseja rejeitar esta ocorrência?',
+          onConfirm: () => {
+            apiService.rejeitarOcorrencia({
+              ocorrenciaId: ocorrencia.id,
+              motivo: motivo.toString(),
+            }).then(() => {
+              onFinish();
+            }).catch((err) => {
+              onFinish(err);
+            });
+          },
+          onCancel: () => {},
         });
       }}
     >

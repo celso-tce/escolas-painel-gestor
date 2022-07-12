@@ -1,22 +1,22 @@
 import { Ocorrencia } from "escolas-shared";
 import React from 'react';
+import { ConfirmSwalDialog } from "../../../lib/types";
 import { ApiServiceContext } from "../../../pages/_app";
 import Button from "../../ui/buttons/Button";
 import Form from "../../ui/forms/Form";
-import FormSection from "../../ui/forms/FormSection";
-import Input from "../../ui/inputs/Input";
-import Label from "../../ui/inputs/Label";
 
 type FormAprovarOcorrenciaProps = {
   ocorrencia: Ocorrencia;
   onFinish: (error?: any) => void;
   onClose: () => void;
+  showConfirmSwalDialog: (args: ConfirmSwalDialog) => void;
 };
 
 const FormAprovarOcorrencia: React.FC<FormAprovarOcorrenciaProps> = ({
   ocorrencia,
   onFinish,
   onClose,
+  showConfirmSwalDialog,
 }) => {
   const apiService = React.useContext(ApiServiceContext);
 
@@ -25,12 +25,19 @@ const FormAprovarOcorrencia: React.FC<FormAprovarOcorrenciaProps> = ({
       className="flex flex-wrap items-center"
       onSubmit={(e) => {
         e.preventDefault();
-        apiService.aprovarOcorrencia({
-          ocorrenciaId: ocorrencia.id,
-        }).then(() => {
-          onFinish();
-        }).catch((err) => {
-          return err;
+        showConfirmSwalDialog({
+          title: 'Essa é uma operação permanente.',
+          text: 'Tem certeza que deseja aprovar esta ocorrência?',
+          onConfirm: () => {
+            apiService.aprovarOcorrencia({
+              ocorrenciaId: ocorrencia.id,
+            }).then(() => {
+              onFinish();
+            }).catch((err) => {
+              return err;
+            });
+          },
+          onCancel: () => {},
         });
       }}
     >

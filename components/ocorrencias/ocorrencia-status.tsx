@@ -7,13 +7,13 @@ type OcorrenciaStatusProps = {
 
 const statusClasses: Record<keyof typeof StatusOcorrencia, string> = {
   Recebido: 'text-blue-500 font-bold',
-  Cancelado: 'text-slate-600',
-  EmAnalise: 'text-slate-600',
-  AguardandoGestor: 'text-slate-600',
-  SolicitandoProrrogacao: 'text-slate-600',
-  Respondido: 'text-slate-600',
-  SolucionadoInspecao: 'text-slate-600',
-  Solucionado: 'text-slate-600',
+  Cancelado: 'text-slate-700',
+  EmAnalise: 'text-slate-700',
+  AguardandoGestor: 'text-slate-700',
+  SolicitandoProrrogacao: 'text-slate-700',
+  Respondido: 'text-slate-700',
+  SolucionadoInspecao: 'text-slate-700',
+  Solucionado: 'text-slate-700',
 };
 
 const OcorrenciaStatus: React.FC<OcorrenciaStatusProps> = ({ status }) => {

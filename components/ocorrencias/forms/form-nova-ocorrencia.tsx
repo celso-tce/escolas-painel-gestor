@@ -39,6 +39,7 @@ const FormNovaOcorrencia: React.FC<FormNovaOcorrenciaProps> = ({
           ocorrencia={ocorrencia}
           onFinish={onFinish}
           onClose={() => setOpcao(undefined)}
+          showConfirmSwalDialog={showConfirmSwalDialog}
         />
       </div>
     );
@@ -66,6 +67,7 @@ const FormNovaOcorrencia: React.FC<FormNovaOcorrenciaProps> = ({
           ocorrencia={ocorrencia}
           onFinish={onFinish}
           onClose={() => setOpcao(undefined)}
+          showConfirmSwalDialog={showConfirmSwalDialog}
         />
       </div>
     );
