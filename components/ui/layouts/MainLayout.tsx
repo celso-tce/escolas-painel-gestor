@@ -84,9 +84,12 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
       <title>TCE nas Escolas {props.currentPage && (' | ' + props.currentPage)}</title>
     </Head>
 
-    <div className="relative md:ml-64 bg-slate-200 min-h-screen">
-      <AdminNavbar />
-      <AdminHeader />
+    <div className="md:ml-64 bg-slate-200 min-h-screen">
+      <div className="relative">
+        <AdminNavbar />
+        <AdminHeader />
+      </div>
+
       <div className="px-4 md:px-10 mx-auto w-full -m-24">
         {props.children}
         {/* <FooterAdmin /> */}
