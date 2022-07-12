@@ -19,31 +19,33 @@ export interface ApiService {
   deleteUser(id: number): AsyncHttpResult<void>;
 
   getNovasOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
+  editarTituloOcorrencia(args: { ocorrenciaId: number, titulo: string }): AsyncHttpResult<void>;
 }
 
 export const defaultApiService: ApiService = {
-  getEscolas: () => Utils.fetchHelper('GET', API_BASE_PATH + '/escolas'),
-  createEscola: (data) => Utils.fetchHelper('POST', API_BASE_PATH + '/escolas', data),
-  updateEscola: (id, data) => Utils.fetchHelper('PATCH', API_BASE_PATH + `/escolas/${id}`, data),
-  deleteEscola: (id) => Utils.fetchHelper('DELETE', API_BASE_PATH + `/escolas/${id}`),
+  getEscolas: () => Utils.fetchApi('GET', '/escolas'),
+  createEscola: (data) => Utils.fetchApi('POST', '/escolas', data),
+  updateEscola: (id, data) => Utils.fetchApi('PATCH', `/escolas/${id}`, data),
+  deleteEscola: (id) => Utils.fetchApi('DELETE', `/escolas/${id}`),
 
-  getCategorias: () => Utils.fetchHelper('GET', API_BASE_PATH + '/categorias'),
-  createCategoria: (data) => Utils.fetchHelper('POST', API_BASE_PATH + '/categorias', data),
-  updateCategoria: (id, data) => Utils.fetchHelper('PATCH', API_BASE_PATH + `/categorias/${id}`, data),
-  deleteCategoria: (id) => Utils.fetchHelper('DELETE', API_BASE_PATH + `/categorias/${id}`),
+  getCategorias: () => Utils.fetchApi('GET', '/categorias'),
+  createCategoria: (data) => Utils.fetchApi('POST', '/categorias', data),
+  updateCategoria: (id, data) => Utils.fetchApi('PATCH', `/categorias/${id}`, data),
+  deleteCategoria: (id) => Utils.fetchApi('DELETE', `/categorias/${id}`),
 
-  getUsers: () => Utils.fetchHelper('GET', API_BASE_PATH + '/users'),
+  getUsers: () => Utils.fetchApi('GET', '/users'),
   createUser: (data) => {
     const { passwordConf, ...realData } = data;
-    return Utils.fetchHelper('POST', API_BASE_PATH + '/users', realData);
+    return Utils.fetchApi('POST', '/users', realData);
   },
   updateUser: (id, data) => {
     const { passwordConf, ...realData } = data;
-    return Utils.fetchHelper('PATCH', API_BASE_PATH + `/users/${id}`, realData);
+    return Utils.fetchApi('PATCH', `/users/${id}`, realData);
   },
-  deleteUser: (id) => Utils.fetchHelper('DELETE', API_BASE_PATH + `/users/${id}`),
+  deleteUser: (id) => Utils.fetchApi('DELETE', `/users/${id}`),
 
-  getNovasOcorrencias: () => Utils.fetchHelper('GET', API_BASE_PATH + '/simulate/novas-ocorrencias'),
+  getNovasOcorrencias: () => Utils.fetchApi('GET', '/simulate/novas-ocorrencias'),
+  editarTituloOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/editar-titulo-ocorrencia', args),
 };
 
 export type CreateEscolaDto = {

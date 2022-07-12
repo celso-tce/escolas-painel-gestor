@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       ? 'bg-red-600 hover:bg-red-500 active:bg-red-500 text-white'
     : 'bg-slate-500 hover:bg-slate-400 active:bg-slate-400 text-white';
 
-  const paddingCss = props.noPadding ? '' : 'px-6 py-3';
+  const paddingCss = props.noPadding ? '' : 'px-4 py-2';
 
   const disabledCss = props.disabled ? 'opacity-50' : '';
 

@@ -10,6 +10,7 @@ type BaseInputProps = {
   className?: string;
   disabled?: boolean;
   inputRef?: React.RefObject<HTMLInputElement>;
+  required?: boolean;
 };
 
 type ManagedInputProps = BaseInputProps & {
@@ -36,6 +37,7 @@ const Input: React.FC<InputProps> = (props) => {
     placeholder: props.placeholder,
     disabled: props.disabled,
     ref: props.inputRef,
+    required: props.required,
   };
 
   const isManaged = 'value' in props;

@@ -4,11 +4,6 @@ import { HttpResult } from "./types";
 
 export const API_BASE_PATH = process.env['NEXT_PUBLIC_API_URL'] ?? '';
 
-function apiGet(path: string, method = 'GET', body = undefined) {
-  path = path.startsWith('/') ? path : ('/' + path);
-  return fetch(API_BASE_PATH + path, { method, body });
-}
-
 async function fetchHelper<T>(method: Method, url: string, data?: any): Promise<HttpResult<T>> {
   console.log('@REQUEST: ' + url);
 
@@ -48,6 +43,11 @@ async function fetchHelper<T>(method: Method, url: string, data?: any): Promise<
   }
 }
 
+function fetchApi<T>(method: Method, path: string, data?: any): Promise<HttpResult<T>> {
+  path = path.startsWith('/') ? path : ('/' + path);
+  return fetchHelper(method, API_BASE_PATH + path, data);
+}
+
 function minDelayPromise<T>(promise: Promise<T>, minDelayMs: number): Promise<T> {
   if (minDelayMs === 0)
       return promise;
@@ -75,8 +75,8 @@ function userRoleLabel(userRole: UserRole): string {
 }
 
 export const Utils = {
-  apiGet,
   fetchHelper,
+  fetchApi,
   minDelayPromise,
   escolaTipoLabel,
   userRoleLabel,

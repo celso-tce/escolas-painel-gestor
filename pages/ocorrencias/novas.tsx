@@ -9,6 +9,9 @@ import CardSettings from "../../components/ui/cards/CardSettings";
 import { faEye, faPlay } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../components/ui/modal/Modal";
 import OcorrenciaDetalhes from "../../components/ocorrencias/ocorrencia-detalhes";
+import FormEditarTitulo from "../../components/ocorrencias/forms/form-editar-titulo";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 
 const NovasPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
@@ -18,7 +21,9 @@ const NovasPage: NextPage = () => {
 
   const apiService = React.useContext(ApiServiceContext);
 
-  React.useEffect(() => {
+  const MySwal = withReactContent(Swal);
+
+  const loadOcorrencias = React.useCallback(() => {
     apiService.getNovasOcorrencias().then((result) => {
       if (result.type === 'error') {
         // TODO handle error
@@ -28,6 +33,10 @@ const NovasPage: NextPage = () => {
       setOcorrencias(result.payload);
     });
   }, [apiService]);
+
+  React.useEffect(() => {
+    loadOcorrencias();
+  }, [loadOcorrencias]);
 
   const table = React.useMemo(() => {
     if (ocorrencias === undefined) {
@@ -110,7 +119,26 @@ const NovasPage: NextPage = () => {
       return null;
 
     const content = (
-      <div>TODO Editar título...</div>
+      <div className="flex-col px-4 py-4 bg-slate-100">
+        <FormEditarTitulo
+          ocorrencia={editarTituloOcorrencia}
+          onClose={() => setEditarTituloOcorrencia(undefined)}
+          onFinish={(err) => {
+            if (err) {
+              console.error(err);
+              MySwal.fire({
+                text: 'Erro ao enviar informações. Por favor tente novamente mais tarde ou ' +
+                  'contate da DAINF (TCE) caso o problema persistir.',
+                icon: 'error',
+              });
+            }
+
+            setEditarTituloOcorrencia(undefined);
+            setOcorrencias(undefined);
+            loadOcorrencias();
+          }}
+        />
+      </div>
     );
 
     return (
