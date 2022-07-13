@@ -31,7 +31,10 @@ const FormAprovarOcorrencia: React.FC<FormAprovarOcorrenciaProps> = ({
           onConfirm: () => {
             apiService.aprovarOcorrencia({
               ocorrenciaId: ocorrencia.id,
-            }).then(() => {
+            }).then((result) => {
+              if (result.type === 'error')
+                throw result.message;
+
               onFinish();
             }).catch((err) => {
               onFinish(err);

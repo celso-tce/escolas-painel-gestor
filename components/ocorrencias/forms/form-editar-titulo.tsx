@@ -32,7 +32,10 @@ const FormEditarTitulo: React.FC<FormEditarTituloProps> = ({
         apiService.editarTituloOcorrencia({
           ocorrenciaId: ocorrencia.id,
           titulo: titulo.toString(),
-        }).then(() => {
+        }).then((result) => {
+          if (result.type === 'error')
+            throw result.message;
+
           onFinish();
         }).catch((err) => {
           onFinish(err);

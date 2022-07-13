@@ -39,7 +39,10 @@ const FormRejeitarOcorrencia: React.FC<FormRejeitarOcorrenciaProps> = ({
             apiService.rejeitarOcorrencia({
               ocorrenciaId: ocorrencia.id,
               motivo: motivo.toString(),
-            }).then(() => {
+            }).then((result) => {
+              if (result.type === 'error')
+                throw result.message;
+
               onFinish();
             }).catch((err) => {
               onFinish(err);
