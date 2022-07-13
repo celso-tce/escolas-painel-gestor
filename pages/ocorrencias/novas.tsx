@@ -241,10 +241,14 @@ const NovasPage: NextPage = () => {
     );
   }, [editarTituloOcorrencia, onFinishForm]);
 
+  const header = ocorrencias !== undefined
+    ? `Novas Ocorrências (${ocorrencias.length})`
+    : 'Novas Ocorrências';
+
   return (
     <MainLayout currentPage="Novas Ocorrências">
       <div className="relative">
-        <CardSettings header="Novas Ocorrências" headerEnd={refreshDiv}>
+        <CardSettings header={header} headerEnd={refreshDiv}>
           {content}
         </CardSettings>
       </div>
