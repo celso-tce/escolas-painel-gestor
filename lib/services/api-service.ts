@@ -1,4 +1,4 @@
-import { Categoria, Escola, Ocorrencia, User } from "escolas-shared";
+import { Categoria, Escola, Ocorrencia, Relato, User } from "escolas-shared";
 import { AsyncHttpResult } from "../types";
 import { API_BASE_PATH, Utils } from "../utils";
 
@@ -25,6 +25,9 @@ export interface ApiService {
   rejeitarOcorrencia(args: { ocorrenciaId: number, motivo: string }): AsyncHttpResult<void>;
   aprovarOcorrencia(args: { ocorrenciaId: number }): AsyncHttpResult<void>;
   listarOcorrenciasVinculaveis(id: number): AsyncHttpResult<Ocorrencia[]>;
+  vincularRelato(args: { relatoId: number, novaOcorrenciaId: number }): AsyncHttpResult<void>;
+
+  loadOcorrencia(id: number): AsyncHttpResult<Ocorrencia & { relatos: Relato[] }>;
 }
 
 export const defaultApiService: ApiService = {
@@ -56,6 +59,9 @@ export const defaultApiService: ApiService = {
   rejeitarOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/rejeitar-ocorrencia', args),
   aprovarOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/aprovar-ocorrencia', args),
   listarOcorrenciasVinculaveis: (id) => Utils.fetchApi('GET', `/simulate/listar-ocorrencias-vinculaveis/${id}`),
+  vincularRelato: (args) => Utils.fetchApi('POST', '/simulate/vincular-relato', args),
+
+  loadOcorrencia: (id) => Utils.fetchApi('GET', `/ocorrencias/${id}`),
 };
 
 export type CreateEscolaDto = {

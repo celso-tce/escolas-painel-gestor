@@ -125,8 +125,38 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
                 text: 'Tem certeza que deseja vincular a esta ocorrência?',
                 onCancel: () => {},
                 onConfirm: () => {
-                  console.log('VINCULANDO OCORRÊNCIA:');
-                  console.log(selected);
+                  apiService.loadOcorrencia(ocorrencia.id).then((result) => {
+                    if (result.type === 'error') {
+                      throw result.message;
+                    }
+
+                    const ocorrencia = result.payload;
+
+                    if (ocorrencia.relatos.length !== 1) {
+                      // teoricamente IMPOSSÍVEL de ocorrer
+                      console.error(`Algo de errado ocorreu. Esta ocorrência possui `
+                        + `"${ocorrencia.relatos.length}" relatos mas deveria possuir apenas 1.`);
+                    }
+
+                    return Promise.all(ocorrencia.relatos.map((relato => {
+                      return apiService.vincularRelato({
+                        relatoId: relato.id,
+                        novaOcorrenciaId: selected.id,
+                      });
+                    })));
+                  }).then(() => {
+                    onFinish();
+                  }).catch((err) => {
+                    onFinish(err);
+                  });
+
+                  /*apiService.vincularRelato({
+                    relatoId: ocorrencia.
+                  }).then(() => {
+                    onFinish();
+                  }).catch((err) => {
+                    onFinish(err);
+                  });*/
                 },
               });
             }}

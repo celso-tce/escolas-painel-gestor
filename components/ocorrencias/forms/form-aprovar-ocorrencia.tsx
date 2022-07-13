@@ -34,7 +34,7 @@ const FormAprovarOcorrencia: React.FC<FormAprovarOcorrenciaProps> = ({
             }).then(() => {
               onFinish();
             }).catch((err) => {
-              return err;
+              onFinish(err);
             });
           },
           onCancel: () => {},
