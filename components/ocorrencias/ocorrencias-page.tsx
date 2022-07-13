@@ -25,12 +25,14 @@ type OcorrenciasPageProps = {
     loadCategoriaTitulo: OcorrenciasTableProps['loadCategoriaTitulo'];
     showConfirmSwalDialog: (args: ConfirmSwalDialog) => void;
   }) => React.ReactNode;
+  tableShowColumns?: OcorrenciasTableProps['showColumns'];
 };
 
 const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   pageTitle,
   listOcorrencias,
   buildFormProsseguir,
+  tableShowColumns,
 }) => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
   const [categoriasTitulos, setCategoriasTitulos] = React.useState<Categoria[]>();
@@ -146,6 +148,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
         onClickEditarTitulo={setEditarTituloOcorrencia}
         loadEscolaNome={loadEscolaNome}
         loadCategoriaTitulo={loadCategoriaTitulo}
+        showColumns={tableShowColumns}
       />
     );
   }, [ocorrencias, categoriasTitulos, escolasNomes, loadEscolaNome, loadCategoriaTitulo]);

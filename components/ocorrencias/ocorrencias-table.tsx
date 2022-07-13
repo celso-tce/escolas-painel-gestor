@@ -1,21 +1,23 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Ocorrencia } from "escolas-shared";
+import { Andamento, Ocorrencia } from "escolas-shared";
 import React from 'react';
+import { OcorrenciaHelper } from "../../lib/escolas/ocorrencia-helper";
 import { UiUtils } from "../../lib/ui-utils";
 import LoadableString from "../misc/LoadableString";
 import Button, { ButtonProps } from "../ui/buttons/Button";
 import DateText from "../ui/displays/DateText";
 import Anchor from "../ui/misc/Anchor";
 import SimpleTable, { SimpleTableCol, SimpleTableHeaderData } from "../ui/tables/SimpleTable";
+import OcorrenciaPrazo from "./ocorrencia-prazo";
 import OcorrenciaStatus from "./ocorrencia-status";
 
 type OcorrenciasTableColumn = 'id' | 'titulo' | 'descricao' | 'status' | 'criadoEm' | 'operacoes'
-  | 'escola' | 'categoria';
+  | 'escola' | 'categoria' | 'prazo';
 
 const ALL_COLUMNS: OcorrenciasTableColumn[] = [
-  'id', 'titulo', 'descricao', 'status', 'criadoEm', 'operacoes', 'escola', 'categoria'
+  'id', 'titulo', 'descricao', 'status', 'criadoEm', 'operacoes', 'escola', 'categoria', 'prazo'
 ];
 
 export type OcorrenciasTableOperacao = {
@@ -55,14 +57,15 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
     allColumns = allColumns.filter((c) => !hideColumns.includes(c));
   }
 
-  const columnId = allColumns.includes('id');
-  const columnTitulo = allColumns.includes('titulo');
-  const columnDescricao = allColumns.includes('descricao');
-  const columnEscola = allColumns.includes('escola');
-  const columnCategoria = allColumns.includes('categoria');
-  const columnStatus = allColumns.includes('status');
-  const columnCriadoEm = allColumns.includes('criadoEm');
-  const columnOperacoes = allColumns.includes('operacoes');
+  let columnId = allColumns.includes('id');
+  let columnTitulo = allColumns.includes('titulo');
+  let columnDescricao = allColumns.includes('descricao');
+  let columnEscola = allColumns.includes('escola');
+  let columnCategoria = allColumns.includes('categoria');
+  let columnStatus = allColumns.includes('status');
+  let columnCriadoEm = allColumns.includes('criadoEm');
+  let columnPrazo = allColumns.includes('prazo');
+  let columnOperacoes = allColumns.includes('operacoes');
 
   return (
     <SimpleTable
@@ -77,9 +80,13 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
         columnCategoria &&  { label: 'Categoria' },
         columnStatus &&  { label: 'Status' },
         columnCriadoEm &&  { label: 'Criado Em' },
+        columnPrazo &&  { label: 'Prazo' },
         columnOperacoes &&  { label: 'Ação' },
       ].filter((c) => c !== false) as SimpleTableHeaderData[]}
       rows={ocorrencias.map((ocorrencia) => {
+        const hasAndamentos = 'andamentos' in ocorrencia;
+        columnPrazo &&= hasAndamentos; // é preciso ter os andamentos carregados para ter o prazo
+
         const titulo = columnTitulo && ocorrencia.titulo
           ? ocorrencia.titulo
           : (
@@ -134,6 +141,13 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
           </div>
         );
 
+        const prazo = columnPrazo && (() => {
+          const prazo = OcorrenciaHelper.getPrazo(
+            ocorrencia as Ocorrencia & { andamentos: Andamento[] });
+
+          return prazo && <OcorrenciaPrazo prazo={new Date(prazo)} />;
+        })();
+
         const escola = columnEscola && (
           <LoadableString
             placeholder="(Escola)"
@@ -157,6 +171,7 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
             columnCategoria && { content: categoria },
             columnStatus && { content: status },
             columnCriadoEm && { content: createdAt },
+            columnPrazo && { content: prazo },
             columnOperacoes && { content: operacoesDiv },
           ].filter((c) => c !== false) as SimpleTableCol[],
         };

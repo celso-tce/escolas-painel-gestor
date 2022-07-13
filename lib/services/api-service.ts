@@ -1,4 +1,4 @@
-import { Categoria, Escola, Ocorrencia, Relato, User } from "escolas-shared";
+import { Andamento, Categoria, Escola, Ocorrencia, Relato, User } from "escolas-shared";
 import { AsyncHttpResult } from "../types";
 import { API_BASE_PATH, Utils } from "../utils";
 
@@ -35,6 +35,10 @@ export interface ApiService {
     mensagem: string,
     prazoDias: number,
   }): AsyncHttpResult<void>;
+
+  getOcorrenciasRecebidas(): AsyncHttpResult<Array<
+    Ocorrencia & { andamentos: Andamento[] }
+  >>;
 }
 
 export const defaultApiService: ApiService = {
@@ -72,6 +76,8 @@ export const defaultApiService: ApiService = {
 
   getOcorrenciasEmAnalise: () => Utils.fetchApi('GET', '/simulate/ocorrencias-analise'),
   encaminharOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/encaminhar-para-gestor', args),
+
+  getOcorrenciasRecebidas: () => Utils.fetchApi('GET', '/simulate/ocorrencias-aguardando-gestor'),
 };
 
 export type CreateEscolaDto = {
