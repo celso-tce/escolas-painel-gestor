@@ -20,6 +20,8 @@ export interface ApiService {
   updateUser(id: number, data: Partial<CreateUserDto>): AsyncHttpResult<User>;
   deleteUser(id: number): AsyncHttpResult<void>;
 
+  loadOcorrencia(id: number): AsyncHttpResult<Ocorrencia & { relatos: Relato[] }>;
+
   getNovasOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
   editarTituloOcorrencia(args: { ocorrenciaId: number, titulo: string }): AsyncHttpResult<void>;
   rejeitarOcorrencia(args: { ocorrenciaId: number, motivo: string }): AsyncHttpResult<void>;
@@ -27,7 +29,7 @@ export interface ApiService {
   listarOcorrenciasVinculaveis(id: number): AsyncHttpResult<Ocorrencia[]>;
   vincularRelato(args: { relatoId: number, novaOcorrenciaId: number }): AsyncHttpResult<void>;
 
-  loadOcorrencia(id: number): AsyncHttpResult<Ocorrencia & { relatos: Relato[] }>;
+  getOcorrenciasEmAnalise(): AsyncHttpResult<Ocorrencia[]>;
 }
 
 export const defaultApiService: ApiService = {
@@ -54,6 +56,8 @@ export const defaultApiService: ApiService = {
   },
   deleteUser: (id) => Utils.fetchApi('DELETE', `/users/${id}`),
 
+  loadOcorrencia: (id) => Utils.fetchApi('GET', `/ocorrencias/${id}`),
+
   getNovasOcorrencias: () => Utils.fetchApi('GET', '/simulate/novas-ocorrencias'),
   editarTituloOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/editar-titulo-ocorrencia', args),
   rejeitarOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/rejeitar-ocorrencia', args),
@@ -61,7 +65,7 @@ export const defaultApiService: ApiService = {
   listarOcorrenciasVinculaveis: (id) => Utils.fetchApi('GET', `/simulate/listar-ocorrencias-vinculaveis/${id}`),
   vincularRelato: (args) => Utils.fetchApi('POST', '/simulate/vincular-relato', args),
 
-  loadOcorrencia: (id) => Utils.fetchApi('GET', `/ocorrencias/${id}`),
+  getOcorrenciasEmAnalise: () => Utils.fetchApi('GET', '/simulate/ocorrencias-analise'),
 };
 
 export type CreateEscolaDto = {
