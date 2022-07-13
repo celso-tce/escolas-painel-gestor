@@ -30,6 +30,11 @@ export interface ApiService {
   vincularRelato(args: { relatoId: number, novaOcorrenciaId: number }): AsyncHttpResult<void>;
 
   getOcorrenciasEmAnalise(): AsyncHttpResult<Ocorrencia[]>;
+  encaminharOcorrencia(args: {
+    ocorrenciaId: number,
+    mensagem: string,
+    prazoDias: number,
+  }): AsyncHttpResult<void>;
 }
 
 export const defaultApiService: ApiService = {
@@ -66,6 +71,7 @@ export const defaultApiService: ApiService = {
   vincularRelato: (args) => Utils.fetchApi('POST', '/simulate/vincular-relato', args),
 
   getOcorrenciasEmAnalise: () => Utils.fetchApi('GET', '/simulate/ocorrencias-analise'),
+  encaminharOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/encaminhar-para-gestor', args),
 };
 
 export type CreateEscolaDto = {
