@@ -1,5 +1,6 @@
 import { Ocorrencia } from "escolas-shared";
 import React from 'react';
+import { OcorrenciaWithAll } from "../../../lib/services/api-service";
 import { ConfirmSwalDialog } from "../../../lib/types";
 import Button from "../../ui/buttons/Button";
 import OcorrenciaDetalhes from "../ocorrencia-detalhes";
@@ -8,7 +9,7 @@ import FormEncaminharOcorrencia from "./form-encaminhar-ocorrencia";
 import FormRejeitarOcorrencia from "./form-rejeitar-ocorrencia";
 
 type FormOcorrenciaEmAnaliseProps = {
-  ocorrencia: Ocorrencia;
+  ocorrencia: OcorrenciaWithAll;
   onFinish: (error?: any) => void;
   onClose: () => void;
 

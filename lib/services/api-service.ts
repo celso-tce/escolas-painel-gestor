@@ -2,6 +2,13 @@ import { Andamento, Categoria, Escola, Ocorrencia, Relato, User } from "escolas-
 import { AsyncHttpResult } from "../types";
 import { API_BASE_PATH, Utils } from "../utils";
 
+export type OcorrenciaWithAll = Ocorrencia & {
+  escola: Escola;
+  categoria: Categoria;
+  andamentos: Andamento[];
+  relatos: Relato[];
+};
+
 export interface ApiService {
   getEscolas(): AsyncHttpResult<Escola[]>;
   getEscolasNomes(): AsyncHttpResult<Escola[]>;
@@ -20,7 +27,7 @@ export interface ApiService {
   updateUser(id: number, data: Partial<CreateUserDto>): AsyncHttpResult<User>;
   deleteUser(id: number): AsyncHttpResult<void>;
 
-  loadOcorrencia(id: number): AsyncHttpResult<Ocorrencia & { relatos: Relato[] }>;
+  loadOcorrencia(id: number): AsyncHttpResult<OcorrenciaWithAll>;
 
   getNovasOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
   editarTituloOcorrencia(args: { ocorrenciaId: number, titulo: string }): AsyncHttpResult<void>;

@@ -6,16 +6,18 @@ import OcorrenciasTable, { OcorrenciasTableProps } from "../ocorrencias-table";
 import OcorrenciaDetalhes from "../ocorrencia-detalhes";
 import { ConfirmSwalDialog } from "../../../lib/types";
 import Switch from "../../ui/Switch";
-import Label from "../../ui/inputs/Label";
-import ReactSelect from "react-select";
+import { OcorrenciaWithAll } from "../../../lib/services/api-service";
+import LoadableOcorrencia from "../LoadableOcorrencia";
 
 type FormVincularOcorrenciaProps = {
-  ocorrencia: Ocorrencia;
+  ocorrencia: OcorrenciaWithAll;
   onFinish: (error?: any) => void;
   onClose: () => void;
   loadEscolaNome: OcorrenciasTableProps['loadEscolaNome'];
   loadCategoriaTitulo: OcorrenciasTableProps['loadCategoriaTitulo'];
   showConfirmSwalDialog: (args: ConfirmSwalDialog) => void;
+
+  loadOcorrenciaWithAll: (ocorrencia: Ocorrencia) => Promise<OcorrenciaWithAll>;
 };
 
 const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
@@ -25,6 +27,7 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
   loadEscolaNome,
   loadCategoriaTitulo,
   showConfirmSwalDialog,
+  loadOcorrenciaWithAll,
 }) => {
   const [filterCategoria, setFilterCategoria] = React.useState<boolean>(false);
   const [_ocorrenciaOpcoes, setOcorrenciaOpcoes] = React.useState<Ocorrencia[]>();
@@ -61,7 +64,14 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
   }
 
   const content = selected
-    ? <OcorrenciaDetalhes ocorrencia={ocorrencia} />
+    ? (
+      <LoadableOcorrencia
+        ocorrencia={selected}
+        loader={() => loadOcorrenciaWithAll(selected)}
+      >{(ocorrenciaWithAll) => (
+        <OcorrenciaDetalhes ocorrencia={ocorrenciaWithAll} />
+      )}</LoadableOcorrencia>
+    )
     : (
       <div className="mt-2">
         {/* TODO */}

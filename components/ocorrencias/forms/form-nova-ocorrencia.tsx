@@ -1,5 +1,6 @@
 import { Ocorrencia } from "escolas-shared";
 import React from 'react';
+import { OcorrenciaWithAll } from "../../../lib/services/api-service";
 import { ConfirmSwalDialog } from "../../../lib/types";
 import Button from "../../ui/buttons/Button";
 import Modal from "../../ui/modal/Modal";
@@ -11,13 +12,15 @@ import FormRejeitarOcorrencia from "./form-rejeitar-ocorrencia";
 import FormVincularOcorrencia from "./form-vincular-ocorrencia";
 
 type FormNovaOcorrenciaProps = {
-  ocorrencia: Ocorrencia;
+  ocorrencia: OcorrenciaWithAll;
   onFinish: (error?: any) => void;
   onClose: () => void;
 
   loadEscolaNome: OcorrenciasTableProps['loadEscolaNome']; // usado no FormVincularOcorrencia
   loadCategoriaTitulo: OcorrenciasTableProps['loadCategoriaTitulo']; // usado no FormVincularOcorrencia
   showConfirmSwalDialog: (args: ConfirmSwalDialog) => void; // usado no FormVincularOcorrencia
+
+  loadOcorrenciaWithAll: (ocorrencia: Ocorrencia) => Promise<OcorrenciaWithAll>; // usado no FormVincularOcorrencia
 };
 
 type Opcao = 'aprovar' | 'vincular' | 'rejeitar';
@@ -29,6 +32,7 @@ const FormNovaOcorrencia: React.FC<FormNovaOcorrenciaProps> = ({
   loadEscolaNome,
   loadCategoriaTitulo,
   showConfirmSwalDialog,
+  loadOcorrenciaWithAll,
 }) => {
   const [opcao, setOpcao] = React.useState<Opcao>();
 
@@ -55,6 +59,7 @@ const FormNovaOcorrencia: React.FC<FormNovaOcorrenciaProps> = ({
           loadEscolaNome={loadEscolaNome}
           loadCategoriaTitulo={loadCategoriaTitulo}
           showConfirmSwalDialog={showConfirmSwalDialog}
+          loadOcorrenciaWithAll={loadOcorrenciaWithAll}
         />
       </div>
     );

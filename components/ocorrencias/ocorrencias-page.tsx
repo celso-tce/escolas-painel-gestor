@@ -4,6 +4,7 @@ import { Ocorrencia, Categoria, Escola } from "escolas-shared";
 import React from 'react';
 import Swal from "sweetalert2";
 import withReactContent, { ReactSweetAlert } from "sweetalert2-react-content";
+import { OcorrenciaWithAll } from "../../lib/services/api-service";
 import { AsyncHttpResult, ConfirmSwalDialog } from "../../lib/types";
 import { ApiServiceContext } from "../../pages/_app";
 import CardSettings from "../ui/cards/CardSettings";
@@ -11,6 +12,7 @@ import MainLayout from "../ui/layouts/MainLayout";
 import Modal from "../ui/modal/Modal";
 import Spinkit from "../ui/Spinkit";
 import FormEditarTitulo from "./forms/form-editar-titulo";
+import LoadableOcorrencia from "./LoadableOcorrencia";
 import OcorrenciaDetalhes from "./ocorrencia-detalhes";
 import OcorrenciasTable, { OcorrenciasTableProps } from "./ocorrencias-table";
 
@@ -18,12 +20,13 @@ type OcorrenciasPageProps = {
   pageTitle: string;
   listOcorrencias: () => AsyncHttpResult<Ocorrencia[]>;
   buildFormProsseguir: (context: {
-    ocorrencia: Ocorrencia;
+    ocorrencia: OcorrenciaWithAll;
     onClose: () => void;
     onFinish: (err?: any) => void;
     loadEscolaNome: OcorrenciasTableProps['loadEscolaNome'];
     loadCategoriaTitulo: OcorrenciasTableProps['loadCategoriaTitulo'];
     showConfirmSwalDialog: (args: ConfirmSwalDialog) => void;
+    loadOcorrenciaWithAll: (ocorrencia: Ocorrencia) => Promise<OcorrenciaWithAll>;
   }) => React.ReactNode;
   tableShowColumns?: OcorrenciasTableProps['showColumns'];
 };
@@ -56,6 +59,22 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
       setOcorrencias(result.payload);
     });
   }, [apiService]);
+
+  const loadOcorrenciaWithAll = React.useCallback(async (ocorrencia: Ocorrencia) => {
+    const existente = ocorrencias && ocorrencias.find((oco) => oco.id === ocorrencia.id);
+
+    if (existente)
+      return existente as OcorrenciaWithAll;
+
+    return apiService.loadOcorrencia(ocorrencia.id).then((result) => {
+      if (result.type === 'error') {
+        // TODO handle error
+        throw result.message;
+      }
+
+      return result.payload;
+    });
+  }, [apiService, ocorrencias]);
 
   const loadCategoriasTitulos = React.useCallback(() => {
     apiService.getCategoriasTitulos().then((result) => {
@@ -189,7 +208,12 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
         hideBotaoFechar
       >
         <div className="px-4 py-2 bg-slate-100">
-          <OcorrenciaDetalhes ocorrencia={visualizarOcorrencia} />
+          {<LoadableOcorrencia
+            ocorrencia={visualizarOcorrencia}
+            loader={async () => visualizarOcorrencia as OcorrenciaWithAll}
+          >{(ocorrenciaWithAll) => (
+            <OcorrenciaDetalhes ocorrencia={ocorrenciaWithAll} />
+          )}</LoadableOcorrencia>}
         </div>
       </Modal>
     );
@@ -206,30 +230,36 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
         onClose={() => setProsseguirOcorrencia(undefined)}
         hideBotaoFechar
       >
-        {buildFormProsseguir({
-          ocorrencia: prosseguirOcorrencia,
-          onClose: () => setProsseguirOcorrencia(undefined),
-          onFinish: onFinishForm,
-          loadEscolaNome: loadEscolaNome,
-          loadCategoriaTitulo: loadCategoriaTitulo,
-          showConfirmSwalDialog: (args) => {
-            MySwal.fire({
-              icon: 'warning',
-              title: args.title,
-              text: args.text,
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Confirmar',
-              cancelButtonText: 'Cancelar',
-            }).then((result) => {
-              if (result.isConfirmed)
-                args.onConfirm();
-              else
-                args.onCancel();
-            });
-          },
-        })}
+        {<LoadableOcorrencia
+          ocorrencia={prosseguirOcorrencia}
+          loader={async () => prosseguirOcorrencia as OcorrenciaWithAll}
+        >{(ocorrenciaWithAll) => (
+          buildFormProsseguir({
+            ocorrencia: ocorrenciaWithAll,
+            onClose: () => setProsseguirOcorrencia(undefined),
+            onFinish: onFinishForm,
+            loadEscolaNome: loadEscolaNome,
+            loadCategoriaTitulo: loadCategoriaTitulo,
+            loadOcorrenciaWithAll: loadOcorrenciaWithAll,
+            showConfirmSwalDialog: (args) => {
+              MySwal.fire({
+                icon: 'warning',
+                title: args.title,
+                text: args.text,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+              }).then((result) => {
+                if (result.isConfirmed)
+                  args.onConfirm();
+                else
+                  args.onCancel();
+              });
+            },
+          })
+        )}</LoadableOcorrencia>}
       </Modal>
     );
   }, [prosseguirOcorrencia, onFinishForm]);
