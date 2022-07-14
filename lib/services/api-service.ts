@@ -50,9 +50,15 @@ export interface ApiService {
   responderOcorrencia(args: { ocorrenciaId: number; resposta: string }): AsyncHttpResult<void>;
 
   getOcorrenciasRespondidas(): AsyncHttpResult<Ocorrencia[]>;
-  getSolicitacoesProrrogacao(): AsyncHttpResult<Ocorrencia[]>;
   solucionarOcorrencia(args: { ocorrenciaId: number; mensagem: string }): AsyncHttpResult<void>;
   solucionarOcorrenciaInspecao(args: { ocorrenciaId: number; mensagem: string }): AsyncHttpResult<void>;
+  getSolicitacoesProrrogacao(): AsyncHttpResult<Ocorrencia[]>;
+  aprovarProrrogacao(args: {
+    ocorrenciaId: number,
+    mensagem: string,
+    prazoDias: number,
+  }): AsyncHttpResult<void>;
+  rejeitarProrrogacao(args: { ocorrenciaId: number; mensagem: string }): AsyncHttpResult<void>;
 }
 
 export const defaultApiService: ApiService = {
@@ -96,9 +102,11 @@ export const defaultApiService: ApiService = {
   responderOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/responder-ocorrencia', args),
 
   getOcorrenciasRespondidas: () => Utils.fetchApi('GET', '/simulate/ocorrencias-respondidas'),
-  getSolicitacoesProrrogacao: () => Utils.fetchApi('GET', '/simulate/solicitacoes-prorrogacao'),
   solucionarOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/solucionar', args),
   solucionarOcorrenciaInspecao: (args) => Utils.fetchApi('POST', '/simulate/comunicar-para-inspecao', args),
+  getSolicitacoesProrrogacao: () => Utils.fetchApi('GET', '/simulate/solicitacoes-prorrogacao'),
+  aprovarProrrogacao: (args) => Utils.fetchApi('POST', '/simulate/aprovar-prorrogacao-prazo', args),
+  rejeitarProrrogacao: (args) => Utils.fetchApi('POST', '/simulate/rejeitar-prorrogacao-prazo', args),
 };
 
 export type CreateEscolaDto = {

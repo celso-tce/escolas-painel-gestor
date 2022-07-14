@@ -6,6 +6,7 @@ import Spinkit from "../../components/ui/Spinkit";
 import MainLayout from "../../components/ui/layouts/MainLayout";
 import { Ocorrencia } from "escolas-shared";
 import { Hooks } from "../../lib/react/hooks";
+import FormProrrogacaoSolicitada from "../../components/ocorrencias/forms/form-prorrogacao-solicitada";
 
 const ProrrogacoesSolicitadasPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
@@ -54,8 +55,7 @@ const ProrrogacoesSolicitadasPage: NextPage = () => {
         escolasNomes={escolasNomes}
         reloadOcorrencias={reloadOcorrencias}
         buildFormProsseguir={(ctx) => (
-          // <FormNovaOcorrencia {...ctx} />
-          <div></div>
+          <FormProrrogacaoSolicitada {...ctx} />
         )}
         tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'operacoes']}
       />
