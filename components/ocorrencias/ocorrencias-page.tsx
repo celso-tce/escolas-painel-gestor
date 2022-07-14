@@ -81,9 +81,6 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
       });
     }
 
-    // setVisualizarOcorrencia(undefined);
-    // setProsseguirOcorrencia(undefined);
-    // setEditarTituloOcorrencia(undefined);
     reloadOcorrencias();
   }, [reloadOcorrencias]);
 
