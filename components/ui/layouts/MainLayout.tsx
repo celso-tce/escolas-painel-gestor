@@ -55,7 +55,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
           },
         ],
       },
-      {
+      /*{
         label: 'Registro',
         items: [
           {
@@ -71,7 +71,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
             roles: ['OUVIDORIA'],
           },
         ],
-      },
+      },*/
       {
         label: 'Administrativo',
         items: [
