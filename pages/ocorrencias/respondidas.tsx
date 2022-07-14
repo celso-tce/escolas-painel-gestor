@@ -6,6 +6,7 @@ import Spinkit from "../../components/ui/Spinkit";
 import MainLayout from "../../components/ui/layouts/MainLayout";
 import { Ocorrencia } from "escolas-shared";
 import { Hooks } from "../../lib/react/hooks";
+import FormOcorrenciaRespondida from "../../components/ocorrencias/forms/form-ocorrencia-respondida";
 
 const RespondidasPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
@@ -54,8 +55,7 @@ const RespondidasPage: NextPage = () => {
         escolasNomes={escolasNomes}
         reloadOcorrencias={reloadOcorrencias}
         buildFormProsseguir={(ctx) => (
-          // <FormNovaOcorrencia {...ctx} />
-          <div></div>
+          <FormOcorrenciaRespondida {...ctx} />
         )}
         tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'operacoes']}
       />

@@ -51,6 +51,8 @@ export interface ApiService {
 
   getOcorrenciasRespondidas(): AsyncHttpResult<Ocorrencia[]>;
   getSolicitacoesProrrogacao(): AsyncHttpResult<Ocorrencia[]>;
+  solucionarOcorrencia(args: { ocorrenciaId: number; mensagem: string }): AsyncHttpResult<void>;
+  solucionarOcorrenciaInspecao(args: { ocorrenciaId: number; mensagem: string }): AsyncHttpResult<void>;
 }
 
 export const defaultApiService: ApiService = {
@@ -95,6 +97,8 @@ export const defaultApiService: ApiService = {
 
   getOcorrenciasRespondidas: () => Utils.fetchApi('GET', '/simulate/ocorrencias-respondidas'),
   getSolicitacoesProrrogacao: () => Utils.fetchApi('GET', '/simulate/solicitacoes-prorrogacao'),
+  solucionarOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/solucionar', args),
+  solucionarOcorrenciaInspecao: (args) => Utils.fetchApi('POST', '/simulate/comunicar-para-inspecao', args),
 };
 
 export type CreateEscolaDto = {
