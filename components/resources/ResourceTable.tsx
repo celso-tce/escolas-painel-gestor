@@ -42,16 +42,22 @@ function ResourceTable<TModel extends BasicModel>({
     });
   }, [resourcesFiltered]);
 
-  const hasOpcao = onClickShowResource || onClickEditarResource || onClickDeletarResource;
+  const hasOpcao = React.useMemo(() => {
+    return onClickShowResource || onClickEditarResource || onClickDeletarResource;
+  }, [onClickShowResource, onClickEditarResource, onClickDeletarResource]);
 
-  let header: SimpleTableHeaderData[] = [
-    { label: '#' },
-    ...headerCols,
-  ];
+  const header: SimpleTableHeaderData[] = React.useMemo(() => {
+    const result: SimpleTableHeaderData[] = [
+      { label: '#' },
+      ...headerCols,
+    ];
 
-  if (hasOpcao) {
-    header.push({ label: 'Opções' });
-  }
+    if (hasOpcao) {
+      result.push({ label: 'Opções' });
+    };
+
+    return header;
+  }, [headerCols, hasOpcao]);
 
   const rows: SimpleTableRow[] = React.useMemo(() => {
     return resourcesSorted.map((res) => {
@@ -95,7 +101,8 @@ function ResourceTable<TModel extends BasicModel>({
 
       return { cols };
     });
-  }, [resourcesSorted, onClickShowResource, onClickEditarResource, onClickDeletarResource]);
+  }, [resourcesSorted, onClickShowResource, onClickEditarResource, onClickDeletarResource,
+      generateCols, hasOpcao]);
 
   return (<>
     {filtersContent && (
@@ -111,7 +118,7 @@ function ResourceTable<TModel extends BasicModel>({
         header={header}
         rows={rows}
       />
-    ), [rows])}
+    ), [rows, header])}
   </>);
 }
 

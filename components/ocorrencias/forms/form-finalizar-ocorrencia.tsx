@@ -47,7 +47,7 @@ const FormFinalizarOcorrencia: React.FC<FormFinalizarOcorrenciaProps> = ({
       },
       onCancel: () => {},
     });
-  }, [apiService, opcao]);
+  }, [apiService, opcao, ocorrencia.id, onFinish, showConfirmSwalDialog]);
 
   if (opcao !== undefined) {
     return (

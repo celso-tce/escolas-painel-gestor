@@ -45,7 +45,7 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
 
         setOcorrenciaOpcoes(result.payload);
       });
-  }, []);
+  }, [apiService, ocorrencia.id, onFinish]);
 
   const ocorrenciaOpcoes = React.useMemo(() => {
     if (_ocorrenciaOpcoes === undefined)
@@ -55,7 +55,7 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
       return _ocorrenciaOpcoes;
 
     return _ocorrenciaOpcoes.filter((oco) => oco.categoriaId === ocorrencia.categoriaId);
-  }, [_ocorrenciaOpcoes, filterCategoria]);
+  }, [_ocorrenciaOpcoes, filterCategoria, ocorrencia.categoriaId]);
 
   if (ocorrenciaOpcoes === undefined) {
     return (
@@ -97,7 +97,7 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
         </div>
 
         <div className="mb-1 text-slate-400 text-xs">
-          Selecione a ocorrência a qual deseja vincular e clique em "Vincular"
+          Selecione a ocorrência a qual deseja vincular e clique em &quot;Vincular&quot;
         </div>
 
         <div className="border border-slate-300">

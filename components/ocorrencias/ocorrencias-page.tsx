@@ -82,7 +82,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
     }
 
     reloadOcorrencias();
-  }, [reloadOcorrencias]);
+  }, [reloadOcorrencias, MySwal]);
 
   const loadEscolaNome = React.useCallback(async (escolaId: number) => {
     if (escolasNomes === undefined)
@@ -124,7 +124,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
         showColumns={tableShowColumns}
       />
     );
-  }, [ocorrencias, categoriasTitulos, escolasNomes, loadEscolaNome, loadCategoriaTitulo]);
+  }, [ocorrencias, loadEscolaNome, loadCategoriaTitulo, tableShowColumns]);
 
   const content = (
     <div>
@@ -215,7 +215,8 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
         )}</LoadableOcorrencia>}
       </Modal>
     );
-  }, [prosseguirOcorrencia, onFinishForm]);
+  }, [prosseguirOcorrencia, onFinishForm, MySwal, buildFormProsseguir, loadCategoriaTitulo,
+      loadEscolaNome, loadOcorrenciaWithAll]);
 
   const modalEditarTitulo = React.useMemo(() => {
     if (!editarTituloOcorrencia)

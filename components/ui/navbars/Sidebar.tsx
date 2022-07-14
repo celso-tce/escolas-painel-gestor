@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     }).filter((navbarGroup) => {
       return navbarGroup.items.length > 0;
     });
-  }, [user, userService]);
+  }, [_navbarGroups, user]);
 
   const collapseHeader = (
     // <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-slate-200">

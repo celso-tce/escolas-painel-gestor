@@ -134,7 +134,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData>({
         });
       }
     });
-  }, [MySwal]);
+  }, [MySwal, getResourceTitle, labelSingular, resources, serviceProvider]);
 
   //:: Result --------------------------------------------------------------------------------------
 
@@ -154,7 +154,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData>({
       onClickEditarResource: setShowModalResourceForm,
       onClickDeletarResource: onDeleteResource,
     });
-  }, [resources]);
+  }, [resources, buildTabela, onDeleteResource]);
 
   const modalCadastrar = React.useMemo(() => {
     return showModalResourceForm !== undefined && (
@@ -175,7 +175,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData>({
         })}
       </Modal>
     );
-  }, [showModalResourceForm, onSubmitResourceForm]);
+  }, [showModalResourceForm, onSubmitResourceForm, buildForm, labelSingular]);
 
   const modalDetails = React.useMemo(() => {
     return showModalResourceDetails !== undefined && (
@@ -189,7 +189,7 @@ function ResourcesPage<TModel extends BasicModel, TFormData>({
         {buildDetails(showModalResourceDetails)}
       </Modal>
     );
-  }, [showModalResourceDetails]);
+  }, [showModalResourceDetails, buildDetails]);
 
   return (
     <MainLayout currentPage="Index">

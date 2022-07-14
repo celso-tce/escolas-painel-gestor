@@ -9,8 +9,8 @@ const CoresPage: NextPage = () => {
   const statusOcorrenciaCores = (
     <CardSettings header="Status de Ocorrência" className="h-full">
       <div className="grow flex flex-col px-4 pt-4 bg-white">
-        {Object.values(StatusOcorrencia).map((status) => (
-          <OcorrenciaStatus status={status} className="font-bold" />
+        {Object.values(StatusOcorrencia).map((status, index) => (
+          <OcorrenciaStatus key={index} status={status} className="font-bold" />
         ))}
       </div>
     </CardSettings>

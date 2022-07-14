@@ -80,7 +80,7 @@ function ResourceForm<TModel extends BasicModel, TFormData>({
     }
 
     onSubmit(result);
-  }, [MySwal, onSubmit]);
+  }, [MySwal, onSubmit, camposObrigatorios, generateFormData]);
 
   return (
     <Form onSubmit={onSubmitForm}>

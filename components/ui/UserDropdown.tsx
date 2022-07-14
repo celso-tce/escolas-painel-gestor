@@ -66,7 +66,7 @@ const UserDropdown: React.FC<UserDropdownProps> = (props) => {
         </div>
       </div>
     );
-  }, [user, showDropdown, toggleDropdown]);
+  }, [user, showDropdown, toggleDropdown, userService]);
 
   if (user === null) {
     return (
