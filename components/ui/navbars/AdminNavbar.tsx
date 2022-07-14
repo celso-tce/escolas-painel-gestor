@@ -1,9 +1,9 @@
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import UserDropdown from "../UserDropdown";
 
-type AdminNavbarProps = {};
+type AdminNavbarProps = {
+  currentPage?: string;
+};
 
 const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
   return (
@@ -23,7 +23,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
             href="#"
             onClick={(e) => e.preventDefault()}
           >
-            Dashboard
+            {props.currentPage ?? 'Dashboard'}
           </a>
           {/* User */}
           <ul className="flex-col md:flex-row list-none items-center hidden md:flex text-white">

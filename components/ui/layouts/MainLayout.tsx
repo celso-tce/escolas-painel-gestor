@@ -92,7 +92,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
 
     <div className="md:ml-64 bg-slate-200 min-h-screen">
       <div className="relative">
-        <AdminNavbar />
+        <AdminNavbar currentPage={props.currentPage} />
         <AdminHeader />
       </div>
 
