@@ -3,22 +3,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Ocorrencia, Categoria, Escola } from "escolas-shared";
 import React from 'react';
 import Swal from "sweetalert2";
-import withReactContent, { ReactSweetAlert } from "sweetalert2-react-content";
+import withReactContent from "sweetalert2-react-content";
 import { OcorrenciaWithAll } from "../../lib/services/api-service";
-import { AsyncHttpResult, ConfirmSwalDialog } from "../../lib/types";
+import { ConfirmSwalDialog } from "../../lib/types";
 import { ApiServiceContext } from "../../pages/_app";
 import CardSettings from "../ui/cards/CardSettings";
-import MainLayout from "../ui/layouts/MainLayout";
 import Modal from "../ui/modal/Modal";
-import Spinkit from "../ui/Spinkit";
 import FormEditarTitulo from "./forms/form-editar-titulo";
 import LoadableOcorrencia from "./LoadableOcorrencia";
 import OcorrenciaDetalhes from "./ocorrencia-detalhes";
 import OcorrenciasTable, { OcorrenciasTableProps } from "./ocorrencias-table";
 
-type OcorrenciasPageProps = {
+export type OcorrenciasPageProps = {
+  ocorrencias: Ocorrencia[];
+  reloadOcorrencias: () => void;
+  categoriasTitulos: Categoria[];
+  escolasNomes: Escola[];
+
   pageTitle: string;
-  listOcorrencias: () => AsyncHttpResult<Ocorrencia[]>;
   buildFormProsseguir: (context: {
     ocorrencia: OcorrenciaWithAll;
     onClose: () => void;
@@ -33,14 +35,13 @@ type OcorrenciasPageProps = {
 
 const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   pageTitle,
-  listOcorrencias,
+  ocorrencias,
+  reloadOcorrencias,
+  categoriasTitulos,
+  escolasNomes,
   buildFormProsseguir,
   tableShowColumns,
 }) => {
-  const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
-  const [categoriasTitulos, setCategoriasTitulos] = React.useState<Categoria[]>();
-  const [escolasNomes, setEscolasNomes] = React.useState<Escola[]>();
-
   const [visualizarOcorrencia, setVisualizarOcorrencia] = React.useState<Ocorrencia>();
   const [prosseguirOcorrencia, setProsseguirOcorrencia] = React.useState<Ocorrencia>();
   const [editarTituloOcorrencia, setEditarTituloOcorrencia] = React.useState<Ocorrencia>();
@@ -48,17 +49,6 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   const apiService = React.useContext(ApiServiceContext);
 
   const MySwal = withReactContent(Swal);
-
-  const loadOcorrencias = React.useCallback(() => {
-    listOcorrencias().then((result) => {
-      if (result.type === 'error') {
-        // TODO handle error
-        return;
-      }
-
-      setOcorrencias(result.payload);
-    });
-  }, [apiService]);
 
   const loadOcorrenciaWithAll = React.useCallback(async (ocorrencia: Ocorrencia) => {
     const existente = ocorrencias && ocorrencias.find((oco) => oco.id === ocorrencia.id);
@@ -76,34 +66,6 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
     });
   }, [apiService, ocorrencias]);
 
-  const loadCategoriasTitulos = React.useCallback(() => {
-    apiService.getCategoriasTitulos().then((result) => {
-      if (result.type === 'error') {
-        // TODO handle error
-        return;
-      }
-
-      setCategoriasTitulos(result.payload);
-    });
-  }, [apiService]);
-
-  const loadEscolasNomes = React.useCallback(() => {
-    apiService.getEscolasNomes().then((result) => {
-      if (result.type === 'error') {
-        // TODO handle error
-        return;
-      }
-
-      setEscolasNomes(result.payload);
-    });
-  }, [apiService]);
-
-  React.useEffect(() => {
-    loadOcorrencias();
-    loadCategoriasTitulos();
-    loadEscolasNomes();
-  }, [loadOcorrencias, loadCategoriasTitulos, loadEscolasNomes]);
-
   const onFinishForm = React.useCallback((err: any) => {
     if (err) {
       console.error(err);
@@ -114,12 +76,11 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
       });
     }
 
-    setOcorrencias(undefined);
-    setVisualizarOcorrencia(undefined);
-    setProsseguirOcorrencia(undefined);
-    setEditarTituloOcorrencia(undefined);
-    loadOcorrencias();
-  }, [loadOcorrencias]);
+    // setVisualizarOcorrencia(undefined);
+    // setProsseguirOcorrencia(undefined);
+    // setEditarTituloOcorrencia(undefined);
+    reloadOcorrencias();
+  }, [reloadOcorrencias]);
 
   const loadEscolaNome = React.useCallback(async (escolaId: number) => {
     if (escolasNomes === undefined)
@@ -138,15 +99,6 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   }, [categoriasTitulos]);
 
   const table = React.useMemo(() => {
-    if (ocorrencias === undefined || categoriasTitulos === undefined || escolasNomes === undefined) {
-      return (
-        <div className="flex flex-col items-center my-2 text-slate-700">
-          <Spinkit type="wave" color="var(--color-blue-400)" dots={5} />
-          Carregando...
-        </div>
-      );
-    }
-
     return (
       <OcorrenciasTable
         ocorrencias={ocorrencias}
@@ -187,8 +139,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
       onClick={(e) => {
         e.preventDefault();
         if (ocorrencias !== undefined) {
-          setOcorrencias(undefined);
-          loadOcorrencias();
+          reloadOcorrencias();
         }
       }}
     >
@@ -294,19 +245,17 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
     ? `${pageTitle} (${ocorrencias.length})`
     : pageTitle;
 
-  return (
-    <MainLayout currentPage={pageTitle}>
-      <div className="relative">
-        <CardSettings header={header} headerEnd={refreshDiv}>
-          {content}
-        </CardSettings>
-      </div>
+  return (<>
+    <div className="relative">
+      <CardSettings header={header} headerEnd={refreshDiv}>
+        {content}
+      </CardSettings>
+    </div>
 
-      {modalVisualizar}
-      {modalProsseguir}
-      {modalEditarTitulo}
-    </MainLayout>
-  );
+    {modalVisualizar}
+    {modalProsseguir}
+    {modalEditarTitulo}
+  </>);
 };
 
 export default React.memo(OcorrenciasPage);
