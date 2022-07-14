@@ -47,6 +47,12 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
             icon: faBell,
             roles: ['INSPETORIA'],
           },
+          {
+            url: '/ocorrencias/prorrogacoes-solicitadas',
+            label: 'Prorrogações Solicitadas',
+            icon: faBell,
+            roles: ['INSPETORIA'],
+          },
         ],
       },
       {
