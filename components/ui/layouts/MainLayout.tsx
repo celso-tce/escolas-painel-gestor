@@ -50,8 +50,8 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
             roles: ['GESTOR'],
           },
           {
-            url: '/ocorrencias/solicitacoes-prorrogacao',
-            label: 'Solicitações de Prorrogação',
+            url: '/ocorrencias/respondidas',
+            label: 'Ocorrências Respondidas',
             icon: faBell,
             roles: ['INSPETORIA'],
           },

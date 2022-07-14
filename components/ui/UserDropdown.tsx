@@ -36,7 +36,8 @@ const UserDropdown: React.FC<UserDropdownProps> = (props) => {
           {userRoles.map((userRole, index) => (
             <a
               key={index}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 userService.saveUser({
                   ...user,
                   role: userRole,

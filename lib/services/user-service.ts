@@ -43,6 +43,6 @@ export const debugUserService: UserService = {
   saveUser: (user: User) => {
     const userJson = JSON.stringify(user);
     localStorage.setItem('user', userJson);
-    window.location.reload();
+    window.location.replace('/');
   },
 };
