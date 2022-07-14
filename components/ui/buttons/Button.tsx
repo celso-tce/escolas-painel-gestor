@@ -2,7 +2,7 @@ import React from 'react';
 
 export type ButtonProps = {
   children: React.ReactNode;
-  color?: 'primary' | 'success' | 'info' | 'danger';
+  color?: 'primary' | 'success' | 'info' | 'danger' | 'warning';
   onClick?: () => void;
   noPadding?: boolean;
   disabled?: boolean;
@@ -22,6 +22,8 @@ const Button: React.FC<ButtonProps> = (props) => {
       ? 'bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-500 text-white'
     : color === 'danger'
       ? 'bg-red-600 hover:bg-red-500 active:bg-red-500 text-white'
+    : color === 'warning'
+      ? 'bg-amber-600 hover:bg-amber-500 active:bg-amber-500 text-white'
     : 'bg-slate-500 hover:bg-slate-400 active:bg-slate-400 text-white';
 
   const paddingCss = props.noPadding ? '' : 'px-4 py-2';

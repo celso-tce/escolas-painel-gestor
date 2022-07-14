@@ -54,7 +54,7 @@ const Recebidas: NextPage = () => {
       const prazo = OcorrenciaHelper.getPrazo(oco);
 
       if (!prazo) {
-        console.error(`Esta ocorrência não possui prazo mas se encontra em análise?`);
+        console.error(`Esta ocorrência não possui prazo mas se encontra nesse status?`);
         console.error(oco);
         return true;
       }

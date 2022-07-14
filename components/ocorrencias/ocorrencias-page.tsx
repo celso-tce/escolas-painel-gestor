@@ -69,9 +69,14 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   const onFinishForm = React.useCallback((err: any) => {
     if (err) {
       console.error(err);
+
+      const errorMsg = typeof err === 'string' ? (
+        `<div class="text-sm text-slate-500"><b>${err}</b></div>`
+      ) : '';
+
       MySwal.fire({
-        text: 'Erro ao enviar informações. Por favor tente novamente mais tarde ou ' +
-          'contate da DAINF (TCE) caso o problema persistir.',
+        html: 'Erro ao enviar informações. Por favor tente novamente mais tarde ou ' +
+          'contate da DAINF (TCE) caso o problema persistir.' + errorMsg,
         icon: 'error',
       });
     }

@@ -30,11 +30,11 @@ export interface ApiService {
   loadOcorrencia(id: number): AsyncHttpResult<OcorrenciaWithAll>;
 
   getNovasOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
-  editarTituloOcorrencia(args: { ocorrenciaId: number, titulo: string }): AsyncHttpResult<void>;
-  rejeitarOcorrencia(args: { ocorrenciaId: number, motivo: string }): AsyncHttpResult<void>;
+  editarTituloOcorrencia(args: { ocorrenciaId: number; titulo: string }): AsyncHttpResult<void>;
+  rejeitarOcorrencia(args: { ocorrenciaId: number; motivo: string }): AsyncHttpResult<void>;
   aprovarOcorrencia(args: { ocorrenciaId: number }): AsyncHttpResult<void>;
   listarOcorrenciasVinculaveis(id: number): AsyncHttpResult<Ocorrencia[]>;
-  vincularRelato(args: { relatoId: number, novaOcorrenciaId: number }): AsyncHttpResult<void>;
+  vincularRelato(args: { relatoId: number; novaOcorrenciaId: number }): AsyncHttpResult<void>;
 
   getOcorrenciasEmAnalise(): AsyncHttpResult<Ocorrencia[]>;
   encaminharOcorrencia(args: {
@@ -46,6 +46,8 @@ export interface ApiService {
   getOcorrenciasRecebidas(): AsyncHttpResult<Array<
     Ocorrencia & { andamentos: Andamento[] }
   >>;
+  solicitarProrrogacao(args: { ocorrenciaId: number; motivo: string }): AsyncHttpResult<void>;
+  responderOcorrencia(args: { ocorrenciaId: number; resposta: string }): AsyncHttpResult<void>;
 }
 
 export const defaultApiService: ApiService = {
@@ -85,6 +87,8 @@ export const defaultApiService: ApiService = {
   encaminharOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/encaminhar-para-gestor', args),
 
   getOcorrenciasRecebidas: () => Utils.fetchApi('GET', '/simulate/ocorrencias-aguardando-gestor'),
+  solicitarProrrogacao: (args) => Utils.fetchApi('POST', '/simulate/solicitar-prorrogacao-prazo', args),
+  responderOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/responder-ocorrencia', args),
 };
 
 export type CreateEscolaDto = {

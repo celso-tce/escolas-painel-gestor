@@ -32,8 +32,23 @@ async function fetchHelper<T>(method: Method, url: string, data?: any): Promise<
           code: result.status,
           message: result.statusText,
       };
-  } catch (err) {
+  } catch (err: any) {
       console.error(err);
+
+      if (typeof err === 'object' && typeof err['response'] === 'object') {
+        const code = typeof err['response']['status'] === 'number'
+          && err['response']['status'];
+
+        const message = typeof err['response']['data'] === 'object'
+          && typeof err['response']['data']['message'] === 'string'
+          && err['response']['data']['message'];
+
+        return {
+          type: 'error',
+          code: code !== false ? code : 500,
+          message: message !== false ? message : 'Erro desconhecido.',
+        };
+      }
 
       return {
           type: 'error',
