@@ -17,15 +17,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
       {
         label: 'Dashboard',
         items: [
-          { url: '/home', label: 'Índice', icon: faHome },
-        ],
-      },
-      {
-        label: 'Administrativo',
-        items: [
-          { url: '/escolas', label: 'Escolas', icon: faSchool },
-          { url: '/categorias', label: 'Categorias', icon: faListAlt },
-          { url: '/users', label: 'Usuários', icon: faUsers },
+          { url: '/home', label: 'Início', icon: faHome },
         ],
       },
       {
@@ -73,7 +65,15 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
             roles: ['OUVIDORIA'],
           },
         ],
-      }
+      },
+      {
+        label: 'Administrativo',
+        items: [
+          { url: '/escolas', label: 'Escolas', icon: faSchool },
+          { url: '/categorias', label: 'Categorias', icon: faListAlt },
+          { url: '/users', label: 'Usuários', icon: faUsers },
+        ],
+      },
     ]} />
 
     <Head>

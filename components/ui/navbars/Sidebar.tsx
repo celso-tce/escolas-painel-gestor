@@ -158,7 +158,8 @@ const _NavigationGroup: React.FC<{
     {/* Navigation */}
     <ul className="md:flex-col md:min-w-full flex flex-col list-none">
       {navbarGroup.items.map((item, index) => {
-        const isCurrent = router.pathname.indexOf(item.url) !== -1;
+        const isCurrent = router.pathname.indexOf(item.url) !== -1
+          || (item.url === '/home' && router.pathname === '/');
 
         return (
           <li key={index} className="items-center">
