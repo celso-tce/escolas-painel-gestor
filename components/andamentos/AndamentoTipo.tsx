@@ -9,6 +9,7 @@ type AndamentoTipoProps = {
 const tipoClasses: Record<keyof typeof TipoAndamento, string> = {
   Cancelamento: 'text-red-600',
   Vinculamento: 'text-slate-700 italic',
+  EnvioParaAnalise: 'text-cyan-600',
   EnvioAoGestor: 'text-amber-600',
   SolicitacaoDeProrrogacao: 'text-pink-700',
   Resposta: 'text-sky-700',

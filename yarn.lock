@@ -1231,7 +1231,7 @@
   "version" "4.0.0"
 
 "escolas-shared@github:TCE-AMAPA/escolas-shared":
-  "resolved" "git+ssh://git@github.com/TCE-AMAPA/escolas-shared.git#8a2834d9fe8b7162dd44224e53d374fc31b13a67"
+  "resolved" "git+ssh://git@github.com/TCE-AMAPA/escolas-shared.git#9d99e4b28fbb80f5afd93f53305f3eae5b902c78"
   "version" "9.3.0"
   dependencies:
     "@prisma/client" "^4.0.0"
