@@ -19,7 +19,7 @@ const DateText: React.FC<DateTextProps> = (props) => {
 
   const formatted = props.relative
     ? dateTime.toRelative() ?? ''
-    : dateTime.toFormat(props.format ?? 'dd/mm/yyyy');
+    : dateTime.toFormat(props.format ?? 'dd/LL/yyyy');
 
   return (<>
     {formatted}
