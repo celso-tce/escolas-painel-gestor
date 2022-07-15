@@ -43,7 +43,7 @@ const FormEditarTitulo: React.FC<FormEditarTituloProps> = ({
       }}
     >
       <FormSection className="w-full lg:w-8/12 pr-4 mb-4">
-        <Label label="Novo Título" htmlFor="i-novo-titulo" />
+        <Label label="Observação" htmlFor="i-novo-titulo" />
         <Input
           htmlId="i-novo-titulo"
           name="titulo"

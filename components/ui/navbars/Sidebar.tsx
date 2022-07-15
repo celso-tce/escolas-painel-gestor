@@ -165,7 +165,7 @@ const _NavigationGroup: React.FC<{
           <li key={index} className="items-center">
             <Link href={item.url}>
               <a
-                className={'text-xs uppercase py-3 font-bold block flex items-center'
+                className={'text-xs py-3 font-bold block flex items-center'
                   + (isCurrent
                     ? (dark
                         ? ' text-tce-yellow-4 hover:text-tce-yellow-3'

@@ -58,7 +58,7 @@ const EmAnalise: NextPage = () => {
         buildFormProsseguir={(ctx) => (
           <FormOcorrenciaEmAnalise {...ctx} />
         )}
-        tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'prazo',
+        tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'criadoEm', 'prazo',
           'operacoes']}
         lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
       />

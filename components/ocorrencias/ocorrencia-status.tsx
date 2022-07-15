@@ -7,7 +7,7 @@ type OcorrenciaStatusProps = {
 };
 
 const statusClasses: Record<keyof typeof StatusOcorrencia, string> = {
-  Recebido: 'text-blue-500',
+  Recebido: 'text-gray-500',
   Cancelado: 'text-red-600',
   EmAnalise: 'text-cyan-600',
   AguardandoGestor: 'text-amber-600',

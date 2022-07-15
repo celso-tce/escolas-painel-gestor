@@ -22,29 +22,41 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
         ],
       },
       {
-        label: 'Atividades',
+        label: 'Tarefas',
         items: [
           {
             url: '/ocorrencias/novas',
-            label: 'Novas Ocorrências',
+            label: 'Novas',
             icon: faWarning,
             roles: ['OUVIDORIA'],
           },
           {
             url: '/ocorrencias/em-analise',
-            label: 'Ocorrências em Análise',
+            label: 'Em Análise',
             icon: faWarning,
             roles: ['INSPETORIA'],
           },
           {
             url: '/ocorrencias/recebidas',
-            label: 'Ocorrências Recebidas',
+            label: 'Recebidas',
+            icon: faWarning,
+            roles: ['GESTOR'],
+          },
+          {
+            url: '/ocorrencias/em-atraso',
+            label: 'Em atraso',
+            icon: faWarning,
+            roles: ['GESTOR'],
+          },
+          {
+            url: '/ocorrencias/fora-do-prazo',
+            label: 'Fora do prazo',
             icon: faWarning,
             roles: ['GESTOR'],
           },
           {
             url: '/ocorrencias/respondidas',
-            label: 'Ocorrências Respondidas',
+            label: 'Respondidas',
             icon: faWarning,
             roles: ['INSPETORIA'],
           },

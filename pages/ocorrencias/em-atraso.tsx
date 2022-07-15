@@ -71,8 +71,8 @@ const Recebidas: NextPage = () => {
     });
 
     return (<OcorrenciasPage
-      pageTitle="Ocorrências Recebidas"
-      ocorrencias={ocorrenciasOutras}
+      pageTitle="Ocorrências Em Atraso"
+      ocorrencias={ocorrenciasEmAtraso}
       categoriasTitulos={categoriasTitulos}
       escolasNomes={escolasNomes}
       reloadOcorrencias={reloadOcorrencias}
@@ -86,7 +86,7 @@ const Recebidas: NextPage = () => {
   }, [ocorrencias, categoriasTitulos, escolasNomes, reloadOcorrencias]);
 
   return (
-    <MainLayout currentPage="Ocorrências Recebidas">
+    <MainLayout currentPage="Ocorrências Em Atraso">
       {content}
     </MainLayout>
   );

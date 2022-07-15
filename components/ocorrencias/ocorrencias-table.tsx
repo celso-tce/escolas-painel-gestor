@@ -74,13 +74,13 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
       overrideColClasses="px-4 py-2 align-middle text-slate-700 break-words max-w-xs"
       header={[
         columnId && { label: '#', classes: 'w-0' },
-        columnTitulo && { label: 'Título' },
         columnDescricao &&  { label: 'Descrição' },
         columnEscola &&  { label: 'Escola' },
         columnCategoria &&  { label: 'Categoria' },
         columnStatus &&  { label: 'Status' },
         columnCriadoEm &&  { label: 'Criado Em' },
         columnPrazo &&  { label: 'Prazo' },
+        columnTitulo && { label: 'Observação' },
         columnOperacoes &&  { label: 'Ação' },
       ].filter((c) => c !== false) as SimpleTableHeaderData[]}
       rows={ocorrencias.map((ocorrencia) => {
@@ -170,13 +170,13 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
         return {
           cols: [
             columnId && { content: ocorrencia.id },
-            columnTitulo && { content: titulo },
             columnDescricao && { content: descricao, classes: '' },
             columnEscola && { content: escola },
             columnCategoria && { content: categoria },
             columnStatus && { content: status },
             columnCriadoEm && { content: createdAt },
             columnPrazo && { content: prazo },
+            columnTitulo && { content: titulo },
             columnOperacoes && { content: operacoesDiv },
           ].filter((c) => c !== false) as SimpleTableCol[],
         };

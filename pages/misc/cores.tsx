@@ -1,9 +1,10 @@
 import React from 'react';
 import type { NextPage } from 'next';
 import MainLayout from '../../components/ui/layouts/MainLayout';
-import { StatusOcorrencia } from "escolas-shared/dist/common";
+import { StatusOcorrencia, TipoAndamento } from "escolas-shared/dist/common";
 import CardSettings from "../../components/ui/cards/CardSettings";
 import OcorrenciaStatus from "../../components/ocorrencias/ocorrencia-status";
+import AndamentoTipo from "../../components/andamentos/AndamentoTipo";
 
 const CoresPage: NextPage = () => {
   const statusOcorrenciaCores = (
@@ -18,7 +19,11 @@ const CoresPage: NextPage = () => {
 
   const tipoAndamentoCores = (
     <CardSettings header="Tipos de Andamento" className="h-full">
-      <div></div>
+      <div className="grow flex flex-col px-4 pt-4 bg-white">
+        {Object.values(TipoAndamento).map((tipo, index) => (
+          <AndamentoTipo key={index} tipo={tipo} className="font-bold" />
+        ))}
+      </div>
     </CardSettings>
   );
 

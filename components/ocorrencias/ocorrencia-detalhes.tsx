@@ -4,6 +4,7 @@ import { Andamento, Ocorrencia, TipoAndamento } from "escolas-shared";
 import React from 'react';
 import { OcorrenciaHelper } from "../../lib/escolas/ocorrencia-helper";
 import { OcorrenciaWithAll } from "../../lib/services/api-service";
+import { Utils } from "../../lib/utils";
 import AndamentosTimeline from "../andamentos/AndamentosTimeline";
 import AndamentoTipo from "../andamentos/AndamentoTipo";
 import RelatosGroup from "../relatos/RelatosGroup";
@@ -31,7 +32,12 @@ const OcorrenciaDetalhes: React.FC<OcorrenciaDetalhesProps> = ({
   );
 
   const escola = (
-    <div>{ocorrencia.escola.nome}</div>
+    <div>
+      {ocorrencia.escola.nome}&nbsp;
+      <span className="text-slate-400">
+        ({Utils.escolaTipoLabel(ocorrencia.escola.tipo)})
+      </span>
+    </div>
   );
 
   const ultimoAndamento = OcorrenciaHelper.getUltimoAndamento(ocorrencia);
@@ -45,9 +51,6 @@ const OcorrenciaDetalhes: React.FC<OcorrenciaDetalhesProps> = ({
         <_Section label="Status" value={<OcorrenciaStatus status={ocorrencia.status} />} />
       </div>
       <div className="w-full lg:w-6/12 p-1">
-        <_Section label="Título" value={ocorrencia.titulo ?? '(Sem título)'} />
-      </div>
-      <div className="w-full lg:w-6/12 p-1">
         <_Section label="Criado Em" value={createdAt} />
       </div>
       <div className="w-full lg:w-6/12 p-1">
@@ -58,6 +61,9 @@ const OcorrenciaDetalhes: React.FC<OcorrenciaDetalhesProps> = ({
       </div>
       <div className="w-full lg:w-12/12 p-1">
         <_Section label="Descrição" value={ocorrencia.descricao} />
+      </div>
+      <div className="w-full lg:w-12/12 p-1">
+        <_Section label="Observação" value={ocorrencia.titulo ?? '(Sem título)'} />
       </div>
       {ultimoAndamento && (
         <div className="w-full lg:w-12/12 p-1">

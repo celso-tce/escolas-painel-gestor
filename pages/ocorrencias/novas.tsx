@@ -58,7 +58,7 @@ const NovasPage: NextPage = () => {
         buildFormProsseguir={(ctx) => (
           <FormNovaOcorrencia {...ctx} />
         )}
-        tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'prazo',
+        tableShowColumns={['id', 'titulo', 'descricao', 'escola', 'categoria', 'criadoEm',
           'operacoes']}
         lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
       />

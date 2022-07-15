@@ -29,7 +29,7 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
   showConfirmSwalDialog,
   loadOcorrenciaWithAll,
 }) => {
-  const [filterCategoria, setFilterCategoria] = React.useState<boolean>(false);
+  const [filterCategoria, setFilterCategoria] = React.useState<boolean>(true);
   const [_ocorrenciaOpcoes, setOcorrenciaOpcoes] = React.useState<Ocorrencia[]>();
   const [selected, setSelected] = React.useState<Ocorrencia>();
 

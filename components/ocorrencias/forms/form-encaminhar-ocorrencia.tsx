@@ -53,6 +53,10 @@ const FormEncaminharOcorrencia: React.FC<FormEncaminharOcorrenciaProps> = ({
         });
       }}
     >
+      <div className="mb-2 w-full">
+        (INSERIR NOME DO GESTOR)
+      </div>
+
       <FormSection className="w-full lg:w-8/12 pr-4 mb-4">
         <Label htmlFor="i-mensagem" label="Mensagem" />
         <Input htmlId="i-mensagem" name="mensagem" required />
