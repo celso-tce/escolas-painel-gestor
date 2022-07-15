@@ -176,7 +176,7 @@ const FormVincularOcorrencia: React.FC<FormVincularOcorrenciaProps> = ({
         ) : <div />}
 
         {selected ? (
-          <Button key="0" onClick={() => setSelected(undefined)}>Alterar Ocorrência</Button>
+          <Button key="0" onClick={() => setSelected(undefined)}>Voltar</Button>
         ) : (
           <Button key="1" onClick={onClose}>Cancelar</Button>
         )}

@@ -7,6 +7,7 @@ import MainLayout from "../../components/ui/layouts/MainLayout";
 import Spinkit from "../../components/ui/Spinkit";
 import { Hooks } from "../../lib/react/hooks";
 import FormOcorrenciaEmAnalise from "../../components/ocorrencias/forms/form-ocorrencia-em-analise";
+import { OcorrenciaWithAll } from "../../lib/services/api-service";
 
 const EmAnalise: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
@@ -59,6 +60,7 @@ const EmAnalise: NextPage = () => {
         )}
         tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'prazo',
           'operacoes']}
+        lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
       />
     );
   }, [ocorrencias, categoriasTitulos, escolasNomes, reloadOcorrencias]);

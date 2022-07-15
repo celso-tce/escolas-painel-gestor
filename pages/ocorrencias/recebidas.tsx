@@ -9,6 +9,7 @@ import MainLayout from "../../components/ui/layouts/MainLayout";
 import Spinkit from "../../components/ui/Spinkit";
 import { DateTime } from "luxon";
 import { OcorrenciaHelper } from "../../lib/escolas/ocorrencia-helper";
+import { OcorrenciaWithAll } from "../../lib/services/api-service";
 
 const Recebidas: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<(Ocorrencia & { andamentos: Andamento[] })[]>();
@@ -82,6 +83,7 @@ const Recebidas: NextPage = () => {
           )}
           tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'prazo',
             'operacoes']}
+          lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
         />
       )}
 
@@ -96,6 +98,7 @@ const Recebidas: NextPage = () => {
         )}
         tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'prazo',
           'operacoes']}
+        lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
       />
     </>);
   }, [ocorrencias, categoriasTitulos, escolasNomes, reloadOcorrencias]);

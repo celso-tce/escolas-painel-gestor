@@ -7,6 +7,7 @@ import MainLayout from "../../components/ui/layouts/MainLayout";
 import { Ocorrencia } from "escolas-shared";
 import { Hooks } from "../../lib/react/hooks";
 import FormProrrogacaoSolicitada from "../../components/ocorrencias/forms/form-prorrogacao-solicitada";
+import { OcorrenciaWithAll } from "../../lib/services/api-service";
 
 const ProrrogacoesSolicitadasPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
@@ -58,6 +59,7 @@ const ProrrogacoesSolicitadasPage: NextPage = () => {
           <FormProrrogacaoSolicitada {...ctx} />
         )}
         tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'operacoes']}
+        lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
       />
     );
   }, [ocorrencias, categoriasTitulos, escolasNomes, reloadOcorrencias]);

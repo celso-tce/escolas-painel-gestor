@@ -6,10 +6,8 @@ import Spinkit from "../../components/ui/Spinkit";
 import MainLayout from "../../components/ui/layouts/MainLayout";
 import { Ocorrencia } from "escolas-shared";
 import { Hooks } from "../../lib/react/hooks";
-import FormOcorrenciaRespondida from "../../components/ocorrencias/forms/form-ocorrencia-respondida";
-import { OcorrenciaWithAll } from "../../lib/services/api-service";
 
-const RespondidasPage: NextPage = () => {
+const IndexPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
   const [categoriasTitulos, loadCategoriasTitulos] = Hooks.useCategoriasTitulos();
   const [escolasNomes, loadEscolasNomes] = Hooks.useEscolasNomes();
@@ -17,7 +15,7 @@ const RespondidasPage: NextPage = () => {
   const apiService = React.useContext(ApiServiceContext);
 
   const loadOcorrencias = React.useCallback(() => {
-    apiService.getOcorrenciasRespondidas().then((result) => {
+    apiService.getOcorrencias().then((result) => {
       if (result.type === 'error') {
         // TODO handle error
         return;
@@ -31,6 +29,17 @@ const RespondidasPage: NextPage = () => {
     setOcorrencias(undefined);
     loadOcorrencias();
   }, [loadOcorrencias]);
+
+  const lazyLoadOcorrencia = React.useCallback((ocorrencia: Ocorrencia) => {
+    return apiService.loadOcorrencia(ocorrencia.id).then((result) => {
+      if (result.type === 'error') {
+        // TODO handle error!
+        throw result.message;
+      }
+
+      return result.payload;
+    });
+  }, [apiService]);
 
   React.useEffect(() => {
     loadOcorrencias();
@@ -50,25 +59,24 @@ const RespondidasPage: NextPage = () => {
 
     return (
       <OcorrenciasPage
-        pageTitle="Ocorrências Respondidas"
+        pageTitle="Todas as Ocorrências"
         ocorrencias={ocorrencias}
         categoriasTitulos={categoriasTitulos}
         escolasNomes={escolasNomes}
         reloadOcorrencias={reloadOcorrencias}
-        buildFormProsseguir={(ctx) => (
-          <FormOcorrenciaRespondida {...ctx} />
-        )}
-        tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'operacoes']}
-        lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
+        tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm',
+          'operacoes']}
+        readonly
+        lazyLoadOcorrencia={lazyLoadOcorrencia}
       />
     );
   }, [ocorrencias, categoriasTitulos, escolasNomes, reloadOcorrencias]);
 
   return (
-    <MainLayout currentPage="Ocorrências Respondidas">
+    <MainLayout currentPage="Todas as Ocorrências">
       {content}
     </MainLayout>
   );
 };
 
-export default RespondidasPage;
+export default IndexPage;

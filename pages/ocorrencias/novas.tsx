@@ -7,6 +7,7 @@ import Spinkit from "../../components/ui/Spinkit";
 import MainLayout from "../../components/ui/layouts/MainLayout";
 import { Ocorrencia } from "escolas-shared";
 import { Hooks } from "../../lib/react/hooks";
+import { OcorrenciaWithAll } from "../../lib/services/api-service";
 
 const NovasPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<Ocorrencia[]>();
@@ -59,6 +60,7 @@ const NovasPage: NextPage = () => {
         )}
         tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'status', 'criadoEm', 'prazo',
           'operacoes']}
+        lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
       />
     );
   }, [ocorrencias, categoriasTitulos, escolasNomes, reloadOcorrencias]);

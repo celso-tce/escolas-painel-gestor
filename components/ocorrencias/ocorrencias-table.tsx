@@ -85,7 +85,6 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
       ].filter((c) => c !== false) as SimpleTableHeaderData[]}
       rows={ocorrencias.map((ocorrencia) => {
         const hasAndamentos = 'andamentos' in ocorrencia;
-        columnPrazo &&= hasAndamentos; // é preciso ter os andamentos carregados para ter o prazo
 
         const titulo = columnTitulo && ocorrencia.titulo
           ? ocorrencia.titulo
@@ -142,8 +141,14 @@ const OcorrenciasTable: React.FC<OcorrenciasTableProps> = ({
         );
 
         const prazo = columnPrazo && (() => {
+          if (!hasAndamentos)
+            return <div />
+
           const prazo = OcorrenciaHelper.getPrazo(
             ocorrencia as Ocorrencia & { andamentos: Andamento[] });
+
+          if (!prazo)
+            return <div />
 
           return prazo && <OcorrenciaPrazo prazo={new Date(prazo)} />;
         })();

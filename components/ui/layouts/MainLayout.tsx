@@ -1,4 +1,4 @@
-import { faHome, faUsers, faSchool, faListAlt, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUsers, faSchool, faListAlt, faBell, faWarning } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
 import React from 'react';
 import FooterAdmin from '../footers/FooterAdmin';
@@ -18,6 +18,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
         label: 'Dashboard',
         items: [
           { url: '/home', label: 'Início', icon: faHome },
+          { url: '/ocorrencias', label: 'Visão Geral', icon: faListAlt },
         ],
       },
       {
@@ -26,31 +27,31 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
           {
             url: '/ocorrencias/novas',
             label: 'Novas Ocorrências',
-            icon: faBell,
+            icon: faWarning,
             roles: ['OUVIDORIA'],
           },
           {
             url: '/ocorrencias/em-analise',
             label: 'Ocorrências em Análise',
-            icon: faBell,
+            icon: faWarning,
             roles: ['INSPETORIA'],
           },
           {
             url: '/ocorrencias/recebidas',
             label: 'Ocorrências Recebidas',
-            icon: faBell,
+            icon: faWarning,
             roles: ['GESTOR'],
           },
           {
             url: '/ocorrencias/respondidas',
             label: 'Ocorrências Respondidas',
-            icon: faBell,
+            icon: faWarning,
             roles: ['INSPETORIA'],
           },
           {
             url: '/ocorrencias/prorrogacoes-solicitadas',
             label: 'Prorrogações Solicitadas',
-            icon: faBell,
+            icon: faWarning,
             roles: ['INSPETORIA'],
           },
         ],

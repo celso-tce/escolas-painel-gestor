@@ -12,26 +12,35 @@ import Modal from "../ui/modal/Modal";
 import FormEditarTitulo from "./forms/form-editar-titulo";
 import LoadableOcorrencia from "./LoadableOcorrencia";
 import OcorrenciaDetalhes from "./ocorrencia-detalhes";
-import OcorrenciasTable, { OcorrenciasTableProps } from "./ocorrencias-table";
+import OcorrenciasTable, { OcorrenciasTableOperacao, OcorrenciasTableProps } from "./ocorrencias-table";
 
 export type OcorrenciasPageProps = {
   ocorrencias: Ocorrencia[];
   reloadOcorrencias: () => void;
   categoriasTitulos: Categoria[];
   escolasNomes: Escola[];
-
   pageTitle: string;
-  buildFormProsseguir: (context: {
-    ocorrencia: OcorrenciaWithAll;
-    onClose: () => void;
-    onFinish: (err?: any) => void;
-    loadEscolaNome: OcorrenciasTableProps['loadEscolaNome'];
-    loadCategoriaTitulo: OcorrenciasTableProps['loadCategoriaTitulo'];
-    showConfirmSwalDialog: (args: ConfirmSwalDialog) => void;
-    loadOcorrenciaWithAll: (ocorrencia: Ocorrencia) => Promise<OcorrenciaWithAll>;
-  }) => React.ReactNode;
   tableShowColumns?: OcorrenciasTableProps['showColumns'];
-};
+  lazyLoadOcorrencia: (ocorrencia: Ocorrencia) => Promise<OcorrenciaWithAll>;
+} & (
+  {
+    readonly?: false;
+    buildFormProsseguir: (context: {
+      ocorrencia: OcorrenciaWithAll;
+      onClose: () => void;
+      onFinish: (err?: any) => void;
+      loadEscolaNome: OcorrenciasTableProps['loadEscolaNome'];
+      loadCategoriaTitulo: OcorrenciasTableProps['loadCategoriaTitulo'];
+      showConfirmSwalDialog: (args: ConfirmSwalDialog) => void;
+      loadOcorrenciaWithAll: (ocorrencia: Ocorrencia) => Promise<OcorrenciaWithAll>;
+    }) => React.ReactNode;
+  }
+  |
+  {
+    readonly: true;
+    buildFormProsseguir?: never;
+  }
+);
 
 const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   pageTitle,
@@ -39,8 +48,10 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   reloadOcorrencias,
   categoriasTitulos,
   escolasNomes,
-  buildFormProsseguir,
   tableShowColumns,
+  readonly,
+  buildFormProsseguir,
+  lazyLoadOcorrencia,
 }) => {
   const [visualizarOcorrencia, setVisualizarOcorrencia] = React.useState<Ocorrencia>();
   const [prosseguirOcorrencia, setProsseguirOcorrencia] = React.useState<Ocorrencia>();
@@ -54,7 +65,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
     const existente = ocorrencias && ocorrencias.find((oco) => oco.id === ocorrencia.id);
 
     if (existente)
-      return existente as OcorrenciaWithAll;
+      return lazyLoadOcorrencia(existente);
 
     return apiService.loadOcorrencia(ocorrencia.id).then((result) => {
       if (result.type === 'error') {
@@ -100,24 +111,29 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
       ?? '(CATEGORIA NÃO ENCONTRADA)';
   }, [categoriasTitulos]);
 
+  const operacoesArray: OcorrenciasTableOperacao[] = [
+    {
+      name: 'Visualizar',
+      color: 'primary',
+      icon: faEye,
+      onClick: setVisualizarOcorrencia,
+    },
+  ];
+
+  if (!readonly) {
+    operacoesArray.unshift({
+      name: 'Prosseguir',
+      color: 'info',
+      icon: faPlay,
+      onClick: setProsseguirOcorrencia,
+    });
+  }
+
   const table = React.useMemo(() => {
     return (
       <OcorrenciasTable
         ocorrencias={ocorrencias}
-        operacoes={[
-          {
-            name: 'Prosseguir',
-            color: 'info',
-            icon: faPlay,
-            onClick: setProsseguirOcorrencia,
-          },
-          {
-            name: 'Visualizar',
-            color: 'primary',
-            icon: faEye,
-            onClick: setVisualizarOcorrencia,
-          },
-        ]}
+        operacoes={operacoesArray}
         onClickEditarTitulo={setEditarTituloOcorrencia}
         loadEscolaNome={loadEscolaNome}
         loadCategoriaTitulo={loadCategoriaTitulo}
@@ -163,7 +179,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
         <div className="px-4 py-2 bg-slate-100">
           {<LoadableOcorrencia
             ocorrencia={visualizarOcorrencia}
-            loader={async () => visualizarOcorrencia as OcorrenciaWithAll}
+            loader={() => lazyLoadOcorrencia(visualizarOcorrencia)}
           >{(ocorrenciaWithAll) => (
             <OcorrenciaDetalhes ocorrencia={ocorrenciaWithAll} />
           )}</LoadableOcorrencia>}
@@ -173,7 +189,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   }, [visualizarOcorrencia]);
 
   const modalProsseguir = React.useMemo(() => {
-    if (!prosseguirOcorrencia)
+    if (!prosseguirOcorrencia || readonly)
       return null;
 
     return (
@@ -185,7 +201,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
       >
         {<LoadableOcorrencia
           ocorrencia={prosseguirOcorrencia}
-          loader={async () => prosseguirOcorrencia as OcorrenciaWithAll}
+          loader={() => lazyLoadOcorrencia(prosseguirOcorrencia)}
         >{(ocorrenciaWithAll) => (
           buildFormProsseguir({
             ocorrencia: ocorrenciaWithAll,
