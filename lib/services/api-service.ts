@@ -44,9 +44,9 @@ export interface ApiService {
     prazoDias: number,
   }): AsyncHttpResult<void>;
 
-  getOcorrenciasRecebidas(): AsyncHttpResult<Array<
-    Ocorrencia & { andamentos: Andamento[] }
-  >>;
+  getOcorrenciasRecebidas(): AsyncHttpResult<Array<Ocorrencia & { andamentos: Andamento[] }>>;
+  getOcorrenciasEmAtraso(): AsyncHttpResult<Array<Ocorrencia & { andamentos: Andamento[] }>>;
+  getOcorrenciasForaDoPrazo(): AsyncHttpResult<Array<Ocorrencia & { andamentos: Andamento[] }>>;
   solicitarProrrogacao(args: { ocorrenciaId: number; motivo: string }): AsyncHttpResult<void>;
   responderOcorrencia(args: { ocorrenciaId: number; resposta: string }): AsyncHttpResult<void>;
 
@@ -99,7 +99,9 @@ export const defaultApiService: ApiService = {
   getOcorrenciasEmAnalise: () => Utils.fetchApi('GET', '/simulate/ocorrencias-analise'),
   encaminharOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/encaminhar-para-gestor', args),
 
-  getOcorrenciasRecebidas: () => Utils.fetchApi('GET', '/simulate/ocorrencias-aguardando-gestor'),
+  getOcorrenciasRecebidas: () => Utils.fetchApi('GET', '/simulate/ocorrencias-aguardando-gestor?prazo=normal'),
+  getOcorrenciasEmAtraso: () => Utils.fetchApi('GET', '/simulate/ocorrencias-aguardando-gestor?prazo=atraso'),
+  getOcorrenciasForaDoPrazo: () => Utils.fetchApi('GET', '/simulate/ocorrencias-aguardando-gestor?prazo=fora'),
   solicitarProrrogacao: (args) => Utils.fetchApi('POST', '/simulate/solicitar-prorrogacao-prazo', args),
   responderOcorrencia: (args) => Utils.fetchApi('POST', '/simulate/responder-ocorrencia', args),
 

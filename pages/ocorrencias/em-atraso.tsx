@@ -19,7 +19,7 @@ const Recebidas: NextPage = () => {
   const apiService = React.useContext(ApiServiceContext);
 
   const loadOcorrencias = React.useCallback(() => {
-    apiService.getOcorrenciasRecebidas().then((result) => {
+    apiService.getOcorrenciasEmAtraso().then((result) => {
       if (result.type === 'error') {
         // TODO handle error
         return;
@@ -50,29 +50,9 @@ const Recebidas: NextPage = () => {
       );
     }
 
-    const ocorrenciasEmAtraso: Ocorrencia[] = [];
-    const ocorrenciasOutras = ocorrencias.filter((oco) => {
-      const prazo = OcorrenciaHelper.getPrazo(oco);
-
-      if (!prazo) {
-        console.error(`Esta ocorrência não possui prazo mas se encontra nesse status?`);
-        console.error(oco);
-        return true;
-      }
-
-      const isAtrasada = DateTime.fromJSDate(new Date(prazo)).diffNow().milliseconds < 0;
-
-      if (isAtrasada) {
-        ocorrenciasEmAtraso.push(oco);
-        return false;
-      }
-
-      return true;
-    });
-
     return (<OcorrenciasPage
       pageTitle="Ocorrências Em Atraso"
-      ocorrencias={ocorrenciasEmAtraso}
+      ocorrencias={ocorrencias}
       categoriasTitulos={categoriasTitulos}
       escolasNomes={escolasNomes}
       reloadOcorrencias={reloadOcorrencias}

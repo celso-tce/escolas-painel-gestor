@@ -7,11 +7,9 @@ import { Andamento, Ocorrencia } from "escolas-shared";
 import { Hooks } from "../../lib/react/hooks";
 import MainLayout from "../../components/ui/layouts/MainLayout";
 import Spinkit from "../../components/ui/Spinkit";
-import { DateTime } from "luxon";
-import { OcorrenciaHelper } from "../../lib/escolas/ocorrencia-helper";
 import { OcorrenciaWithAll } from "../../lib/services/api-service";
 
-const Recebidas: NextPage = () => {
+const ForaDoPrazoPage: NextPage = () => {
   const [ocorrencias, setOcorrencias] = React.useState<(Ocorrencia & { andamentos: Andamento[] })[]>();
   const [categoriasTitulos, loadCategoriasTitulos] = Hooks.useCategoriasTitulos();
   const [escolasNomes, loadEscolasNomes] = Hooks.useEscolasNomes();
@@ -19,7 +17,7 @@ const Recebidas: NextPage = () => {
   const apiService = React.useContext(ApiServiceContext);
 
   const loadOcorrencias = React.useCallback(() => {
-    apiService.getOcorrenciasRecebidas().then((result) => {
+    apiService.getOcorrenciasForaDoPrazo().then((result) => {
       if (result.type === 'error') {
         // TODO handle error
         return;
@@ -51,14 +49,12 @@ const Recebidas: NextPage = () => {
     }
 
     return (<OcorrenciasPage
-      pageTitle="Ocorrências Recebidas"
+      pageTitle="Ocorrências Fora do Prazo"
       ocorrencias={ocorrencias}
       categoriasTitulos={categoriasTitulos}
       escolasNomes={escolasNomes}
       reloadOcorrencias={reloadOcorrencias}
-      buildFormProsseguir={(ctx) => (
-        <FormOcorrenciaRecebida {...ctx} />
-      )}
+      readonly
       tableShowColumns={['id', 'titulo', 'escola', 'categoria', 'criadoEm', 'prazo',
         'operacoes']}
       lazyLoadOcorrencia={async (ocorrencia) => ocorrencia as OcorrenciaWithAll}
@@ -66,10 +62,10 @@ const Recebidas: NextPage = () => {
   }, [ocorrencias, categoriasTitulos, escolasNomes, reloadOcorrencias]);
 
   return (
-    <MainLayout currentPage="Ocorrências Recebidas">
+    <MainLayout currentPage="Ocorrências Fora do Prazo">
       {content}
     </MainLayout>
   );
 };
 
-export default Recebidas;
+export default ForaDoPrazoPage;
