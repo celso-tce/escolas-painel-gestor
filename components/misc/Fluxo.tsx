@@ -43,25 +43,27 @@ const Fluxo: React.FC<FluxoProps> = (props) => {
 
           <tr>
             <Td><Abaixo label="Responder" /></Td>
+            <td></td>
+            <Td><Abaixo label="Prorrogação Negada" /></Td>
           </tr>
 
           <tr style={{ height: 1 }}>
             <Td rowSpan={2}>
               <Etapa titulo="Respondido" />
             </Td>
-            <Td className="py-1">
+            <Td className="pb-1">
               <Direita label="Aprovar" />
             </Td>
-            <Td className="py-1">
+            <Td className="pb-1">
               <Fim titulo="Aprovado" />
             </Td>
           </tr>
 
           <tr>
-            <Td className="py-1">
+            <Td>
               <Direita label={'Comunicar\nRelator'} />
             </Td>
-            <Td className="py-1">
+            <Td>
               <Fim titulo="Inspeção in-loco" />
             </Td>
           </tr>
@@ -72,7 +74,11 @@ const Fluxo: React.FC<FluxoProps> = (props) => {
   );
 };
 
-function Td(props: { children: React.ReactNode; className?: string; rowSpan?: number }) {
+function Td(props: {
+  children: React.ReactNode;
+  className?: string;
+  rowSpan?: number;
+}) {
   return (
     <td
       className={`h-full ${props.className ?? ''}`}
@@ -83,7 +89,9 @@ function Td(props: { children: React.ReactNode; className?: string; rowSpan?: nu
   );
 }
 
-function Etapa(props: { titulo: string }) {
+function Etapa(props: {
+  titulo: string;
+}) {
   return (
     <div
       className="h-full flex flex-wrap p-6 bg-orange-100 border border-orange-300 text-sm
@@ -94,7 +102,9 @@ function Etapa(props: { titulo: string }) {
   );
 }
 
-function Fim(props: { titulo: string }) {
+function Fim(props: {
+  titulo: string;
+}) {
   return (
     <div className="p-4 bg-red-100 border border-red-300 text-xs text-center rounded-full">
       {props.titulo}
@@ -102,7 +112,9 @@ function Fim(props: { titulo: string }) {
   );
 }
 
-function Abaixo(props: { label?: string }) {
+function Abaixo(props: {
+  label?: string;
+}) {
   return (
     <div className="flex flex-col items-center mx-2">
       <div className="grow relative">
@@ -113,8 +125,8 @@ function Abaixo(props: { label?: string }) {
               <div className="relative text-xs text-slate-700 font-bold text-center text-slate-100">
                   {props.label}
 
-                  <div className="absolute top-0 left-0 right-0 bottom-0 -mx-0.5 flex items-center">
-                    <div className="bg-slate-100 w-full" style={{ height: 18 }} />
+                  <div className="absolute top-0 left-0 right-0 bottom-0 -my-0.5 flex justify-center">
+                    <div className="bg-slate-100 h-full" style={{ width: 4 }} />
                   </div>
 
                   <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700">
@@ -137,7 +149,9 @@ function Abaixo(props: { label?: string }) {
   );
 }
 
-function Direita(props: { label?: string }) {
+function Direita(props: {
+  label?: string;
+}) {
   return (
     <div className="flex items-center my-2">
       <div className="grow relative">
@@ -172,7 +186,9 @@ function Direita(props: { label?: string }) {
   );
 }
 
-function Esquerda(props: { label?: string }) {
+function Esquerda(props: {
+  label?: string;
+}) {
   return (
     <div className="flex items-center my-2">
       <div style={{
