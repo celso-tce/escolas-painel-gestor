@@ -35,10 +35,6 @@ const Fluxo: React.FC<FluxoProps> = (props) => {
               <Esquerda label="Prorrogação Aprovada" />
             </Td>
             <Td><Etapa titulo="Solicitando Prorrogação" /></Td>
-            <Td><Direita label="Prorrogação Negada" /></Td>
-            <Td>
-              <Fim titulo="Inspeção in-loco" />
-            </Td>
           </tr>
 
           <tr>
@@ -51,20 +47,20 @@ const Fluxo: React.FC<FluxoProps> = (props) => {
             <Td rowSpan={2}>
               <Etapa titulo="Respondido" />
             </Td>
-            <Td className="pb-1">
-              <Direita label="Aprovar" />
+            <Td className="pb-2">
+              <Direita label="Comunicar Relator" />
             </Td>
-            <Td className="pb-1">
-              <Fim titulo="Aprovado" />
+            <Td className="pb-2">
+              <Fim titulo="Inspeção in-loco" />
             </Td>
           </tr>
 
           <tr>
             <Td>
-              <Direita label={'Comunicar\nRelator'} />
+              <Direita label="Aprovar" />
             </Td>
             <Td>
-              <Fim titulo="Inspeção in-loco" />
+              <Fim titulo="Solucionado" />
             </Td>
           </tr>
 
