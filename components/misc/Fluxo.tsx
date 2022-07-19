@@ -267,7 +267,7 @@ function Seta(props: {
     : 'var(--color-slate-300)';
 
   const inner = props.dir === 'baixo' ? (
-    <div className="relative text-xs text-slate-700 font-medium text-center text-slate-100">
+    <div className="relative text-xs text-slate-700 font-medium text-center text-slate-100 select-none">
       {props.label}
 
       <div className="absolute top-0 left-0 right-0 bottom-0 -my-0.5 flex justify-center">
@@ -279,7 +279,7 @@ function Seta(props: {
       </div>
     </div>
   ) : props.dir === 'direita' ? (
-    <div className="relative text-xs text-slate-700 font-medium mb-1 text-center text-slate-100">
+    <div className="relative text-xs text-slate-700 font-medium mb-1 text-center text-slate-100 select-none">
       {props.label}
 
       <div className="absolute top-0 left-0 right-0 bottom-0 -mb-1 -mx-0.5 flex items-center">
@@ -291,7 +291,7 @@ function Seta(props: {
       </div>
     </div>
   ) : (
-    <div className="relative text-xs text-slate-700 font-medium mb-1 text-center text-slate-100">
+    <div className="relative text-xs text-slate-700 font-medium mb-1 text-center text-slate-100 select-none">
       {props.label}
 
       <div className="absolute top-0 left-0 right-0 bottom-0 -mb-1 -mx-0.5 flex items-center">

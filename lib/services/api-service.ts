@@ -28,6 +28,7 @@ export interface ApiService {
   deleteUser(id: number): AsyncHttpResult<void>;
 
   getOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
+  getOcorrenciasIds(): AsyncHttpResult<Ocorrencia[]>;
   loadOcorrencia(id: number): AsyncHttpResult<OcorrenciaWithAll>;
 
   getNovasOcorrencias(): AsyncHttpResult<Ocorrencia[]>;
@@ -87,6 +88,7 @@ export const defaultApiService: ApiService = {
   deleteUser: (id) => Utils.fetchApi('DELETE', `/users/${id}`),
 
   getOcorrencias: () => Utils.fetchApi('GET', '/ocorrencias'),
+  getOcorrenciasIds: () => Utils.fetchApi('GET', '/ocorrencias?ids'),
   loadOcorrencia: (id) => Utils.fetchApi('GET', `/ocorrencias/${id}`),
 
   getNovasOcorrencias: () => Utils.fetchApi('GET', '/simulate/novas-ocorrencias'),
