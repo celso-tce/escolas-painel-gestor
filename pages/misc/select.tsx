@@ -69,7 +69,9 @@ const SelectPage: NextPage = () => {
             Fluxo
           </div>
 
-          <Fluxo ocorrencia={ocorrencia} />
+          <div className="px-2 bg-white">
+            <Fluxo ocorrencia={ocorrencia} />
+          </div>
         </div>
 
         <div className="w-full lg:w-6/12 mb-4">
@@ -77,7 +79,9 @@ const SelectPage: NextPage = () => {
             Detalhes
           </div>
 
-          <OcorrenciaDetalhes ocorrencia={ocorrencia} />
+          <div className="px-2">
+            <OcorrenciaDetalhes ocorrencia={ocorrencia} />
+          </div>
         </div>
       </div>
     );

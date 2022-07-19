@@ -227,7 +227,7 @@ function Etapa(props: {
   return (
     <div
       className={`h-full flex flex-wrap p-6 text-sm justify-center break-words items-center
-        ${colorCss}`}
+        text-center ${colorCss}`}
     >
       {props.titulo}
     </div>

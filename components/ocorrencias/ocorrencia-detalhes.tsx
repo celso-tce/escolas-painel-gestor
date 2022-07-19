@@ -44,19 +44,19 @@ const OcorrenciaDetalhes: React.FC<OcorrenciaDetalhesProps> = ({
 
   return (
     <div className="flex flex-wrap items-stretch py-2">
-      <div className="w-full lg:w-6/12 p-1">
+      <div className="w-full xl:w-6/12 p-1">
         <_Section label="#" value={ocorrencia.id} />
       </div>
-      <div className="w-full lg:w-6/12 p-1">
+      <div className="w-full xl:w-6/12 p-1">
         <_Section label="Status" value={<OcorrenciaStatus status={ocorrencia.status} />} />
       </div>
-      <div className="w-full lg:w-6/12 p-1">
+      <div className="w-full xl:w-6/12 p-1">
         <_Section label="Criado Em" value={createdAt} />
       </div>
-      <div className="w-full lg:w-6/12 p-1">
+      <div className="w-full xl:w-6/12 p-1">
         <_Section label="Categoria" value={ocorrencia.categoria.titulo} />
       </div>
-      <div className="w-full lg:w-6/12 p-1">
+      <div className="w-full xl:w-6/12 p-1">
         <_Section label="Escola" value={escola} />
       </div>
       <div className="w-full lg:w-12/12 p-1">
@@ -135,24 +135,24 @@ function _UltimoAndamento({ andamento }: { andamento: Andamento }) {
 
   const content = (
     <div className="flex flex-wrap">
-      <div className="w-full lg:w-6/12 p-1">
+      <div className="w-full xl:w-6/12 p-1">
         <_Section label="Tipo" value={tipo} />
       </div>
-      <div className="w-full lg:w-6/12 p-1">
+      <div className="w-full xl:w-6/12 p-1">
         <_Section label="Data" value={createdAt} />
       </div>
       {relatoVinculado && (
-        <div className="w-full lg:w-6/12 p-1">
+        <div className="w-full xl:w-6/12 p-1">
           <_Section label="Relato Vinculado" value={'#' + relatoVinculado} />
         </div>
       )}
       {andamento.prazoFinal && (
-        <div className="w-full lg:w-6/12 p-1">
+        <div className="w-full xl:w-6/12 p-1">
           <_Section label="Prazo" value={prazo} />
         </div>
       )}
       {anexo && (
-        <div className="w-full lg:w-6/12 p-1">
+        <div className="w-full xl:w-6/12 p-1">
           <_Section label="Anexo" value={anexo} />
         </div>
       )}
