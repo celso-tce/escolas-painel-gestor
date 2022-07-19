@@ -9,6 +9,10 @@ type FluxoProps = {
 const Fluxo: React.FC<FluxoProps> = ({
   ocorrencia,
 }) => {
+  const onClickAndamento = React.useCallback((andamento: Andamento) => {
+    console.log(andamento);
+  }, []);
+
   const content = React.useMemo(() => {
     const andamentos = ocorrencia.andamentos.sort((a1, a2) => {
       return (new Date(a1.createdAt) < new Date(a2.createdAt) ? -1 : 1) * -1; // DESC
@@ -23,7 +27,7 @@ const Fluxo: React.FC<FluxoProps> = ({
       = andamentos.find((a) => a.tipo === TipoAndamento.EnvioParaAnalise) ? null
       : andamentos.find((a) => a.tipo === TipoAndamento.Cancelamento) ?? null;
 
-    const estadoRejeitadoNova: EtapaEstado
+    const estadoCanceladoNova: EtapaEstado
       = andamentoRejeitarNova !== null ? 'atual' : null;
 
     const andamentoAprovar: SetaEstado
@@ -33,7 +37,7 @@ const Fluxo: React.FC<FluxoProps> = ({
       = andamentoAprovar === null ? null
       : andamentos.find((a) => a.tipo === TipoAndamento.Cancelamento) ?? null;
 
-    const estadoRejeitadoEmAnalise: EtapaEstado
+    const estadoCanceladoEmAnalise: EtapaEstado
       = andamentoRejeitarEmAnalise !== null ? 'atual' : null;
 
     const andamentoEncaminhar: SetaEstado
@@ -103,37 +107,89 @@ const Fluxo: React.FC<FluxoProps> = ({
 
             <tr>
               <Td><Etapa titulo="Nova" estado={estadoNova} /></Td>
-              <Td><Seta dir="direita" label="Rejeitar" estado={andamentoRejeitarNova} /></Td>
-              <Td><Fim titulo="Rejeitado" estado={estadoRejeitadoNova} /></Td>
+              <Td>
+                <Seta
+                  dir="direita"
+                  label="Rejeitar"
+                  estado={andamentoRejeitarNova}
+                  onClickAndamento={onClickAndamento}
+                />
+              </Td>
+              <Td><Fim titulo="Cancelado" estado={estadoCanceladoNova} /></Td>
             </tr>
 
             <tr>
-              <Td><Seta dir="baixo" label="Aprovar" estado={andamentoAprovar} /></Td>
+              <Td>
+                <Seta
+                  dir="baixo"
+                  label="Aprovar"
+                  estado={andamentoAprovar}
+                  onClickAndamento={onClickAndamento}
+                />
+              </Td>
             </tr>
 
             <tr>
               <Td><Etapa titulo="Em Análise" estado={estadoEmAnalise} /></Td>
-              <Td><Seta dir="direita" label="Rejeitar" estado={andamentoRejeitarEmAnalise} /></Td>
-              <Td><Fim titulo="Rejeitado" estado={estadoRejeitadoEmAnalise} /></Td>
+              <Td>
+                <Seta
+                  dir="direita"
+                  label="Rejeitar"
+                  estado={andamentoRejeitarEmAnalise}
+                  onClickAndamento={onClickAndamento}
+                />
+              </Td>
+              <Td><Fim titulo="Cancelado" estado={estadoCanceladoEmAnalise} /></Td>
             </tr>
 
             <tr>
-              <Td><Seta dir="baixo" label="Encaminhar" estado={andamentoEncaminhar} /></Td>
+              <Td>
+                <Seta
+                  dir="baixo"
+                  label="Encaminhar"
+                  estado={andamentoEncaminhar}
+                  onClickAndamento={onClickAndamento}
+                />
+              </Td>
             </tr>
 
             <tr>
               <Td><Etapa titulo="Aguardando Gestor" estado={estadoAguardandoGestor} /></Td>
               <Td>
-                <Seta dir="direita" label="Solicitar Prorrogação" estado={andamentoSolicitarProrrogacao} />
-                <Seta dir="esquerda" label="Prorrogação Aprovada" estado={andamentoProrrogacaoAprovada} />
+                <Seta
+                  dir="direita"
+                  label="Solicitar Prorrogação"
+                  estado={andamentoSolicitarProrrogacao}
+                  onClickAndamento={onClickAndamento}
+                />
+                <Seta
+                  dir="esquerda"
+                  label="Prorrogação Aprovada"
+                  estado={andamentoProrrogacaoAprovada}
+                  onClickAndamento={onClickAndamento}
+                />
               </Td>
               <Td><Etapa titulo="Solicitando Prorrogação" estado={estadoSolicitandoProrrogacao} /></Td>
             </tr>
 
             <tr>
-              <Td><Seta dir="baixo" label="Responder" estado={andamentoResponder} /></Td>
+              <Td>
+                <Seta
+                  dir="baixo"
+                  label="Responder"
+                  estado={andamentoResponder}
+                  onClickAndamento={onClickAndamento}
+                />
+              </Td>
               <td></td>
-              <Td><Seta dir="baixo" label="Prorrogação Negada" estado={andamentoProrrogacaoNegada} /></Td>
+              <Td>
+                <Seta
+                  dir="baixo"
+                  label="Prorrogação Negada"
+                  estado={andamentoProrrogacaoNegada}
+                  onClickAndamento={onClickAndamento}
+                />
+              </Td>
             </tr>
 
             <tr style={{ height: 1 }}>
@@ -141,7 +197,12 @@ const Fluxo: React.FC<FluxoProps> = ({
                 <Etapa titulo="Respondido" estado={estadoRespondido} />
               </Td>
               <Td className="pb-2">
-                <Seta dir="direita" label="Comunicar Relator" estado={andamentoComunicarRelator} />
+                <Seta
+                  dir="direita"
+                  label="Comunicar Relator"
+                  estado={andamentoComunicarRelator}
+                  onClickAndamento={onClickAndamento}
+                />
               </Td>
               <Td className="pb-2">
                 <Fim titulo="Inspeção in-loco" estado={estadoInspecaoInLoco} />
@@ -150,7 +211,12 @@ const Fluxo: React.FC<FluxoProps> = ({
 
             <tr>
               <Td>
-                <Seta dir="direita" label="Aprovar" estado={andamentoAprovarSolucao} />
+                <Seta
+                  dir="direita"
+                  label="Aprovar"
+                  estado={andamentoAprovarSolucao}
+                  onClickAndamento={onClickAndamento}
+                />
               </Td>
               <Td>
                 <Fim titulo="Solucionado" estado={estadoSolucionado} />
@@ -161,7 +227,7 @@ const Fluxo: React.FC<FluxoProps> = ({
         </table>
       </div>
     );
-  }, [ocorrencia]);
+  }, [ocorrencia, onClickAndamento]);
 
   const legenda = (
     <div className="flex flex-wrap px-4 mt-4">
@@ -257,6 +323,7 @@ function Seta(props: {
   dir: 'baixo' | 'direita' | 'esquerda';
   label: string;
   estado: SetaEstado;
+  onClickAndamento: (andamento: Andamento) => void;
 }) {
   const pipeColor = props.estado !== null
     ? 'bg-green-400'
@@ -266,6 +333,22 @@ function Seta(props: {
     ? 'var(--color-green-400)'
     : 'var(--color-slate-300)';
 
+  const anchor = (
+    <a
+      href={props.estado ? `/andamentos/${props.estado.id}` : ''}
+      className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700 select-text"
+      onClick={(e) => {
+        e.preventDefault();
+
+        if (props.estado) {
+          props.onClickAndamento(props.estado);
+        }
+      }}
+    >
+      {props.label}
+    </a>
+  );
+
   const inner = props.dir === 'baixo' ? (
     <div className="relative text-xs text-slate-700 font-medium text-center text-slate-100 select-none">
       {props.label}
@@ -274,9 +357,7 @@ function Seta(props: {
         <div className="bg-white h-full" style={{ width: 4 }} />
       </div>
 
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700">
-        {props.label}
-      </div>
+      {anchor}
     </div>
   ) : props.dir === 'direita' ? (
     <div className="relative text-xs text-slate-700 font-medium mb-1 text-center text-slate-100 select-none">
@@ -286,9 +367,7 @@ function Seta(props: {
         <div className="bg-white w-full" style={{ height: 4 }} />
       </div>
 
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700">
-        {props.label}
-      </div>
+      {anchor}
     </div>
   ) : (
     <div className="relative text-xs text-slate-700 font-medium mb-1 text-center text-slate-100 select-none">
@@ -298,9 +377,7 @@ function Seta(props: {
         <div className="bg-white w-full" style={{ height: 4 }} />
       </div>
 
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700">
-        {props.label}
-      </div>
+      {anchor}
     </div>
   );
 
