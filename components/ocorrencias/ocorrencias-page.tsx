@@ -11,7 +11,7 @@ import CardSettings from "../ui/cards/CardSettings";
 import Modal from "../ui/modal/Modal";
 import FormEditarTitulo from "./forms/form-editar-titulo";
 import LoadableOcorrencia from "./LoadableOcorrencia";
-import OcorrenciaDetalhes from "./ocorrencia-detalhes";
+import OcorrenciaDetalhesFluxo from "./OcorrenciaDetalhesFluxo";
 import OcorrenciasTable, { OcorrenciasTableOperacao, OcorrenciasTableProps } from "./ocorrencias-table";
 
 export type OcorrenciasPageProps = {
@@ -181,7 +181,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
             ocorrencia={visualizarOcorrencia}
             loader={() => lazyLoadOcorrencia(visualizarOcorrencia)}
           >{(ocorrenciaWithAll) => (
-            <OcorrenciaDetalhes ocorrencia={ocorrenciaWithAll} />
+            <OcorrenciaDetalhesFluxo ocorrencia={ocorrenciaWithAll} />
           )}</LoadableOcorrencia>}
         </div>
       </Modal>
