@@ -1,6 +1,4 @@
-import { faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Andamento, Ocorrencia, TipoAndamento } from "escolas-shared";
+import { Andamento } from "escolas-shared";
 import React from 'react';
 import { OcorrenciaHelper } from "../../lib/escolas/ocorrencia-helper";
 import { OcorrenciaWithAll } from "../../lib/services/api-service";

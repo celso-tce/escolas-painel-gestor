@@ -17,13 +17,20 @@ const tipoClasses: Record<keyof typeof TipoAndamento, string> = {
   Solucao: 'text-green-700',
 };
 
+export function getTipoCss(tipo: string) {
+  const tipoKey = Object.entries(TipoAndamento)
+    .find(([key, value]) => value === tipo)?.[0];
+
+  return tipoKey
+    ? tipoClasses[tipoKey as keyof typeof TipoAndamento]
+    : null;
+}
+
 const AndamentoTipo: React.FC<AndamentoTipoProps> = ({ tipo, className }) => {
   const tipoKey = Object.entries(TipoAndamento)
     .find(([key, value]) => value === tipo)?.[0];
 
-  const css = tipoKey
-    ? tipoClasses[tipoKey as keyof typeof TipoAndamento]
-    : 'text-gray-600';
+  const css = getTipoCss(tipo) ?? 'text-gray-600';
 
   const extraCss = className ?? '';
 

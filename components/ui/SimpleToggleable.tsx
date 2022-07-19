@@ -5,10 +5,11 @@ import React from 'react';
 type SimpleToggleableProps = {
   title: string;
   children: React.ReactNode;
+  startVisible?: boolean; // false by default
 };
 
-const SimpleToggleable: React.FC<SimpleToggleableProps> = ({ title, children }) => {
-  const [show, setShow] = React.useState(false);
+const SimpleToggleable: React.FC<SimpleToggleableProps> = ({ title, children, startVisible }) => {
+  const [show, setShow] = React.useState(startVisible ?? false);
 
   return (
     <div className="flex flex-col items-stretch">
