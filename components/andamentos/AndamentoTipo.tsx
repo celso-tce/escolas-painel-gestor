@@ -1,3 +1,5 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faCheckSquare, faClockRotateLeft, faCodeBranch, faMagnifyingGlassArrowRight, faMailBulk, faMailForward, faReply, faTimesSquare } from "@fortawesome/free-solid-svg-icons";
 import { displayTipoAndamento, TipoAndamento } from "escolas-shared/dist/common";
 import React from 'react';
 
@@ -17,13 +19,33 @@ const tipoClasses: Record<keyof typeof TipoAndamento, string> = {
   Solucao: 'text-green-700',
 };
 
-export function getTipoCss(tipo: string) {
+const tipoIcons: Record<keyof typeof TipoAndamento, IconProp> = {
+  Cancelamento: faTimesSquare,
+  Vinculamento: faCodeBranch,
+  EnvioParaAnalise: faMailBulk,
+  EnvioAoGestor: faMailForward,
+  SolicitacaoDeProrrogacao: faClockRotateLeft,
+  Resposta: faReply,
+  SolucaoInspecao: faMagnifyingGlassArrowRight,
+  Solucao: faCheckSquare,
+};
+
+export function getTipoCss(tipo: string): string | undefined {
   const tipoKey = Object.entries(TipoAndamento)
     .find(([key, value]) => value === tipo)?.[0];
 
   return tipoKey
     ? tipoClasses[tipoKey as keyof typeof TipoAndamento]
-    : null;
+    : undefined;
+}
+
+export function getTipoIcon(tipo: string): IconProp | undefined {
+  const tipoKey = Object.entries(TipoAndamento)
+    .find(([key, value]) => value === tipo)?.[0];
+
+  return tipoKey
+    ? tipoIcons[tipoKey as keyof typeof TipoAndamento]
+    : undefined;
 }
 
 const AndamentoTipo: React.FC<AndamentoTipoProps> = ({ tipo, className }) => {
