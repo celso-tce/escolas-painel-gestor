@@ -1,10 +1,10 @@
 import { faEmber } from "@fortawesome/free-brands-svg-icons";
-import { faAddressCard, faCalendar, faCalendarAlt, faHashtag, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faAddressCard, faCalendar, faCalendarAlt, faHashtag, faQuestion, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Andamento } from "escolas-shared";
 import React from 'react';
 import DateText from "../ui/displays/DateText";
-import AndamentoTipo, { getTipoCss } from "./AndamentoTipo";
+import AndamentoTipo, { getTipoCss, getTipoIcon } from "./AndamentoTipo";
 
 type AndamentoDetalhesProps = {
   andamento: Andamento;
@@ -22,7 +22,8 @@ const AndamentoDetalhes: React.FC<AndamentoDetalhesProps> = ({ andamento }) => {
     </div>
   );
 
-  const colorAndamento = getTipoCss(andamento.tipo);
+  const colorAndamento = getTipoCss(andamento.tipo) ?? '';
+  const iconAndamento = getTipoIcon(andamento.tipo) ?? faQuestion;
 
   return (
     <div className="flex flex-col items-stretch">
@@ -44,7 +45,7 @@ const AndamentoDetalhes: React.FC<AndamentoDetalhesProps> = ({ andamento }) => {
 
       <div className="flex items-center">
         <div className={`mr-2 rounded-full px-1 shadow ${colorAndamento}`}>
-          <FontAwesomeIcon icon={faAddressCard} fixedWidth />
+          <FontAwesomeIcon icon={iconAndamento} fixedWidth />
         </div>
 
         <div className="grow bg-white rounded shadow">
