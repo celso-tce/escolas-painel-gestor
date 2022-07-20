@@ -1,3 +1,4 @@
+import { Andamento } from "escolas-shared";
 import React from 'react';
 import { OcorrenciaWithAll } from "../../lib/services/api-service";
 import Fluxo from "../misc/Fluxo";
@@ -6,6 +7,7 @@ import OcorrenciaDetalhes from "./ocorrencia-detalhes";
 
 type OcorrenciaDetalhesFluxoProps = {
   ocorrencia: OcorrenciaWithAll;
+  onClickAndamento?: (andamento: Andamento) => void;
 };
 
 enum Tab {
@@ -13,7 +15,10 @@ enum Tab {
   Fluxo,
 }
 
-const OcorrenciaDetalhesFluxo: React.FC<OcorrenciaDetalhesFluxoProps> = ({ ocorrencia }) => {
+const OcorrenciaDetalhesFluxo: React.FC<OcorrenciaDetalhesFluxoProps> = ({
+  ocorrencia,
+  onClickAndamento,
+}) => {
   const [tab, setTab] = React.useState<Tab>(Tab.Detalhes);
 
   const detalhes = React.useMemo(() => (
@@ -22,9 +27,9 @@ const OcorrenciaDetalhesFluxo: React.FC<OcorrenciaDetalhesFluxoProps> = ({ ocorr
 
   const fluxo = React.useMemo(() => (
     <div className="border border-slate-200">
-      <Fluxo ocorrencia={ocorrencia} />
+      <Fluxo ocorrencia={ocorrencia} onClickAndamento={onClickAndamento} />
     </div>
-  ), [ocorrencia]);
+  ), [ocorrencia, onClickAndamento]);
 
   return (
     <div className="flex flex-col items-stretch">

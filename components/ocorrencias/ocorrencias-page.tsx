@@ -1,12 +1,13 @@
 import { faPlay, faEye, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Ocorrencia, Categoria, Escola } from "escolas-shared";
+import { Ocorrencia, Categoria, Escola, Andamento } from "escolas-shared";
 import React from 'react';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { OcorrenciaWithAll } from "../../lib/services/api-service";
 import { ConfirmSwalDialog } from "../../lib/types";
 import { ApiServiceContext } from "../../pages/_app";
+import AndamentoDetalhes from "../andamentos/AndamentoDetalhes";
 import CardSettings from "../ui/cards/CardSettings";
 import Modal from "../ui/modal/Modal";
 import FormEditarTitulo from "./forms/form-editar-titulo";
@@ -56,6 +57,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
   const [visualizarOcorrencia, setVisualizarOcorrencia] = React.useState<Ocorrencia>();
   const [prosseguirOcorrencia, setProsseguirOcorrencia] = React.useState<Ocorrencia>();
   const [editarTituloOcorrencia, setEditarTituloOcorrencia] = React.useState<Ocorrencia>();
+  const [showModalAndamento, setShowModalAndamento] = React.useState<Andamento>();
 
   const apiService = React.useContext(ApiServiceContext);
 
@@ -181,12 +183,15 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
             ocorrencia={visualizarOcorrencia}
             loader={() => lazyLoadOcorrencia(visualizarOcorrencia)}
           >{(ocorrenciaWithAll) => (
-            <OcorrenciaDetalhesFluxo ocorrencia={ocorrenciaWithAll} />
+            <OcorrenciaDetalhesFluxo
+              ocorrencia={ocorrenciaWithAll}
+              onClickAndamento={setShowModalAndamento}
+            />
           )}</LoadableOcorrencia>}
         </div>
       </Modal>
     );
-  }, [visualizarOcorrencia]);
+  }, [visualizarOcorrencia, setShowModalAndamento]);
 
   const modalProsseguir = React.useMemo(() => {
     if (!prosseguirOcorrencia || readonly)
@@ -260,6 +265,24 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
     );
   }, [editarTituloOcorrencia, onFinishForm]);
 
+  const modalAndamento = React.useMemo(() => {
+    if (!showModalAndamento)
+      return null;
+
+    return (
+      <Modal
+        titulo="Visualizar Andamento"
+        visible={true}
+        onClose={() => setShowModalAndamento(undefined)}
+        hideBotaoFechar
+      >
+        <div className="px-6 py-4 bg-slate-100">
+          <AndamentoDetalhes andamento={showModalAndamento} />
+        </div>
+      </Modal>
+    );
+  }, [showModalAndamento]);
+
   const header = ocorrencias !== undefined
     ? `${pageTitle} (${ocorrencias.length})`
     : pageTitle;
@@ -274,6 +297,7 @@ const OcorrenciasPage: React.FC<OcorrenciasPageProps> = ({
     {modalVisualizar}
     {modalProsseguir}
     {modalEditarTitulo}
+    {modalAndamento}
   </>);
 };
 

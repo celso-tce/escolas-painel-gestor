@@ -1,5 +1,4 @@
-import { faEmber } from "@fortawesome/free-brands-svg-icons";
-import { faAddressCard, faCalendar, faCalendarAlt, faHashtag, faQuestion, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faQuestion, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Andamento } from "escolas-shared";
 import React from 'react';

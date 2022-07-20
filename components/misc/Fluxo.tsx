@@ -4,15 +4,13 @@ import React from 'react';
 
 type FluxoProps = {
   ocorrencia: Ocorrencia & { andamentos: Andamento[] };
+  onClickAndamento?: (andamento: Andamento) => void;
 };
 
 const Fluxo: React.FC<FluxoProps> = ({
   ocorrencia,
+  onClickAndamento,
 }) => {
-  const onClickAndamento = React.useCallback((andamento: Andamento) => {
-    console.log(andamento);
-  }, []);
-
   const content = React.useMemo(() => {
     const andamentos = ocorrencia.andamentos.sort((a1, a2) => {
       return (new Date(a1.createdAt) < new Date(a2.createdAt) ? -1 : 1) * -1; // DESC
@@ -323,7 +321,7 @@ function Seta(props: {
   dir: 'baixo' | 'direita' | 'esquerda';
   label: string;
   estado: SetaEstado;
-  onClickAndamento: (andamento: Andamento) => void;
+  onClickAndamento?: (andamento: Andamento) => void;
 }) {
   const pipeColor = props.estado !== null
     ? 'bg-green-400'
@@ -333,20 +331,23 @@ function Seta(props: {
     ? 'var(--color-green-400)'
     : 'var(--color-slate-300)';
 
-  const anchor = (
+  const anchor = props.estado ? (
     <a
       href={props.estado ? `/andamentos/${props.estado.id}` : ''}
       className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700 select-text"
       onClick={(e) => {
-        e.preventDefault();
-
-        if (props.estado) {
-          props.onClickAndamento(props.estado);
+        if (props.onClickAndamento) {
+          e.preventDefault();
+          props.onClickAndamento(props.estado!); // ! = já verificado em `props.estado ?`
         }
       }}
     >
       {props.label}
     </a>
+  ) : (
+    <span className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700 select-text">
+      {props.label}
+    </span>
   );
 
   const inner = props.dir === 'baixo' ? (
