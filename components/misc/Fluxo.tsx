@@ -1,5 +1,6 @@
 import { Andamento, Ocorrencia } from "escolas-shared";
 import { StatusOcorrencia, TipoAndamento } from "escolas-shared/dist/common";
+import { DateTime } from "luxon";
 import React from 'react';
 
 type FluxoProps = {
@@ -331,24 +332,37 @@ function Seta(props: {
     ? 'var(--color-green-400)'
     : 'var(--color-slate-300)';
 
-  const anchor = props.estado ? (
-    <a
-      href={props.estado ? `/andamentos/${props.estado.id}` : ''}
-      className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700 select-text"
-      onClick={(e) => {
-        if (props.onClickAndamento) {
-          e.preventDefault();
-          props.onClickAndamento(props.estado!); // ! = já verificado em `props.estado ?`
-        }
-      }}
-    >
-      {props.label}
-    </a>
-  ) : (
-    <span className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700 select-text">
-      {props.label}
-    </span>
-  );
+  let anchor: React.ReactNode | undefined;
+
+  if (props.estado) {
+    const date = DateTime.fromJSDate(new Date(props.estado.createdAt));
+    const formatted = date.toFormat('dd/MM/yyyy hh:mm');
+    const rel = date.toRelative();
+    const title = `${formatted} (${rel})`;
+
+    anchor = (
+      <a
+        className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700 select-text"
+        title={title}
+        href={props.estado ? `/andamentos/${props.estado.id}` : ''}
+        onClick={(e) => {
+          if (props.onClickAndamento) {
+            e.preventDefault();
+            props.onClickAndamento(props.estado!); // ! = já verificado em `props.estado ?`
+          }
+        }}
+      >
+        {props.label}
+      </a>
+    );
+  }
+  else {
+    anchor = (
+      <span className="absolute top-0 left-0 right-0 bottom-0 flex items-center text-slate-700 select-text">
+        {props.label}
+      </span>
+    );
+  }
 
   const inner = props.dir === 'baixo' ? (
     <div className="relative text-xs text-slate-700 font-medium text-center text-slate-100 select-none">
